@@ -28,6 +28,12 @@ $allowed_html = array(
 );
 ?>
 
+<div class="header-dashboard">
+	<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/naturapet-account.jpg' ); ?>" alt="NaturaPets">
+	<h2>
+		<?php echo esc_html( $current_user->display_name ); ?>
+	</h2>
+</div>
 <p>
 	<?php
 	printf(

@@ -901,6 +901,18 @@ function naturapets_add_animals_menu_item($items) {
 }
 add_filter('woocommerce_account_menu_items', 'naturapets_add_animals_menu_item');
 
+/**
+ * Ajoute la classe account-navigation au wrapper .woocommerce du shortcode Mon compte.
+ */
+function naturapets_myaccount_wrapper_class( $content ) {
+	if ( ! function_exists( 'is_account_page' ) || ! is_account_page() ) {
+		return $content;
+	}
+	// Un seul remplacement : le div.woocommerce du shortcode [woocommerce_my_account]
+	return preg_replace( '/<div class="woocommerce">/', '<div class="woocommerce account-navigation">', $content, 1 );
+}
+add_filter( 'the_content', 'naturapets_myaccount_wrapper_class', 20 );
+
 // Contenu de la page
 function naturapets_animals_endpoint_content() {
     $current_user_id = get_current_user_id();
