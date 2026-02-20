@@ -1,6 +1,87 @@
 // ==========================================================================
-// Header
+// Header (design Figma – NaturaPets)
 // ==========================================================================
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+// En-tête principal
+.np-header {
+  background-color: $np-white;
+
+  .np-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacer * 2;
+  }
+}
+
+// Bloc marque (logo + texte)
+.np-header-brand {
+  display: flex;
+  align-items: center;
+  gap: $spacer;
+  flex-shrink: 0;
+
+  .np-header-logo {
+    display: block;
+
+    img {
+      display: block;
+      height: auto;
+      max-height: 80px;
+      width: auto;
+    }
+  }
+}
+
+// Texte "Natura" / "Pets" (deux lignes, deux couleurs)
+.np-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  font-weight: $font-weight-normal;
+  font-size: $font-size-lg;
+
+  .np-brand-natura,
+  .np-brand-pets {
+    display: block;
+  }
+
+  .np-brand-natura {
+    color: $np-teal;
+  }
+
+  .np-brand-pets {
+    color: $np-orange-brown;
+  }
+}
+
+// Navigation
+.np-header-nav {
+  display: flex;
+  align-items: center;
+  gap: $spacer * 2;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  a,
+  .wp-block-navigation-item__content {
+    color: $np-taupe !important;
+    text-decoration: none;
+    font-weight: $font-weight-normal;
+    font-size: $font-size-base;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $np-teal !important;
+    }
+  }
+
+  .wp-block-navigation__responsive-container-content {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 2;
+  }
+}

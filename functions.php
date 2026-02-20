@@ -84,6 +84,190 @@ function naturapets_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'naturapets_enqueue_styles' );
 
 /**
+ * Charge les styles du thème dans l'éditeur de blocs pour une preview identique au front.
+ */
+function naturapets_enqueue_editor_styles() {
+	wp_enqueue_style(
+		'frost-style',
+		get_template_directory_uri() . '/style.css',
+		array(),
+		wp_get_theme( 'frost' )->get( 'Version' )
+	);
+	wp_enqueue_style(
+		'naturapets-style',
+		get_stylesheet_uri(),
+		array( 'frost-style' ),
+		NATURAPETS_VERSION
+	);
+	$css_file = get_stylesheet_directory() . '/assets/css/main.css';
+	if ( file_exists( $css_file ) ) {
+		wp_enqueue_style(
+			'naturapets-main',
+			get_stylesheet_directory_uri() . '/assets/css/main.css',
+			array( 'naturapets-style' ),
+			filemtime( $css_file )
+		);
+	}
+}
+add_action( 'enqueue_block_editor_assets', 'naturapets_enqueue_editor_styles' );
+
+/**
+ * ==========================================================================
+ * BLOC ACF – Section Hero (design Figma – grille 2x2)
+ * ==========================================================================
+ */
+
+/**
+ * Enregistrer le bloc ACF Section Hero (nécessite ACF Pro).
+ */
+function naturapets_register_hero_block() {
+	if ( ! function_exists( 'acf_register_block_type' ) && ! function_exists( 'register_block_type' ) ) {
+		return;
+	}
+	$block_path = get_stylesheet_directory() . '/blocks/hero-section';
+	if ( file_exists( $block_path . '/block.json' ) ) {
+		register_block_type( $block_path );
+	}
+	$banner_path = get_stylesheet_directory() . '/blocks/hero-banner';
+	if ( file_exists( $banner_path . '/block.json' ) ) {
+		register_block_type( $banner_path );
+	}
+}
+add_action( 'init', 'naturapets_register_hero_block' );
+
+/**
+ * Groupe de champs ACF pour le bloc Section Hero.
+ */
+function naturapets_hero_block_field_group() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_hero_section',
+			'title'                 => 'Bloc Section Hero – Champs',
+			'fields'                => array(
+				array(
+					'key'   => 'field_hero_texte_haut',
+					'label' => 'Texte en haut à droite',
+					'name'  => 'texte_haut',
+					'type'  => 'textarea',
+					'rows'  => 3,
+					'placeholder' => "Un système\nsimple et efficace",
+				),
+				array(
+					'key'   => 'field_hero_texte_bas',
+					'label' => 'Texte en bas à gauche',
+					'name'  => 'texte_bas',
+					'type'  => 'textarea',
+					'rows'  => 3,
+					'placeholder' => "Pour nos amis les\nbêtes",
+				),
+				array(
+					'key'           => 'field_hero_image_haut_gauche',
+					'label'         => 'Image en haut à gauche',
+					'name'          => 'image_haut_gauche',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'medium',
+				),
+				array(
+					'key'           => 'field_hero_image_bas_droite',
+					'label'         => 'Image en bas à droite',
+					'name'          => 'image_bas_droite',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'medium',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/hero-section',
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'naturapets_hero_block_field_group' );
+
+/**
+ * Groupe de champs ACF pour le bloc Bannière Hero (design Figma 1-101).
+ */
+function naturapets_hero_banner_field_group() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_hero_banner',
+			'title'                 => 'Bloc Bannière Hero – Champs',
+			'fields'                => array(
+				array(
+					'key'           => 'field_hero_banner_image',
+					'label'         => 'Image de fond',
+					'name'          => 'hero_banner_image',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'medium',
+					'instructions'  => 'Affichée si aucune vidéo n\'est renseignée.',
+				),
+				array(
+					'key'           => 'field_hero_banner_video',
+					'label'         => 'Vidéo de fond',
+					'name'          => 'hero_banner_video',
+					'type'          => 'file',
+					'return_format' => 'array',
+					'mime_types'    => 'mp4,webm',
+					'instructions'  => 'Prioritaire sur l\'image. Formats : MP4, WebM.',
+				),
+				array(
+					'key'         => 'field_hero_banner_titre',
+					'label'       => 'Titre',
+					'name'        => 'hero_banner_titre',
+					'type'        => 'text',
+					'placeholder' => 'Naturapets',
+				),
+				array(
+					'key'         => 'field_hero_banner_slogan',
+					'label'       => 'Slogan',
+					'name'        => 'hero_banner_slogan',
+					'type'        => 'text',
+					'placeholder' => 'La tranquillité au bout du collier',
+				),
+				array(
+					'key'         => 'field_hero_banner_bouton_texte',
+					'label'       => 'Texte du bouton',
+					'name'        => 'hero_banner_bouton_texte',
+					'type'        => 'text',
+					'placeholder' => 'Découvrir',
+				),
+				array(
+					'key'         => 'field_hero_banner_bouton_url',
+					'label'       => 'URL du bouton',
+					'name'        => 'hero_banner_bouton_url',
+					'type'        => 'url',
+					'placeholder' => 'https://',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/hero-banner',
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'naturapets_hero_banner_field_group' );
+
+/**
  * ==========================================================================
  * PRODUITS : ID unique pour chaque produit
  * ==========================================================================

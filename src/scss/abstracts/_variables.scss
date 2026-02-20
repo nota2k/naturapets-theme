@@ -45,6 +45,16 @@ $breakpoints: (
   xxl: $breakpoint-xxl,
 );
 
+// Couleurs NaturaPets (design Figma)
+$np-teal: #2d6a6a;           // Vert d'eau foncé (Natura, tête logo)
+$np-orange-brown: #b85c38;   // Orange-marron (Pets, corps logo)
+$np-taupe: #5c5346;          // Gris-marron pour la navigation
+$np-white: #ffffff;
+// Bannière hero (Figma node 1-101)
+$np-brown-dark: #4a3728;     // Titre et fond bouton
+$np-brown-light: #6b635b;    // Slogan
+$np-gray-light: #e8e6e4;     // Fond bannière
+
 // Bordures
 $border-radius: 0.375rem;
 $border-radius-sm: 0.25rem;

@@ -68,4 +68,271 @@ body {
   font-family: "Nunito Sans", sans-serif;
 }
 
+.naturapets-hero-section {
+  --np-hero-gap: clamp(1.5rem, 4vw, 3rem);
+  --np-hero-block-bg: #e0e0e0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 2rem);
+  background: #fff;
+}
+
+.naturapets-hero-section__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--np-hero-gap);
+  min-height: 420px;
+}
+@media (max-width: 767px) {
+  .naturapets-hero-section__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+  }
+}
+
+.naturapets-hero-section__block {
+  background: var(--np-hero-block-bg);
+  min-height: 200px;
+  overflow: hidden;
+}
+.naturapets-hero-section__block img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (min-width: 768px) {
+  .naturapets-hero-section__block {
+    min-height: 240px;
+  }
+}
+
+.naturapets-hero-section__text {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .naturapets-hero-section__text {
+    min-height: 0;
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .naturapets-hero-section__block--top-left {
+    order: 1;
+    aspect-ratio: 16/10;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .naturapets-hero-section__block--bottom-right {
+    order: 4;
+    aspect-ratio: 16/10;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .naturapets-hero-section__text--top-right {
+    order: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .naturapets-hero-section__text--bottom-left {
+    order: 3;
+  }
+}
+
+.np-hero-banner {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  background-color: #e8e6e4;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: clamp(280px, 40vw, 380px);
+  overflow: hidden;
+}
+
+.np-hero-banner--has-media {
+  min-height: 100vh;
+}
+
+.np-hero-banner__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.np-hero-banner__image,
+.np-hero-banner__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.np-hero-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.15) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.np-hero-banner__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.np-hero-banner__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 50%;
+  margin-left: auto;
+}
+@media (max-width: 767px) {
+  .np-hero-banner__content {
+    max-width: 100%;
+    margin-left: 0;
+    align-items: flex-start;
+  }
+}
+
+.np-hero-banner__title {
+  font-family: inherit;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #4a3728;
+  margin: 0 0 1rem;
+}
+
+.np-hero-banner--has-media .np-hero-banner__title {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.np-hero-banner__slogan {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: #6b635b;
+  margin: 0 0 2rem;
+}
+
+.np-hero-banner--has-media .np-hero-banner__slogan {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.np-hero-banner__cta {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #4a3728;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: 50rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.np-hero-banner__cta:hover {
+  background-color: rgb(54.1368421053, 40.2368421053, 29.2631578947);
+  color: #ffffff;
+}
+
+.np-header {
+  background-color: #ffffff;
+}
+.np-header .np-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.np-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+.np-header-brand .np-header-logo {
+  display: block;
+}
+.np-header-brand .np-header-logo img {
+  display: block;
+  height: auto;
+  max-height: 80px;
+  width: auto;
+}
+
+.np-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 1.125rem;
+}
+.np-brand-text .np-brand-natura,
+.np-brand-text .np-brand-pets {
+  display: block;
+}
+.np-brand-text .np-brand-natura {
+  color: #2d6a6a;
+}
+.np-brand-text .np-brand-pets {
+  color: #b85c38;
+}
+
+.np-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.np-header-nav a,
+.np-header-nav .wp-block-navigation-item__content {
+  color: #5c5346 !important;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+.np-header-nav a:hover,
+.np-header-nav .wp-block-navigation-item__content:hover {
+  color: #2d6a6a !important;
+}
+.np-header-nav .wp-block-navigation__responsive-container-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
 /*# sourceMappingURL=main.css.map */
