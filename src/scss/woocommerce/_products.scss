@@ -6,10 +6,12 @@
 @use '../abstracts/mixins' as *;
 
 
-.wp-block-column:nth-child(2) {
-    position: sticky;
-    top: 100px;
-    height: fit-content;
+.single-product{
+    .wp-block-column:nth-child(2) {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+    }
 }
 
 .wc-block-components-quantity-selector {
@@ -69,7 +71,11 @@
     .wp-block-accordion-panel{
         margin-top: 0!important;
     }
+}
 
-    
+.wc-block-product {
+    > div{
+        height: 100%;
 
+    }
 }
