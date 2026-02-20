@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/testimonial",
+	"title": "Témoignage (Figma 3-56)",
+	"description": "Bloc témoignage : photo circulaire à gauche, citation et auteur à droite avec guillemets décoratifs verts.",
+	"category": "theme",
+	"icon": "format-quote",
+	"keywords": ["témoignage", "citation", "naturapets", "figma"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

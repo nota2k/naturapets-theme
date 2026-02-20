@@ -1,16 +1,19 @@
 {
-  "name": "naturapets/hero-banner",
-  "title": "Bannière Hero NaturaPets",
-  "description": "Bannière avec titre, slogan et bouton (design Figma – contenu à droite).",
-  "category": "theme",
-  "icon": "cover-image",
-  "keywords": ["hero", "bannière", "naturapets", "accueil"],
-  "acf": {
-    "mode": "preview",
-    "renderTemplate": "render.php"
-  },
-  "supports": {
-    "anchor": true,
-    "align": ["wide", "full"]
-  }
+	"name": "naturapets/hero-banner",
+	"title": "Bannière Hero NaturaPets",
+	"description": "Bannière avec titre, slogan et bouton (design Figma – contenu à droite).",
+	"category": "theme",
+	"icon": "cover-image",
+	"keywords": ["hero", "bannière", "naturapets", "accueil"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"],
+		"typography": {
+			"fontSize": true
+		}
+	}
 }

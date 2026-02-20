@@ -1,0 +1,147 @@
+// ==========================================================================
+// Témoignage (design Figma node 3-56)
+// Cercle photo à gauche, citation + auteur à droite, guillemets décoratifs verts.
+// Police Nunito Sans chargée via functions.php (naturapets_enqueue_styles).
+// ==========================================================================
+
+@use '../abstracts/variables' as *;
+
+$np-testimonial-circle-bg: #e0e0e0;
+$np-testimonial-quote-green: rgb(168, 213, 160);
+$np-testimonial-text: #000;
+
+.np-testimonial {
+  width: 100%;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+}
+
+.np-testimonial__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+// Cercle photo : taille fixe, chevauche la zone de droite
+.np-testimonial__photo-wrap {
+  flex: 0 0 auto;
+  width: clamp(280px, 40vw, 494px);
+  height: clamp(280px, 40vw, 494px);
+  border-radius: 50%;
+  background-color: $np-testimonial-circle-bg;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 767px) {
+    margin-bottom: 1.5rem;
+    width: min(280px, 70vw);
+    height: min(280px, 70vw);
+  }
+}
+
+.np-testimonial__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Zone citation + auteur
+.np-testimonial__content {
+  flex: 1 1 300px;
+  min-width: 0;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  padding: 1.5rem 0 3rem;
+
+  @media (max-width: 767px) {
+    padding-top: 0.5rem;
+    position: relative;
+  }
+}
+
+// Guillemets décoratifs (vert)
+.np-testimonial__quote {
+  position: absolute;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(3rem, 15vw, 12.5rem);
+  line-height: 1;
+  color: $np-testimonial-quote-green;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.np-testimonial__quote--open {
+  top: -0.2rem;
+  left: -0.6em;
+}
+
+.np-testimonial__quote--close {
+  bottom: -51px;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.np-testimonial__blockquote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  position: relative;
+  z-index: 0;
+}
+
+.np-testimonial__citation {
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.25;
+  color: #000;
+  margin: 0 0 1.25rem;
+  max-width: 410px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    opacity: 0.3;
+    top: -60px;
+    left: -70px;
+    width: 100%;
+    max-width: 330px;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    background-color: rgb(168, 213, 160);
+    z-index: -1;
+
+    @media (max-width: 767px) {
+      top: -30px;
+      left: -35px;
+      max-width: 165px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    max-width: none;
+  }
+}
+
+.np-testimonial__author {
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 400;
+  font-style: normal;
+  color: #000;
+  display: block;
+  text-align: right;
+  margin-right: 10rem;
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+  }
+}

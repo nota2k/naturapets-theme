@@ -232,6 +232,46 @@ body {
   margin: 0 0 1rem;
 }
 
+.wp-block-naturapets-hero-banner[class*=has-][class*=-font-size] .np-hero-banner__title {
+  font-size: inherit;
+}
+
+.np-hero-banner__title.has-x-small-font-size {
+  font-size: var(--wp--preset--font-size--x-small, 16px);
+}
+
+.np-hero-banner__title.has-small-font-size {
+  font-size: var(--wp--preset--font-size--small, 18px);
+}
+
+.np-hero-banner__title.has-medium-font-size {
+  font-size: var(--wp--preset--font-size--medium, 20px);
+}
+
+.np-hero-banner__title.has-large-font-size {
+  font-size: var(--wp--preset--font-size--large, 24px);
+}
+
+.np-hero-banner__title.has-x-large-font-size {
+  font-size: var(--wp--preset--font-size--x-large, 30px);
+}
+
+.np-hero-banner__title.has-max-36-font-size {
+  font-size: var(--wp--preset--font-size--max-36, 36px);
+}
+
+.np-hero-banner__title.has-max-48-font-size {
+  font-size: var(--wp--preset--font-size--max-48, 48px);
+}
+
+.np-hero-banner__title.has-max-60-font-size {
+  font-size: var(--wp--preset--font-size--max-60, 60px);
+}
+
+.np-hero-banner__title.has-max-72-font-size {
+  font-size: var(--wp--preset--font-size--max-72, 72px);
+}
+
 .np-hero-banner--has-media .np-hero-banner__title {
   color: #fff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
@@ -264,6 +304,26 @@ body {
 .np-hero-banner__cta:hover {
   background-color: rgb(54.1368421053, 40.2368421053, 29.2631578947);
   color: #ffffff;
+}
+
+.np-hero-banner__cta.has-x-small-font-size {
+  font-size: var(--wp--preset--font-size--x-small, 16px);
+}
+
+.np-hero-banner__cta.has-small-font-size {
+  font-size: var(--wp--preset--font-size--small, 18px);
+}
+
+.np-hero-banner__cta.has-medium-font-size {
+  font-size: var(--wp--preset--font-size--medium, 20px);
+}
+
+.np-hero-banner__cta.has-large-font-size {
+  font-size: var(--wp--preset--font-size--large, 24px);
+}
+
+.np-hero-banner__cta.has-x-large-font-size {
+  font-size: var(--wp--preset--font-size--x-large, 30px);
 }
 
 .np-split-cta {
@@ -488,6 +548,143 @@ body {
     min-width: 0;
   }
 }
+.np-testimonial {
+  width: 100%;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+}
+
+.np-testimonial__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.np-testimonial__photo-wrap {
+  flex: 0 0 auto;
+  width: clamp(280px, 40vw, 494px);
+  height: clamp(280px, 40vw, 494px);
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  .np-testimonial__photo-wrap {
+    margin-bottom: 1.5rem;
+    width: min(280px, 70vw);
+    height: min(280px, 70vw);
+  }
+}
+
+.np-testimonial__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.np-testimonial__content {
+  flex: 1 1 300px;
+  min-width: 0;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  padding: 1.5rem 0 3rem;
+}
+@media (max-width: 767px) {
+  .np-testimonial__content {
+    padding-top: 0.5rem;
+    position: relative;
+  }
+}
+
+.np-testimonial__quote {
+  position: absolute;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(3rem, 15vw, 12.5rem);
+  line-height: 1;
+  color: rgb(168, 213, 160);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.np-testimonial__quote--open {
+  top: -0.2rem;
+  left: -0.6em;
+}
+
+.np-testimonial__quote--close {
+  bottom: -51px;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.np-testimonial__blockquote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  position: relative;
+  z-index: 0;
+}
+
+.np-testimonial__citation {
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.25;
+  color: #000;
+  margin: 0 0 1.25rem;
+  max-width: 410px;
+}
+.np-testimonial__citation::before {
+  content: "";
+  position: absolute;
+  opacity: 0.3;
+  top: -60px;
+  left: -70px;
+  width: 100%;
+  max-width: 330px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  background-color: rgb(168, 213, 160);
+  z-index: -1;
+}
+@media (max-width: 767px) {
+  .np-testimonial__citation::before {
+    top: -30px;
+    left: -35px;
+    max-width: 165px;
+  }
+}
+@media (max-width: 767px) {
+  .np-testimonial__citation {
+    max-width: none;
+  }
+}
+
+.np-testimonial__author {
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 400;
+  font-style: normal;
+  color: #000;
+  display: block;
+  text-align: right;
+  margin-right: 10rem;
+}
+@media (max-width: 767px) {
+  .np-testimonial__author {
+    margin-left: 0;
+  }
+}
+
 .np-header {
   background-color: #ffffff;
 }

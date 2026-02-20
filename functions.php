@@ -70,13 +70,21 @@ function naturapets_enqueue_styles() {
 		NATURAPETS_VERSION
 	);
 
+	// Police Nunito Sans (bloc Témoignage – Figma 3-56).
+	wp_enqueue_style(
+		'naturapets-font-nunito',
+		'https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;1,600&display=swap',
+		array(),
+		null
+	);
+
 	// Styles personnalisés compilés depuis SCSS.
 	$css_file = get_stylesheet_directory() . '/assets/css/main.css';
 	if ( file_exists( $css_file ) ) {
 		wp_enqueue_style(
 			'naturapets-main',
 			get_stylesheet_directory_uri() . '/assets/css/main.css',
-			array( 'naturapets-style' ),
+			array( 'naturapets-style', 'naturapets-font-nunito' ),
 			filemtime( $css_file )
 		);
 	}
@@ -99,12 +107,18 @@ function naturapets_enqueue_editor_styles() {
 		array( 'frost-style' ),
 		NATURAPETS_VERSION
 	);
+	wp_enqueue_style(
+		'naturapets-font-nunito',
+		'https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;1,600&display=swap',
+		array(),
+		null
+	);
 	$css_file = get_stylesheet_directory() . '/assets/css/main.css';
 	if ( file_exists( $css_file ) ) {
 		wp_enqueue_style(
 			'naturapets-main',
 			get_stylesheet_directory_uri() . '/assets/css/main.css',
-			array( 'naturapets-style' ),
+			array( 'naturapets-style', 'naturapets-font-nunito' ),
 			filemtime( $css_file )
 		);
 	}
@@ -143,6 +157,10 @@ function naturapets_register_hero_block() {
 	$found_animal_path = get_stylesheet_directory() . '/blocks/found-animal';
 	if ( file_exists( $found_animal_path . '/block.json' ) ) {
 		register_block_type( $found_animal_path );
+	}
+	$testimonial_path = get_stylesheet_directory() . '/blocks/testimonial';
+	if ( file_exists( $testimonial_path . '/block.json' ) ) {
+		register_block_type( $testimonial_path );
 	}
 }
 add_action( 'init', 'naturapets_register_hero_block' );
@@ -263,6 +281,42 @@ function naturapets_hero_banner_field_group() {
 					'name'        => 'hero_banner_bouton_url',
 					'type'        => 'url',
 					'placeholder' => 'https://',
+				),
+				array(
+					'key'           => 'field_hero_banner_bouton_taille',
+					'label'         => 'Taille du bouton',
+					'name'          => 'hero_banner_bouton_taille',
+					'type'          => 'select',
+					'choices'       => array(
+						''          => __( 'Défaut (thème)', 'naturapets' ),
+						'x-small'   => __( 'Très petit', 'naturapets' ),
+						'small'     => __( 'Petit', 'naturapets' ),
+						'medium'    => __( 'Moyen', 'naturapets' ),
+						'large'     => __( 'Grand', 'naturapets' ),
+						'x-large'   => __( 'Très grand', 'naturapets' ),
+					),
+					'default_value' => '',
+					'instructions'  => __( 'Utilise les presets de typographie du thème.', 'naturapets' ),
+				),
+				array(
+					'key'           => 'field_hero_banner_titre_taille',
+					'label'         => 'Taille du titre',
+					'name'          => 'hero_banner_titre_taille',
+					'type'          => 'select',
+					'choices'       => array(
+						''          => __( 'Défaut (ou panneau Typographie du bloc)', 'naturapets' ),
+						'x-small'   => __( 'Très petit', 'naturapets' ),
+						'small'     => __( 'Petit', 'naturapets' ),
+						'medium'    => __( 'Moyen', 'naturapets' ),
+						'large'     => __( 'Grand', 'naturapets' ),
+						'x-large'   => __( 'Très grand', 'naturapets' ),
+						'max-36'    => __( '36px', 'naturapets' ),
+						'max-48'    => __( '48px', 'naturapets' ),
+						'max-60'    => __( '60px', 'naturapets' ),
+						'max-72'    => __( '72px', 'naturapets' ),
+					),
+					'default_value' => '',
+					'instructions'  => __( 'Optionnel. Sinon, utilisez le panneau « Typographie » dans la barre latérale du bloc.', 'naturapets' ),
 				),
 			),
 			'location'              => array(
@@ -407,6 +461,57 @@ function naturapets_found_animal_field_group() {
 	);
 }
 add_action( 'acf/init', 'naturapets_found_animal_field_group' );
+
+/**
+ * Groupe de champs ACF pour le bloc Témoignage (design Figma 3-56).
+ */
+function naturapets_testimonial_field_group() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_testimonial',
+			'title'                 => 'Bloc Témoignage – Champs',
+			'fields'                => array(
+				array(
+					'key'           => 'field_testimonial_photo',
+					'label'         => 'Photo (cercle)',
+					'name'          => 'testimonial_photo',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'medium',
+					'instructions'  => __( 'Optionnel. Si vide, un cercle gris est affiché.', 'naturapets' ),
+				),
+				array(
+					'key'         => 'field_testimonial_citation',
+					'label'       => 'Citation',
+					'name'        => 'testimonial_citation',
+					'type'        => 'textarea',
+					'rows'        => 3,
+					'placeholder' => __( "J'ai retrouvé facilement Rantanplan et j'en suis très rassurée!", 'naturapets' ),
+				),
+				array(
+					'key'         => 'field_testimonial_auteur',
+					'label'       => 'Auteur',
+					'name'        => 'testimonial_auteur',
+					'type'        => 'text',
+					'placeholder' => 'Liliane',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/testimonial',
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'naturapets_testimonial_field_group' );
 
 /**
  * ==========================================================================

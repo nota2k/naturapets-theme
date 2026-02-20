@@ -14,6 +14,8 @@ $titre        = get_field( 'hero_banner_titre' );
 $slogan       = get_field( 'hero_banner_slogan' );
 $bouton_texte = get_field( 'hero_banner_bouton_texte' );
 $bouton_url   = get_field( 'hero_banner_bouton_url' );
+$bouton_taille = get_field( 'hero_banner_bouton_taille' );
+$titre_taille  = get_field( 'hero_banner_titre_taille' );
 $image        = get_field( 'hero_banner_image' );
 $video        = get_field( 'hero_banner_video' );
 
@@ -63,9 +65,21 @@ if ( $has_media ) {
 	<?php endif; ?>
 	<div class="np-hero-banner__inner">
 		<div class="np-hero-banner__content">
-			<h1 class="np-hero-banner__title"><?php echo esc_html( $titre ); ?></h1>
+			<?php
+			$title_class = 'np-hero-banner__title';
+			if ( ! empty( $titre_taille ) ) {
+				$title_class .= ' has-' . esc_attr( $titre_taille ) . '-font-size';
+			}
+			?>
+			<h1 class="<?php echo esc_attr( $title_class ); ?>"><?php echo esc_html( $titre ); ?></h1>
 			<p class="np-hero-banner__slogan"><?php echo esc_html( $slogan ); ?></p>
-			<a href="<?php echo esc_url( $bouton_url ); ?>" class="np-hero-banner__cta">
+			<?php
+			$cta_class = 'np-hero-banner__cta';
+			if ( ! empty( $bouton_taille ) ) {
+				$cta_class .= ' has-' . esc_attr( $bouton_taille ) . '-font-size';
+			}
+			?>
+			<a href="<?php echo esc_url( $bouton_url ); ?>" class="<?php echo esc_attr( $cta_class ); ?>">
 				<?php echo esc_html( $bouton_texte ); ?>
 			</a>
 		</div>
