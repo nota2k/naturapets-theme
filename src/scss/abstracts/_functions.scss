@@ -1,0 +1,38 @@
+// ==========================================================================
+// Functions
+// ==========================================================================
+
+@use 'sass:math';
+@use 'sass:color';
+@use 'sass:map';
+@use 'variables' as *;
+
+// Convertir px en rem
+@function rem($pixels, $base: 16) {
+  @return math.div($pixels, $base) * 1rem;
+}
+
+// Convertir px en em
+@function em($pixels, $base: 16) {
+  @return math.div($pixels, $base) * 1em;
+}
+
+// Récupérer un spacer
+@function spacer($key) {
+  @return map.get($spacers, $key);
+}
+
+// Éclaircir une couleur
+@function tint($color, $percentage) {
+  @return color.mix(white, $color, $percentage);
+}
+
+// Assombrir une couleur
+@function shade($color, $percentage) {
+  @return color.mix(black, $color, $percentage);
+}
+
+// Récupérer un breakpoint
+@function breakpoint($key) {
+  @return map.get($breakpoints, $key);
+}

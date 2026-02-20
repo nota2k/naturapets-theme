@@ -1,0 +1,14 @@
+{
+  "name": "naturapets-theme",
+  "version": "1.0.10",
+  "description": "Thème WordPress Naturapets - Configuration SCSS",
+  "scripts": {
+    "sass": "sass src/scss/main.scss:assets/css/main.css --style=expanded",
+    "sass:watch": "sass src/scss/main.scss:assets/css/main.css --style=expanded --watch",
+    "sass:prod": "sass src/scss/main.scss:assets/css/main.css --style=compressed --no-source-map",
+    "build": "npm run sass:prod"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

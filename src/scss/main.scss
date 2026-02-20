@@ -1,0 +1,32 @@
+// ==========================================================================
+// Naturapets Theme - Main SCSS File
+// ==========================================================================
+
+// Configuration & Variables
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+@use 'abstracts/functions' as *;
+
+// Base styles
+@use 'base/reset';
+@use 'base/typography';
+
+// Components
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+
+// Layout
+@use 'layout/header';
+@use 'layout/footer';
+@use 'layout/navigation';
+
+// Pages
+@use 'pages/home';
+@use 'pages/single';
+@use 'pages/archive';
+
+// WooCommerce (si utilisé)
+@use 'woocommerce/products';
+@use 'woocommerce/cart';
+@use 'woocommerce/checkout';
