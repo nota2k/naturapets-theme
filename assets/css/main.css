@@ -842,15 +842,20 @@ body {
 
 .wc-block-components-quantity-selector {
   border: none;
+  gap: 10px;
 }
 .wc-block-components-quantity-selector input {
-  padding: 8px 5px;
+  padding: 8px 2px;
+  width: 50px !important;
   border: none;
 }
 .wc-block-components-quantity-selector .wc-block-components-quantity-selector__button {
-  border: 1px solid #2d6a6a;
-  background-color: #2d6a6a;
+  border: 1px solid #6b635b;
+  background-color: #6b635b;
   color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
 }
 
 .add_to_cart_button {
@@ -862,6 +867,27 @@ body {
   .wc-block-product-template.is-flex-container.is-flex-container.columns-5 > li {
     max-height: 500px;
   }
+}
+.wp-block-woocommerce-product-details h3 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0;
+  padding-left: 40px;
+  width: 100%;
+}
+.wp-block-woocommerce-product-details h3::before {
+  content: "";
+  left: -8px;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background-color: #5c5346;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxjaXJjbGUgY3g9IjExIiBjeT0iNCIgcj0iMiIvPjxjaXJjbGUgY3g9IjE4IiBjeT0iOCIgcj0iMiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTYiIHI9IjIiLz48cGF0aCBkPSJNOSAxMGE1IDUgMCAwIDEgNSA1djMuNWEzLjUgMy41IDAgMCAxLTYuODQgMS4wNDVRNi41MiAxNy40OCA0LjQ2IDE2Ljg0QTMuNSAzLjUgMCAwIDEgNS41IDEwWiIvPjwvc3ZnPg==") center/contain no-repeat;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxjaXJjbGUgY3g9IjExIiBjeT0iNCIgcj0iMiIvPjxjaXJjbGUgY3g9IjE4IiBjeT0iOCIgcj0iMiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTYiIHI9IjIiLz48cGF0aCBkPSJNOSAxMGE1IDUgMCAwIDEgNSA1djMuNWEzLjUgMy41IDAgMCAxLTYuODQgMS4wNDVRNi41MiAxNy40OCA0LjQ2IDE2Ljg0QTMuNSAzLjUgMCAwIDEgNS41IDEwWiIvPjwvc3ZnPg==") center/contain no-repeat;
+}
+.wp-block-woocommerce-product-details .wp-block-accordion-panel {
+  margin-top: 0 !important;
 }
 
 /*# sourceMappingURL=main.css.map */
