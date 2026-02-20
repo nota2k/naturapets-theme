@@ -68,6 +68,42 @@ body {
   font-family: "Nunito Sans", sans-serif;
 }
 
+.mailpoet-wrapper {
+  padding: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+}
+.mailpoet-wrapper .mailpoet-input {
+  margin-bottom: 0 !important;
+}
+.mailpoet-wrapper .mailpoet-input input {
+  font-size: 1rem;
+  border-radius: 100px;
+  padding: 0.5em 1.2rem !important;
+  background-color: #ffffff;
+  color: #2d6a6a;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.mailpoet-wrapper .mailpoet-input input:hover {
+  background-color: #2d6a6a;
+  color: #ffffff;
+}
+.mailpoet-wrapper .mailpoet_submit {
+  font-size: 1rem;
+  border-radius: 100px;
+  padding: 0.5rem 1rem;
+  background-color: rgb(168, 213, 160);
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+.mailpoet-wrapper .mailpoet_submit:hover {
+  background-color: rgb(29.8013245033, 70.1986754967, 70.1986754967);
+}
+
 .naturapets-hero-section {
   --np-hero-gap: clamp(1.5rem, 4vw, 3rem);
   --np-hero-block-bg: #e0e0e0;
@@ -685,6 +721,42 @@ body {
   }
 }
 
+.np-product-gallery {
+  width: 100%;
+  padding: 0;
+}
+
+.np-product-gallery__inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.np-product-gallery__item {
+  width: 100%;
+  position: relative;
+}
+.np-product-gallery__item + .np-product-gallery__item {
+  border-top: none;
+}
+.np-product-gallery__item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.np-product-gallery__item--featured {
+  flex: 2.93 1 0;
+}
+
+.np-product-gallery__item--strip {
+  flex: 1 1 0;
+}
+
+.np-product-gallery__item--large {
+  flex: 2.55 1 0;
+}
+
 .np-header {
   background-color: #ffffff;
 }
@@ -692,30 +764,38 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 0.5rem;
 }
 
 .np-header-brand {
-  display: flex;
   align-items: center;
-  gap: 1rem;
-  flex-shrink: 0;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-bottom: -70px !important;
+  margin-top: -10px !important;
+  z-index: 10;
+  background: white;
+  box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.4);
 }
 .np-header-brand .np-header-logo {
   display: block;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .np-header-brand .np-header-logo img {
-  display: block;
-  height: auto;
-  max-height: 80px;
-  width: auto;
+  height: 100%;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .np-brand-text {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 1.125rem;
 }
 .np-brand-text .np-brand-natura,
@@ -732,7 +812,7 @@ body {
 .np-header-nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -740,7 +820,7 @@ body {
 .np-header-nav .wp-block-navigation-item__content {
   color: #5c5346 !important;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1rem;
   transition: color 0.2s ease;
 }
@@ -752,6 +832,36 @@ body {
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+.wp-block-column:nth-child(2) {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.wc-block-components-quantity-selector {
+  border: none;
+}
+.wc-block-components-quantity-selector input {
+  padding: 8px 5px;
+  border: none;
+}
+.wc-block-components-quantity-selector .wc-block-components-quantity-selector__button {
+  border: 1px solid #2d6a6a;
+  background-color: #2d6a6a;
+  color: #ffffff;
+}
+
+.add_to_cart_button {
+  font-size: 1.2rem;
+  background-color: #2d6a6a;
+}
+
+@media (min-width: 600px) {
+  .wc-block-product-template.is-flex-container.is-flex-container.columns-5 > li {
+    max-height: 500px;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -13,25 +13,33 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: $spacer * 2;
+    gap: $spacer * 0.5;
   }
 }
 
 // Bloc marque (logo + texte)
 .np-header-brand {
-  display: flex;
   align-items: center;
-  gap: $spacer;
-  flex-shrink: 0;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-bottom: -70px !important;
+  margin-top: -10px !important;
+  z-index: 10;
+  background: white;
+  box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.4);
 
   .np-header-logo {
     display: block;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
-      display: block;
-      height: auto;
-      max-height: 80px;
-      width: auto;
+      height: 100%;
+      margin: 0 auto;
+      width: 100%;
     }
   }
 }
@@ -41,7 +49,7 @@
   display: flex;
   flex-direction: column;
   line-height: 1.2;
-  font-weight: $font-weight-normal;
+  font-weight: $font-weight-bold;
   font-size: $font-size-lg;
 
   .np-brand-natura,
@@ -62,7 +70,7 @@
 .np-header-nav {
   display: flex;
   align-items: center;
-  gap: $spacer * 2;
+  gap: $spacer;
   flex-wrap: wrap;
   justify-content: flex-end;
 
@@ -70,7 +78,7 @@
   .wp-block-navigation-item__content {
     color: $np-taupe !important;
     text-decoration: none;
-    font-weight: $font-weight-normal;
+    font-weight: $font-weight-semibold;
     font-size: $font-size-base;
     transition: color 0.2s ease;
 

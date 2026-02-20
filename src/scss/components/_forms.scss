@@ -4,3 +4,45 @@
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+
+.mailpoet-wrapper {
+    padding: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+
+    .mailpoet-input {
+        margin-bottom: 0 !important;
+
+        input {
+            font-size: 1rem;
+            border-radius: 100px;
+            padding: 0.5em 1.2rem!important;
+            background-color: $np-white;
+            color: $np-teal;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: $np-teal;
+                color: $np-white;
+            }
+        }
+    }
+
+    .mailpoet_submit {
+        font-size: 1rem;
+        border-radius: 100px;
+        padding: 0.5rem 1rem;
+        background-color: rgb(168, 213, 160);
+        color: $np-white;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: darken($np-teal, 10%);
+        }
+    }
+}

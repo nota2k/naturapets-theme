@@ -4,3 +4,37 @@
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+
+.wp-block-column:nth-child(2){
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.wc-block-components-quantity-selector{
+    border: none;
+    
+    input{
+        padding: 8px 5px;
+        border: none;
+    }
+
+    .wc-block-components-quantity-selector__button{
+        border:1px solid $np-teal;
+        background-color: $np-teal;
+        color: $np-white;
+    }
+}
+
+.add_to_cart_button{
+    font-size: 1.2rem;
+    background-color: $np-teal;
+}
+
+@media (min-width: 600px) {
+
+    .wc-block-product-template.is-flex-container.is-flex-container.columns-5>li{
+        max-height: 500px;
+    }
+}

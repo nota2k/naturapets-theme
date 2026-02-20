@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/product-gallery",
+	"title": "Galerie produit (Figma 4-129)",
+	"description": "Trois zones d'images empilées verticalement : image principale, bandeau, grande image.",
+	"category": "theme",
+	"icon": "format-gallery",
+	"keywords": ["galerie", "produit", "images", "naturapets", "figma"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}
