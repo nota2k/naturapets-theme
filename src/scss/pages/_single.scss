@@ -4,3 +4,8 @@
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+
+body{
+    scroll-behavior: smooth;
+}

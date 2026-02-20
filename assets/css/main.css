@@ -834,6 +834,10 @@ body {
   gap: 2rem;
 }
 
+body {
+  scroll-behavior: smooth;
+}
+
 .wp-block-column:nth-child(2) {
   position: sticky;
   top: 100px;
