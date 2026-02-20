@@ -132,6 +132,18 @@ function naturapets_register_hero_block() {
 	if ( file_exists( $banner_path . '/block.json' ) ) {
 		register_block_type( $banner_path );
 	}
+	$moveblock_path = get_stylesheet_directory() . '/blocks/moveblock';
+	if ( file_exists( $moveblock_path . '/block.json' ) ) {
+		register_block_type( $moveblock_path );
+	}
+	$split_cta_path = get_stylesheet_directory() . '/blocks/split-cta';
+	if ( file_exists( $split_cta_path . '/block.json' ) ) {
+		register_block_type( $split_cta_path );
+	}
+	$found_animal_path = get_stylesheet_directory() . '/blocks/found-animal';
+	if ( file_exists( $found_animal_path . '/block.json' ) ) {
+		register_block_type( $found_animal_path );
+	}
 }
 add_action( 'init', 'naturapets_register_hero_block' );
 
@@ -266,6 +278,331 @@ function naturapets_hero_banner_field_group() {
 	);
 }
 add_action( 'acf/init', 'naturapets_hero_banner_field_group' );
+
+/**
+ * Groupe de champs ACF pour le bloc Section deux colonnes (design Figma 3-27).
+ */
+function naturapets_split_cta_field_group() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_split_cta',
+			'title'                 => 'Bloc Section deux colonnes – Champs',
+			'fields'                => array(
+				array(
+					'key'           => 'field_split_cta_image_gauche',
+					'label'         => 'Image colonne gauche',
+					'name'          => 'split_cta_image_gauche',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'medium',
+					'instructions'  => 'Optionnel. Si vide, fond gris clair affiché.',
+				),
+				array(
+					'key'         => 'field_split_cta_titre',
+					'label'       => 'Titre',
+					'name'        => 'split_cta_titre',
+					'type'        => 'text',
+					'placeholder' => 'GROS TITRE',
+				),
+				array(
+					'key'         => 'field_split_cta_texte',
+					'label'       => 'Texte',
+					'name'        => 'split_cta_texte',
+					'type'        => 'textarea',
+					'rows'        => 4,
+					'placeholder' => 'Lorem ipsum dolor sit amet...',
+				),
+				array(
+					'key'         => 'field_split_cta_bouton_texte',
+					'label'       => 'Texte du bouton',
+					'name'        => 'split_cta_bouton_texte',
+					'type'        => 'text',
+					'placeholder' => 'Découvrir',
+				),
+				array(
+					'key'         => 'field_split_cta_bouton_url',
+					'label'       => 'URL du bouton',
+					'name'        => 'split_cta_bouton_url',
+					'type'        => 'url',
+					'placeholder' => 'https://',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/split-cta',
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'naturapets_split_cta_field_group' );
+
+/**
+ * Groupe de champs ACF pour le bloc J'ai trouvé un animal (design Figma 3-29).
+ */
+function naturapets_found_animal_field_group() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_found_animal',
+			'title'                 => "Bloc J'ai trouvé un animal – Champs",
+			'fields'                => array(
+				array(
+					'key'         => 'field_found_animal_titre',
+					'label'       => 'Titre',
+					'name'        => 'found_animal_titre',
+					'type'        => 'text',
+					'placeholder' => "J'ai trouvé un animal",
+				),
+				array(
+					'key'         => 'field_found_animal_placeholder',
+					'label'       => 'Placeholder du champ',
+					'name'        => 'found_animal_placeholder',
+					'type'        => 'text',
+					'placeholder' => 'entrer le numéro du médaillon',
+				),
+				array(
+					'key'         => 'field_found_animal_bouton_texte',
+					'label'       => 'Texte du bouton',
+					'name'        => 'found_animal_bouton_texte',
+					'type'        => 'text',
+					'placeholder' => 'Chercher',
+				),
+				array(
+					'key'         => 'field_found_animal_form_action_url',
+					'label'       => 'URL de la page de recherche',
+					'name'        => 'found_animal_form_action_url',
+					'type'        => 'url',
+					'placeholder' => 'https://',
+					'instructions' => 'Page vers laquelle le formulaire envoie (GET). Si vide, accueil.',
+				),
+				array(
+					'key'         => 'field_found_animal_param_name',
+					'label'       => 'Nom du paramètre (médaillon)',
+					'name'        => 'found_animal_param_name',
+					'type'        => 'text',
+					'placeholder' => 'medaillon',
+					'instructions' => 'Nom du paramètre GET pour le numéro de médaillon.',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/found-animal',
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'naturapets_found_animal_field_group' );
+
+/**
+ * ==========================================================================
+ * BLOC MOVEBLOCK – Bibliothèque d’effets GSAP
+ * ==========================================================================
+ */
+
+/**
+ * Groupe de champs ACF pour le bloc Moveblock (effet, options, sélecteur cible).
+ */
+function naturapets_moveblock_field_group() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	$effect_choices = array(
+		'fadeIn'         => 'Fade In',
+		'fadeOut'        => 'Fade Out',
+		'fadeFromTo'     => 'Fade In/Out',
+		'slideInLeft'    => 'Slide from left',
+		'slideInRight'   => 'Slide from right',
+		'slideInTop'     => 'Slide from top',
+		'slideInBottom'  => 'Slide from bottom',
+		'slideOutLeft'   => 'Slide to left',
+		'slideOutRight'  => 'Slide to right',
+		'moveX'          => 'Move X',
+		'moveY'          => 'Move Y',
+		'scaleUp'        => 'Scale up',
+		'scaleDown'      => 'Scale down',
+		'scaleFromTo'    => 'Scale pulse',
+		'scaleX'         => 'Scale X',
+		'scaleY'         => 'Scale Y',
+		'rotateIn'       => 'Rotate in',
+		'rotateOut'      => 'Rotate out',
+		'rotateY'        => 'Rotate Y (3D)',
+		'rotateX'        => 'Rotate X (3D)',
+		'skewIn'         => 'Skew in',
+		'skewOut'        => 'Skew out',
+		'popIn'          => 'Pop in',
+		'blurIn'         => 'Blur in',
+		'blurOut'        => 'Blur out',
+		'dropIn'         => 'Drop in',
+		'bounceIn'       => 'Bounce in',
+		'colorChange'    => 'Color change',
+		'backgroundColor'=> 'Background color',
+	);
+	$ease_choices = array(
+		'none'           => 'none',
+		'power1.in'      => 'power1.in',
+		'power1.out'     => 'power1.out',
+		'power1.inOut'   => 'power1.inOut',
+		'power2.in'      => 'power2.in',
+		'power2.out'     => 'power2.out',
+		'power2.inOut'   => 'power2.inOut',
+		'power3.in'      => 'power3.in',
+		'power3.out'     => 'power3.out',
+		'power3.inOut'   => 'power3.inOut',
+		'power4.in'      => 'power4.in',
+		'power4.out'     => 'power4.out',
+		'power4.inOut'   => 'power4.inOut',
+		'back.in'        => 'back.in',
+		'back.out'       => 'back.out',
+		'back.inOut'     => 'back.inOut',
+		'bounce.in'      => 'bounce.in',
+		'bounce.out'     => 'bounce.out',
+		'bounce.inOut'   => 'bounce.inOut',
+		'circ.in'        => 'circ.in',
+		'circ.out'       => 'circ.out',
+		'circ.inOut'     => 'circ.inOut',
+		'elastic.in'     => 'elastic.in',
+		'elastic.out'    => 'elastic.out',
+		'elastic.inOut'  => 'elastic.inOut',
+		'expo.in'        => 'expo.in',
+		'expo.out'       => 'expo.out',
+		'expo.inOut'     => 'expo.inOut',
+		'sine.in'        => 'sine.in',
+		'sine.out'       => 'sine.out',
+		'sine.inOut'     => 'sine.inOut',
+	);
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_moveblock',
+			'title'                 => 'Moveblock – Animation GSAP',
+			'fields'                => array(
+				array(
+					'key'          => 'field_moveblock_effect',
+					'label'        => 'Effet GSAP',
+					'name'         => 'effect',
+					'type'         => 'select',
+					'choices'      => $effect_choices,
+					'default_value'=> 'fadeIn',
+				),
+				array(
+					'key'          => 'field_moveblock_target',
+					'label'        => 'Cibler l’élément (sélecteur CSS)',
+					'name'         => 'target_selector',
+					'type'         => 'text',
+					'placeholder'  => 'ex: .hero-title, #nav, .ma-classe',
+					'instructions' => 'Sélecteur CSS de l’élément à animer sur la page (classe, id, etc.).',
+				),
+				array(
+					'key'          => 'field_moveblock_duration',
+					'label'        => 'Durée (secondes)',
+					'name'         => 'duration',
+					'type'         => 'number',
+					'min'          => 0,
+					'step'         => 0.1,
+					'default_value'=> 1,
+				),
+				array(
+					'key'          => 'field_moveblock_delay',
+					'label'        => 'Délai (secondes)',
+					'name'         => 'delay',
+					'type'         => 'number',
+					'min'          => 0,
+					'step'         => 0.1,
+					'default_value'=> 0,
+				),
+				array(
+					'key'          => 'field_moveblock_ease',
+					'label'        => 'Ease',
+					'name'         => 'ease',
+					'type'         => 'select',
+					'choices'      => $ease_choices,
+					'default_value'=> 'power2.out',
+				),
+				array(
+					'key'          => 'field_moveblock_stagger',
+					'label'        => 'Stagger (secondes)',
+					'name'         => 'stagger',
+					'type'         => 'number',
+					'min'          => 0,
+					'step'         => 0.05,
+					'default_value'=> 0,
+					'instructions' => 'Décalage entre chaque élément si le sélecteur en cible plusieurs. 0 = pas de stagger.',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/moveblock',
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'naturapets_moveblock_field_group' );
+
+/**
+ * Enqueue GSAP et le script Moveblock sur le front quand le bloc est utilisé.
+ */
+function naturapets_enqueue_moveblock_assets() {
+	if ( ! function_exists( 'has_blocks' ) ) {
+		return;
+	}
+	global $post;
+	if ( ! $post || ! has_blocks( $post->post_content ) ) {
+		return;
+	}
+	if ( strpos( $post->post_content, 'naturapets/moveblock' ) === false ) {
+		return;
+	}
+	$theme_dir = get_stylesheet_directory();
+	$theme_uri = get_stylesheet_directory_uri();
+	$gsap_path = $theme_dir . '/node_modules/gsap/dist/gsap.min.js';
+	if ( file_exists( $gsap_path ) ) {
+		wp_enqueue_script(
+			'gsap',
+			$theme_uri . '/node_modules/gsap/dist/gsap.min.js',
+			array(),
+			'3.12',
+			true
+		);
+	} else {
+		wp_enqueue_script(
+			'gsap',
+			'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
+			array(),
+			'3.12.5',
+			true
+		);
+	}
+	$moveblock_js = $theme_dir . '/assets/js/moveblock.js';
+	if ( file_exists( $moveblock_js ) ) {
+		wp_enqueue_script(
+			'naturapets-moveblock',
+			$theme_uri . '/assets/js/moveblock.js',
+			array( 'gsap' ),
+			filemtime( $moveblock_js ),
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'naturapets_enqueue_moveblock_assets' );
 
 /**
  * ==========================================================================

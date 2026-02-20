@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/split-cta",
+	"title": "Section deux colonnes (Figma 3-27)",
+	"description": "Bloc deux colonnes : zone gauche (gris ou image), droite titre + texte + bouton Découvrir.",
+	"category": "theme",
+	"icon": "columns",
+	"keywords": ["split", "cta", "naturapets", "deux colonnes", "figma"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

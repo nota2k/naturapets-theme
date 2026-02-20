@@ -1,0 +1,152 @@
+// ==========================================================================
+// Section deux colonnes (design Figma node 3-27)
+// Grande image portrait à gauche ; titre qui chevauche l'image, puis texte + CTA.
+// ==========================================================================
+
+@use 'sass:color';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+$np-split-cta-gray: #ebebeb;
+$np-split-cta-btn: #715b3a;
+
+.np-split-cta {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: min(85vh, 720px);
+  overflow: hidden;
+  background: $np-white;
+
+  @media (max-width: 767px) {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Zone image : grande, en portrait (~2/3 largeur, hauteur pleine section)
+.np-split-cta__image-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 45%;
+  height: 100%;
+  background-color: $np-split-cta-gray;
+  z-index: 0;
+
+  @media (max-width: 767px) {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 130%; // portrait très allongé
+    min-height: 380px;
+  }
+}
+
+.np-split-cta__image-wrap--has-image {
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+
+  @media (max-width: 767px) {
+    img {
+      position: absolute;
+      inset: 0;
+    }
+  }
+}
+
+// Contenu : chevauche l'image (titre sur l'image), z-index au-dessus
+.np-split-cta__content-wrap {
+  position: relative;
+  z-index: 1;
+  margin-left: 43%;
+  width: 80%;
+  min-height: min(85vh, 720px);
+  display: flex;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 4rem) clamp(2rem, 5vw, 3.5rem) clamp(2rem, 5vw, 4rem) clamp(3rem, 8vw, 5rem);
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+    width: 100%;
+    min-height: 0;
+    padding: 2rem 1.5rem 3rem;
+  }
+}
+
+.np-split-cta__content {
+  max-width: 100%;
+}
+
+// Titre : chevauche l'image (débordement volontaire sur la zone photo)
+.np-split-cta__title-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.np-split-cta__title {
+  font-family: inherit;
+    font-size: clamp(2rem, 4.5vw, 5.5rem);
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    color:rgb(35, 46, 64);
+    text-transform: uppercase;
+    margin: 0 0 1.25rem -18%;
+    padding-right: 0.2em;
+    letter-spacing: 0.02em;
+
+    &.behind {
+      position: absolute;
+      inset: 0;
+      font-size: clamp(2rem, 4.7vw, 5.5rem);
+      width: 100%;
+      height: 100%;
+      color: #6cfa90;
+      z-index: -1;
+      left: -3px;
+      top: -3px;
+    }
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+.np-split-cta__text {
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: #000;
+  margin: 0 0 1.75rem;
+  max-width: 42ch;
+}
+
+.np-split-cta__cta {
+  display: inline-block;
+  padding: 0.875rem 1.75rem;
+  background-color: $np-split-cta-btn;
+  color: $np-white;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  text-decoration: none;
+  border-radius: 2rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: color.adjust($np-split-cta-btn, $lightness: -8%);
+    color: $np-white;
+  }
+}

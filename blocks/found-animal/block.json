@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/found-animal",
+	"title": "J'ai trouvé un animal (Figma 3-29)",
+	"description": "Section fond vert menthe : titre « J'ai trouvé un animal », champ numéro de médaillon, bouton Chercher.",
+	"category": "theme",
+	"icon": "search",
+	"keywords": ["animal", "médaillon", "recherche", "naturapets", "figma"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}
