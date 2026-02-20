@@ -108,3 +108,83 @@
         cursor: pointer;
     }
 }
+
+.woocommerce-MyAccount-orders {
+    .woocommerce-button{
+        background-color: $np-teal;
+        color: $np-white;
+        padding: 0.2em 2em;
+        margin-bottom: 0 !important;
+        border-radius: 100px;
+        border: none;
+        width: fit-content;
+        cursor: pointer;
+    }
+
+    thead{
+        font-size: $font-size-base;
+        background-color:var(--wp--preset--color--custom-vert-gris);
+        th{
+            padding: 15px!important;
+        }
+    }
+    .woocommerce-orders-table__row{
+        > *{
+            padding:5px 15px!important;
+        }
+    }
+}
+
+.edit-account-form-fiche-animal{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+
+    .form-row,.row-animal-photo{
+        width: 48%;
+        // flex-grow: 2;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .row-animal-photo{
+
+        > div{
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 10px!important;
+            border-radius: 8px;
+
+            img{
+                max-width: 100%;
+                width: 100%;
+                object-fit: cover;
+
+            }
+        }
+
+        input[type="file"]{
+            margin-top: 10px!important;
+            font-size: $font-size-base;
+            font-weight: $font-weight-normal;
+            color: $np-taupe;
+            line-height: 1!important;
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+        }
+        
+    }
+
+    fieldset{
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}

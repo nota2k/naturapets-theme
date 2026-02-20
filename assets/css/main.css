@@ -68,6 +68,17 @@ body {
   font-family: "Nunito Sans", sans-serif;
 }
 
+input, select, textarea {
+  border: 1px solid #e8e6e4 !important;
+  border-radius: 5px !important;
+  color: var(--wp--preset--color--contrast);
+  font-family: var(--wp--preset--font-family--primary);
+  font-size: var(--wp--preset--font-size--medium);
+  font-weight: var(--wp--custom--font-weight--light);
+  line-height: var(--wp--custom--line-height--body);
+  padding: 5px 10px !important;
+}
+
 .mailpoet-wrapper {
   padding: 0 !important;
   display: flex;
@@ -982,6 +993,70 @@ body {
   border-radius: 100px;
   border: none;
   cursor: pointer;
+}
+
+.woocommerce-MyAccount-orders .woocommerce-button {
+  background-color: #2d6a6a;
+  color: #ffffff;
+  padding: 0.2em 2em;
+  margin-bottom: 0 !important;
+  border-radius: 100px;
+  border: none;
+  width: fit-content;
+  cursor: pointer;
+}
+.woocommerce-MyAccount-orders thead {
+  font-size: 1rem;
+  background-color: var(--wp--preset--color--custom-vert-gris);
+}
+.woocommerce-MyAccount-orders thead th {
+  padding: 15px !important;
+}
+.woocommerce-MyAccount-orders .woocommerce-orders-table__row > * {
+  padding: 5px 15px !important;
+}
+
+.edit-account-form-fiche-animal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 2rem;
+}
+.edit-account-form-fiche-animal .form-row, .edit-account-form-fiche-animal .row-animal-photo {
+  width: 48%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.edit-account-form-fiche-animal .row-animal-photo > div {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 10px !important;
+  border-radius: 8px;
+}
+.edit-account-form-fiche-animal .row-animal-photo > div img {
+  max-width: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.edit-account-form-fiche-animal .row-animal-photo input[type=file] {
+  margin-top: 10px !important;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #5c5346;
+  line-height: 1 !important;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+}
+.edit-account-form-fiche-animal fieldset {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 /*# sourceMappingURL=main.css.map */

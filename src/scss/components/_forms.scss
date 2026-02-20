@@ -5,6 +5,16 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
+input, select, textarea {
+    border:1px solid $np-gray-light!important;
+    border-radius: 5px!important;
+    color: var(--wp--preset--color--contrast);
+    font-family: var(--wp--preset--font-family--primary);
+    font-size: var(--wp--preset--font-size--medium);
+    font-weight: var(--wp--custom--font-weight--light);
+    line-height: var(--wp--custom--line-height--body);
+    padding: 5px 10px!important;
+}
 
 .mailpoet-wrapper {
     padding: 0 !important;
