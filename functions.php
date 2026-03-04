@@ -235,6 +235,28 @@ function naturapets_enqueue_styles()
 add_action('wp_enqueue_scripts', 'naturapets_enqueue_styles');
 
 /**
+ * Script d'animation du header au scroll.
+ */
+function naturapets_enqueue_header_scroll()
+{
+	if (is_admin()) {
+		return;
+	}
+
+	$script_file = get_stylesheet_directory() . '/assets/js/header-scroll.js';
+	if (file_exists($script_file)) {
+		wp_enqueue_script(
+			'naturapets-header-scroll',
+			get_stylesheet_directory_uri() . '/assets/js/header-scroll.js',
+			array(),
+			filemtime($script_file),
+			true
+		);
+	}
+}
+add_action('wp_enqueue_scripts', 'naturapets_enqueue_header_scroll');
+
+/**
  * ==========================================================================
  * BANDEAU DU HAUT – Options du thème (Customizer)
  * ==========================================================================

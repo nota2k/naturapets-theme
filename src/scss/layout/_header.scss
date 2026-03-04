@@ -6,8 +6,22 @@
 @use '../abstracts/mixins' as *;
 
 .medaillon_public-template-default {
-  #header, hr{  
+  #header, hr{
     display: none;
+  }
+}
+
+// Animation au scroll : slide vers le haut après 100px
+body:not(.medaillon_public-template-default) .wp-site-blocks > header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+
+  &.np-header--hidden {
+    transform: translateY(-100%);
   }
 }
 // En-tête principal
