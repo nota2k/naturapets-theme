@@ -22,11 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'woocommerce_before_account_navigation' );
 ?>
 
-<nav class="woocommerce-MyAccount-navigation" aria-label="<?php esc_html_e( 'Account pages', 'woocommerce' ); ?>">
-	<ul>
+<nav class="woocommerce-MyAccount-navigation myaccount-tabs" aria-label="<?php esc_html_e( 'Account pages', 'woocommerce' ); ?>">
+	<ul class="myaccount-tabs__list">
 		<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
-			<li class="<?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" <?php echo wc_is_current_account_menu_item( $endpoint ) ? 'aria-current="page"' : ''; ?>>
+			<li class="myaccount-tabs__item <?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">
+				<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" class="myaccount-tabs__link" <?php echo wc_is_current_account_menu_item( $endpoint ) ? 'aria-current="page"' : ''; ?>>
 					<?php echo esc_html( $label ); ?>
 				</a>
 			</li>

@@ -21,6 +21,34 @@ define('NATURAPETS_VERSION', wp_get_theme()->get('Version'));
 require_once get_stylesheet_directory() . '/includes/class-qrcode.php';
 
 /**
+ * Autoriser l'upload des SVG dans le backoffice.
+ */
+function naturapets_allow_svg_upload($mimes)
+{
+	$mimes['svg']  = 'image/svg+xml';
+	$mimes['svgz'] = 'image/svg+xml';
+	return $mimes;
+}
+add_filter('upload_mimes', 'naturapets_allow_svg_upload');
+
+/**
+ * Corriger la détection du type MIME des SVG.
+ */
+function naturapets_fix_svg_mime_type($data, $file, $filename, $mimes)
+{
+	if ($data['type'] === 'image/svg+xml' || $data['type'] === '') {
+		$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+		if ($ext === 'svg' || $ext === 'svgz') {
+			$data['type'] = 'image/svg+xml';
+			$data['ext']  = $ext;
+			$data['proper_filename'] = $filename;
+		}
+	}
+	return $data;
+}
+add_filter('wp_check_filetype_and_ext', 'naturapets_fix_svg_mime_type', 10, 4);
+
+/**
  * Helper pour récupérer l'URL d'une image ACF (gère les différents formats de retour).
  */
 function naturapets_get_acf_image_url($image, $size = 'thumbnail')
@@ -93,6 +121,52 @@ function naturapets_enqueue_styles()
 	}
 }
 add_action('wp_enqueue_scripts', 'naturapets_enqueue_styles');
+
+/**
+ * Script pour la modal QR Code sur la page Mes animaux.
+ */
+function naturapets_myaccount_qr_modal_script()
+{
+	if (!function_exists('is_account_page') || !is_account_page()) {
+		return;
+	}
+	?>
+	<script>
+	(function() {
+		document.addEventListener('DOMContentLoaded', function() {
+			var triggers = document.querySelectorAll('.animal-card__qr-trigger');
+			var modal = document.getElementById('animal-qr-modal');
+			if (!modal) return;
+			var img = modal.querySelector('.animal-qr-modal__img');
+			var title = modal.querySelector('.animal-qr-modal__title');
+			var backdrop = modal.querySelector('.animal-qr-modal__backdrop');
+			var closeBtn = modal.querySelector('.animal-qr-modal__close');
+			function openModal(url, name) {
+				if (img) img.src = url;
+				if (title) title.textContent = 'QR Code - ' + (name || '');
+				modal.classList.add('is-open');
+				modal.setAttribute('aria-hidden', 'false');
+			}
+			function closeModal() {
+				modal.classList.remove('is-open');
+				modal.setAttribute('aria-hidden', 'true');
+			}
+			triggers.forEach(function(btn) {
+				btn.addEventListener('click', function() {
+					openModal(btn.getAttribute('data-qr-url'), btn.getAttribute('data-animal-name'));
+				});
+			});
+			if (backdrop) backdrop.addEventListener('click', closeModal);
+			if (closeBtn) closeBtn.addEventListener('click', closeModal);
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+			});
+		});
+	})();
+	</script>
+	<?php
+}
+add_action('wp_footer', 'naturapets_myaccount_qr_modal_script');
 
 /**
  * Charge les styles du thème dans l'éditeur de blocs pour une preview identique au front.
@@ -906,17 +980,30 @@ function naturapets_add_query_vars($vars)
 }
 add_filter('query_vars', 'naturapets_add_query_vars');
 
-// Ajouter au menu
+// Ajouter au menu et personnaliser les libellés
 function naturapets_add_animals_menu_item($items)
 {
 	$new_items = array();
+	$labels = array(
+		'dashboard'      => 'Profil',
+		'orders'         => 'Commandes',
+		'mes-animaux'    => 'Mes animaux',
+		'edit-address'   => 'Adresses',
+		'edit-account'   => 'Sécurité',
+		'payment-methods' => 'Moyens de paiement',
+		'customer-logout' => 'Déconnexion',
+	);
 
 	foreach ($items as $key => $value) {
-		$new_items[$key] = $value;
+		// Ne pas afficher "Téléchargements" dans le menu Mon compte
+		if ($key === 'downloads') {
+			continue;
+		}
+		$new_items[$key] = isset($labels[$key]) ? $labels[$key] : $value;
 
-		// Insérer après "Commandes"
+		// Insérer "Mes animaux" après "Commandes"
 		if ($key === 'orders') {
-			$new_items['mes-animaux'] = 'Gérer mes animaux';
+			$new_items['mes-animaux'] = 'Mes animaux';
 		}
 	}
 
@@ -953,6 +1040,20 @@ function naturapets_animals_endpoint_content()
 }
 add_action('woocommerce_account_mes-animaux_endpoint', 'naturapets_animals_endpoint_content');
 
+/**
+ * Générer l'ID d'affichage pour un animal (format PSI-YYYY-NNNNNN).
+ */
+function naturapets_get_animal_display_id($animal_id)
+{
+	$post = get_post($animal_id);
+	if (!$post) {
+		return 'PSI-0000-000000';
+	}
+	$year = get_the_date('Y', $animal_id);
+	$padded_id = str_pad((string) $animal_id, 6, '0', STR_PAD_LEFT);
+	return 'PSI-' . $year . '-' . $padded_id;
+}
+
 function naturapets_display_animals_list($customer_id)
 {
 	$animals = get_posts(array(
@@ -964,55 +1065,73 @@ function naturapets_display_animals_list($customer_id)
 		'order' => 'DESC',
 	));
 
-	echo '<h2>Mes Animaux</h2>';
+	echo '<div class="myaccount-animals">';
+	echo '<div class="myaccount-animals__header">';
+	echo '<h2 class="myaccount-animals__title">Mes animaux</h2>';
+	echo '<p class="myaccount-animals__subtitle">Gérez les fiches de vos animaux</p>';
+	echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="myaccount-animals__add-btn">+ Ajouter un animal</a>';
+	echo '</div>';
 
 	if (empty($animals)) {
-		echo '<p>Vous n\'avez pas encore d\'animaux enregistrés. Ils apparaîtront ici après votre première commande.</p>';
+		echo '<p class="myaccount-animals__empty">Vous n\'avez pas encore d\'animaux enregistrés. Ils apparaîtront ici après votre première commande.</p>';
+		echo '</div>';
 		return;
 	}
 
-	echo '<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table">';
-	echo '<thead><tr>';
-	echo '<th>Photo</th>';
-	echo '<th>Nom</th>';
-	echo '<th>Produit associé</th>';
-	echo '<th>Commande</th>';
-	echo '<th>Actions</th>';
-	echo '</tr></thead>';
-	echo '<tbody>';
+	echo '<div class="myaccount-animals__grid">';
 
 	foreach ($animals as $animal) {
-		// Utiliser les champs ACF
 		$nom = get_field('nom', $animal->ID);
-		$photo = get_field('photo_de_lanimal', $animal->ID);
+		$type = get_field('type_animal', $animal->ID);
+		$race = get_field('race', $animal->ID);
+		$age = get_field('age', $animal->ID);
 		$product_id = get_post_meta($animal->ID, '_product_id', true);
-		$order_id = get_post_meta($animal->ID, '_order_id', true);
-
 		$product = wc_get_product($product_id);
-		$order = wc_get_order($order_id);
 
-		$display_name = $nom ? esc_html($nom) : '<em>Non renseigné</em>';
+		$display_name = $nom ? esc_html($nom) : 'Non renseigné';
+		$display_type = $type ? esc_html($type) : ($product ? esc_html($product->get_name()) : 'Non renseigné');
+		$display_race = $race ? esc_html($race) : 'Non renseigné';
+		$display_age = $age ? esc_html($age) : 'Non renseigné';
+		$animal_url = naturapets_get_animal_url($animal->ID);
+		$qr_url = naturapets_get_qrcode_url($animal_url, 200);
+		$display_id = naturapets_get_animal_display_id($animal->ID);
+		$edit_url = wc_get_account_endpoint_url('mes-animaux') . $animal->ID;
 
-		$photo_url = naturapets_get_acf_image_url($photo, 'thumbnail');
-
-		echo '<tr>';
-		echo '<td style="width: 60px;">';
-		if ($photo_url) {
-			echo '<img src="' . esc_url($photo_url) . '" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />';
-		} else {
-			echo '<span style="display: inline-block; width: 50px; height: 50px; background: #eee; border-radius: 50%;"></span>';
-		}
-		echo '</td>';
-		echo '<td>' . $display_name . '</td>';
-		echo '<td>' . ($product ? esc_html($product->get_name()) : 'N/A') . '</td>';
-		echo '<td>' . ($order ? '#' . $order->get_order_number() : 'N/A') . '</td>';
-		echo '<td>';
-		echo '<a href="' . esc_url(wc_get_account_endpoint_url('mes-animaux') . $animal->ID) . '" class="woocommerce-button button">Modifier</a>';
-		echo '</td>';
-		echo '</tr>';
+		echo '<article class="animal-card">';
+		echo '<div class="animal-card__header">';
+		echo '<h3 class="animal-card__name">' . $display_name . '</h3>';
+		echo '<span class="animal-card__badge animal-card__badge--active">Actif</span>';
+		echo '</div>';
+		echo '<p class="animal-card__id">ID: ' . esc_html($display_id) . '</p>';
+		echo '<dl class="animal-card__details">';
+		echo '<div class="animal-card__row"><dt>Type:</dt><dd>' . $display_type . '</dd></div>';
+		echo '<div class="animal-card__row"><dt>Race:</dt><dd>' . $display_race . '</dd></div>';
+		echo '<div class="animal-card__row"><dt>Âge:</dt><dd>' . $display_age . '</dd></div>';
+		echo '<div class="animal-card__row"><dt>Dernier scan:</dt><dd>Jamais scanné</dd></div>';
+		echo '</dl>';
+		echo '<div class="animal-card__actions">';
+		echo '<a href="' . esc_url($edit_url) . '" class="animal-card__btn animal-card__btn--secondary">';
+		echo '<svg class="animal-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+		echo ' Modifier</a>';
+		echo '<button type="button" class="animal-card__btn animal-card__btn--secondary animal-card__qr-trigger" data-qr-url="' . esc_attr($qr_url) . '" data-animal-name="' . esc_attr($display_name) . '">';
+		echo '<svg class="animal-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>';
+		echo ' Voir le QR</button>';
+		echo '</div>';
+		echo '</article>';
 	}
 
-	echo '</tbody></table>';
+	echo '</div>';
+	echo '</div>';
+
+	// Modal QR Code (affiché uniquement s'il y a des animaux)
+	echo '<div id="animal-qr-modal" class="animal-qr-modal" aria-hidden="true" role="dialog" aria-labelledby="animal-qr-modal-title">';
+	echo '<div class="animal-qr-modal__backdrop"></div>';
+	echo '<div class="animal-qr-modal__content">';
+	echo '<button type="button" class="animal-qr-modal__close" aria-label="Fermer">&times;</button>';
+	echo '<h2 id="animal-qr-modal-title" class="animal-qr-modal__title">QR Code</h2>';
+	echo '<div class="animal-qr-modal__body"><img src="" alt="QR Code" class="animal-qr-modal__img" /></div>';
+	echo '</div>';
+	echo '</div>';
 }
 
 function naturapets_display_animal_form($animal_id, $customer_id)
@@ -1476,6 +1595,58 @@ function naturapets_user_animals_section($user)
 }
 add_action('show_user_profile', 'naturapets_user_animals_section');
 add_action('edit_user_profile', 'naturapets_user_animals_section');
+
+/**
+ * ==========================================================================
+ * WOOCOMMERCE : Bouton "Ajouter au panier"
+ * ==========================================================================
+ */
+
+/**
+ * Icône panier SVG pour le bouton Ajouter au panier.
+ */
+function naturapets_get_cart_icon_svg()
+{
+	return '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:6px"><path d="M2.3999 1.99268C1.84762 1.99268 1.3999 2.44039 1.3999 2.99268C1.3999 3.54496 1.84762 3.99268 2.3999 3.99268V1.99268ZM4.69244 2.99268L5.65767 2.73126C5.53961 2.29536 5.14405 1.99268 4.69244 1.99268V2.99268ZM8.41781 16.7479L7.45259 17.0093C7.58285 17.4903 8.04737 17.802 8.54185 17.7402L8.41781 16.7479ZM19.8805 15.3151L20.0045 16.3073C20.4292 16.2543 20.773 15.9368 20.8598 15.5177L19.8805 15.3151ZM21.5999 7.00462L22.5792 7.20722C22.6401 6.91271 22.5652 6.60641 22.3753 6.37319C22.1854 6.13998 21.9007 6.00462 21.5999 6.00462V7.00462ZM5.77901 7.00462L4.81378 7.26603V7.26603L5.77901 7.00462ZM2.3999 3.99268H4.69244V1.99268H2.3999V3.99268ZM8.54185 17.7402L20.0045 16.3073L19.7565 14.3228L8.29378 15.7556L8.54185 17.7402ZM20.8598 15.5177L22.5792 7.20722L20.6206 6.80201L18.9012 15.1125L20.8598 15.5177ZM3.72721 3.25409L4.81378 7.26603L6.74423 6.7432L5.65767 2.73126L3.72721 3.25409ZM4.81378 7.26603L7.45259 17.0093L9.38304 16.4865L6.74423 6.7432L4.81378 7.26603ZM21.5999 6.00462H5.77901V8.00462H21.5999V6.00462ZM10.9999 20.4999C10.9999 20.7761 10.776 20.9999 10.4999 20.9999V22.9999C11.8806 22.9999 12.9999 21.8807 12.9999 20.4999H10.9999ZM10.4999 20.9999C10.2238 20.9999 9.9999 20.7761 9.9999 20.4999H7.9999C7.9999 21.8807 9.11919 22.9999 10.4999 22.9999V20.9999ZM9.9999 20.4999C9.9999 20.2238 10.2238 19.9999 10.4999 19.9999V17.9999C9.11919 17.9999 7.9999 19.1192 7.9999 20.4999H9.9999ZM10.4999 19.9999C10.776 19.9999 10.9999 20.2238 10.9999 20.4999H12.9999C12.9999 19.1192 11.8806 17.9999 10.4999 17.9999V19.9999ZM18.9999 20.4999C18.9999 20.7761 18.776 20.9999 18.4999 20.9999V22.9999C19.8806 22.9999 20.9999 21.8807 20.9999 20.4999H18.9999ZM18.4999 20.9999C18.2238 20.9999 17.9999 20.7761 17.9999 20.4999H15.9999C15.9999 21.8807 17.1192 22.9999 18.4999 22.9999V20.9999ZM17.9999 20.4999C17.9999 20.2238 18.2238 19.9999 18.4999 19.9999V17.9999C17.1192 17.9999 15.9999 19.1192 15.9999 20.4999H17.9999ZM18.4999 19.9999C18.776 19.9999 18.9999 20.2238 18.9999 20.4999H20.9999C20.9999 19.1192 19.8806 17.9999 18.4999 17.9999V19.9999Z" fill="currentColor"/></svg>';
+}
+
+/**
+ * Modifier le texte du bouton "Ajouter au panier" en "Ajouter".
+ */
+function naturapets_add_to_cart_button_text($text)
+{
+	return 'Ajouter';
+}
+add_filter('woocommerce_product_add_to_cart_text', 'naturapets_add_to_cart_button_text');
+add_filter('woocommerce_product_single_add_to_cart_text', 'naturapets_add_to_cart_button_text');
+
+/**
+ * Ajouter l'icône SVG avant le texte et supprimer le lien "Voir le panier".
+ * Fonctionne avec les templates classiques ET le bloc Product Button (Interactivity API).
+ */
+function naturapets_add_cart_icon_to_loop_button($html, $product, $args)
+{
+	$icon = naturapets_get_cart_icon_svg();
+
+	// 1. Supprimer le lien "Voir le panier" (bloc Product Button)
+	$html = preg_replace('/<span[^>]*data-wp-bind--hidden="!state\.displayViewCart"[^>]*>.*?<\/span>/s', '', $html);
+
+	// 2. Bloc Product Button : ajouter l'icône avant le span (SVG visible dans tous les états : Ajouter, 1 dans le panier, etc.)
+	$html = preg_replace(
+		'/<span ([^>]*data-wp-text\s*=\s*"state\.addToCartText"[^>]*)>/',
+		$icon . '<span $1>',
+		$html,
+		1
+	);
+
+	// 3. Template classique (lien <a>) : ajouter l'icône avant le texte
+	if (strpos($html, 'data-wp-text') === false) {
+		$html = preg_replace('/>([^<]+)<\/a>/s', '>' . $icon . '${1}</a>', $html, 1);
+	}
+
+	return $html;
+}
+add_filter('woocommerce_loop_add_to_cart_link', 'naturapets_add_cart_icon_to_loop_button', 10, 3);
 
 /**
  * ==========================================================================

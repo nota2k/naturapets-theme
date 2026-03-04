@@ -4,3 +4,47 @@
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+.block-product__subtitle{
+    font-size: $font-size-base;
+    font-weight: $font-weight-normal;
+    color: $np-taupe;
+    line-height: 1!important;
+    margin-bottom: 1rem!important;
+}
+
+.wc-block-cart-items{
+    td:first-child{
+        > img{
+            display: none;
+        }
+    }
+}
+
+.wc-block-components-quantity-selector {
+    width: fit-content!important;
+}
+
+.wc-block-cart-item__product{
+    .wc-block-cart-item__wrap{
+        .wc-block-components-product-name{
+            font-weight: $font-weight-bold!important;
+            margin-bottom: 0!important;
+        }
+    }
+}
+
+.wc-block-mini-cart-items{
+    .wc-block-cart-item__product{
+        border-right: 1px solid $np-gray-light;
+
+        .wc-block-cart-item__wrap{
+            .wc-block-cart-item__prices{
+                display: none;
+            }
+        }
+    }
+    .wc-block-cart-item__total{
+        padding:5px 10px!important;
+    }
+}

@@ -24,7 +24,7 @@
 
 // Avec image/vidéo : hauteur au moins 100 % du viewport
 .np-hero-banner--has-media {
-  min-height: 100vh;
+  min-height: 70vh;
 }
 
 // Couche image / vidéo en fond
@@ -127,9 +127,12 @@
   background-color: $np-brown-dark;
   color: $np-white;
   font-size: $font-size-base;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
   font-weight: $font-weight-normal;
   text-decoration: none;
-  border-radius: $border-radius-pill;
+  border-radius: $border-radius-lg;
   transition: background-color 0.2s ease, color 0.2s ease;
 
   &:hover {

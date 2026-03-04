@@ -50,9 +50,5 @@ input, select, textarea {
         cursor: pointer;
         border: none;
         transition: background-color 0.2s ease;
-
-        &:hover {
-            background-color: darken($np-teal, 10%);
-        }
     }
 }

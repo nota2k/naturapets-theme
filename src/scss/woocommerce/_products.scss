@@ -29,13 +29,13 @@
         background-color: $np-brown-light;
         color: $np-white;
         width: 40px;
-        height: 40px;
+        aspect-ratio: 1 / 1;
         border-radius: 100%;
     }
 }
 
 .add_to_cart_button {
-    font-size: 1.2rem;
+    // font-size: 1.2rem;
     background-color: $np-teal;
 }
 

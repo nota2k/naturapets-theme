@@ -18,6 +18,15 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * My Account header.
+ */
+?>
+<div class="myaccount-header">
+	<h1 class="myaccount-header__title">Mon compte</h1>
+	<p class="myaccount-header__subtitle">Gérez vos informations et vos médaillons</p>
+</div>
+<?php
+/**
  * My Account navigation.
  *
  * @since 2.6.0

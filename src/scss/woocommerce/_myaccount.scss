@@ -1,5 +1,11 @@
+@use 'sass:color';
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+// Couleurs design dashboard
+$np-green-dark: #4F6B4C;
+$np-green-light: #8CD28A;
+$np-green-badge: #E0FFE0;
 
 .woocommerce-myaccount-wrapper{
     font-size: $font-size-base;
@@ -11,41 +17,81 @@
         max-width: var(--wp--style--global--wide-size)!important;
     }
 
+    // En-tête Mon compte
+    .myaccount-header{
+        margin-bottom: 1.5rem;
+        .myaccount-header__title{
+            font-size: $font-size-xl;
+            font-weight: $font-weight-bold;
+            color: $np-green-dark;
+            margin: 0 0 0.25em;
+        }
+        .myaccount-header__subtitle{
+            font-size: $font-size-base;
+            color: $np-taupe;
+            margin: 0;
+            opacity: 0.9;
+        }
+    }
+
     .woocommerce.account-navigation{
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: stretch;
+        padding: $padding-large;
         background-color: $np-white;
 
-        .woocommerce-MyAccount-navigation{
-            height: 50vh;
-            width: 20%;
-            padding:1em 1em 1em 3em;
-            border-right: 1px solid $np-gray-light;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-    
-            ul{
-                li{
-                    padding: 0.5em 0;
-                    a{
-                        // text-decoration: none;
-                        color: $np-taupe;
-                        font-size: $font-size-lg;
-                        font-weight: $font-weight-semibold;
-                    }
+        // Onglets horizontaux
+        .woocommerce-MyAccount-navigation.myaccount-tabs{
+            width: 100%;
+            padding: 0 0 1em 0;
+            min-height: auto;
+            border-right: none;
+            border-bottom: 1px solid $np-gray-light;
+            margin-bottom: 2rem;
+
+            .myaccount-tabs__list{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .myaccount-tabs__item{
+                padding: 0;
+            }
+
+            .myaccount-tabs__link{
+                display: inline-block;
+                padding: 0.5em 1.25em;
+                border-radius: $border-radius-xl;
+                color: $np-taupe;
+                font-size: $font-size-base;
+                font-weight: $font-weight-semibold;
+                text-decoration: none;
+                background-color: rgba($np-taupe, 0.08);
+                transition: background-color 0.2s, color 0.2s;
+
+                &:hover{
+                    background-color: rgba($np-taupe, 0.12);
+                    color: $np-green-dark;
                 }
+            }
+
+            .myaccount-tabs__item.is-active .myaccount-tabs__link{
+                background-color: $np-white;
+                color: $np-green-dark;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             }
         }
     
         .woocommerce-MyAccount-content{
-            padding:3rem;
+            padding: 0;
             display: flex;
             flex-grow: 2;
             flex-direction: column;
-            // justify-content: center;
             align-items: flex-start;
         }
     }
@@ -54,14 +100,382 @@
         max-height: 250px;
         width: 100%;
         overflow: hidden;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         img{
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+        h2{
+            margin: 0;
+            padding: 1rem 0 0;
+            font-size: $font-size-xl;
+            font-weight: $font-weight-bold;
+            color: $np-green-dark;
+        }
+    }
+
+    .profile-summary__welcome{
+        margin: 0 0 2rem;
+        font-size: $font-size-base;
+        color: $np-taupe;
+
+        a{
+            color: $np-teal;
+            text-decoration: underline;
+
+            &:hover{
+                text-decoration: none;
+            }
+        }
     }
     
+}
+
+// Résumé profil (page Profil)
+.profile-summary{
+    width: 100%;
+    max-width: 600px;
+
+    &__header{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    &__title{
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0 0 0.25em;
+    }
+
+    &__subtitle{
+        font-size: $font-size-base;
+        color: $np-taupe;
+        margin: 0;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    &__edit-btn{
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35em;
+        padding: 0.5em 1.25em;
+        background-color: $np-green-light;
+        color: $np-white;
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        text-decoration: none;
+        border-radius: $border-radius-xl;
+        border: none;
+        transition: background-color 0.2s;
+
+        &:hover{
+            background-color: color.adjust($np-green-light, $lightness: -8%);
+            color: $np-white;
+        }
+    }
+
+    &__icon{
+        flex-shrink: 0;
+    }
+
+    &__card{
+        background: $np-white;
+        border-radius: $border-radius-xl;
+        padding: 1.5rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid $np-gray-light;
+        margin-bottom: 1rem;
+    }
+
+    &__list{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 0;
+    }
+
+    &__row{
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        dt{
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+            color: $np-taupe;
+            margin: 0;
+        }
+        dd{
+            font-size: $font-size-base;
+            font-weight: $font-weight-normal;
+            color: $np-green-dark;
+            margin: 0;
+            line-height: 1.5;
+        }
+    }
+
+    &__logout{
+        font-size: $font-size-sm;
+        color: $np-taupe;
+        margin: 0;
+
+        a{
+            color: $np-teal;
+            text-decoration: underline;
+
+            &:hover{
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// Section Mes animaux
+.myaccount-animals{
+    width: 100%;
+
+    &__header{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    &__title{
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0 0 0.25em;
+    }
+
+    &__subtitle{
+        font-size: $font-size-base;
+        color: $np-taupe;
+        margin: 0;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    &__add-btn{
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5em 1.25em;
+        background-color: $np-green-light;
+        color: $np-white;
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        text-decoration: none;
+        border-radius: $border-radius-xl;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+
+        &:hover{
+            background-color: color.adjust($np-green-light, $lightness: -8%);
+            color: $np-white;
+        }
+    }
+
+    &__empty{
+        color: $np-taupe;
+        padding: 2rem;
+    }
+
+    &__grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+// Cartes animaux
+.animal-card{
+    background: $np-white;
+    border-radius: $border-radius-xl;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid $np-gray-light;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    &__name{
+        font-size: $font-size-lg;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0;
+    }
+
+    &__badge{
+        font-size: $font-size-sm;
+        font-weight: $font-weight-semibold;
+        padding: 0.25em 0.6em;
+        border-radius: $border-radius-sm;
+        flex-shrink: 0;
+
+        &--active{
+            background-color: $np-green-badge;
+            color: $np-green-dark;
+        }
+    }
+
+    &__id{
+        font-size: $font-size-sm;
+        color: $np-taupe;
+        margin: 0;
+    }
+
+    &__details{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0;
+    }
+
+    &__row{
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+
+        dt{
+            font-weight: $font-weight-normal;
+            color: $np-taupe;
+            margin: 0;
+        }
+        dd{
+            margin: 0;
+            font-weight: $font-weight-medium;
+            color: $np-green-dark;
+            text-align: right;
+        }
+    }
+
+    &__actions{
+        display: flex;
+        gap: 0.75rem;
+        margin-top: auto;
+        flex-wrap: wrap;
+    }
+
+    &__btn{
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35em;
+        padding: 0.4em 0.9em;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        text-decoration: none;
+        border-radius: $border-radius-lg;
+        border: 1px solid $np-gray-light;
+        background: $np-white;
+        color: $np-taupe;
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+
+        &:hover{
+            background-color: rgba($np-taupe, 0.06);
+            border-color: $np-taupe;
+        }
+
+        &--secondary{
+            border: 1px solid $np-gray-light;
+        }
+    }
+
+    &__icon{
+        flex-shrink: 0;
+    }
+
+    &__qr-trigger{
+        font-family: inherit;
+    }
+}
+
+// Modal QR Code
+.animal-qr-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+
+    &.is-open{
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__backdrop{
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        cursor: pointer;
+    }
+
+    &__content{
+        position: relative;
+        background: $np-white;
+        border-radius: $border-radius-xl;
+        padding: 2rem;
+        max-width: 320px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    &__close{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        border: none;
+        background: transparent;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        color: $np-taupe;
+
+        &:hover{
+            color: $np-green-dark;
+        }
+    }
+
+    &__title{
+        font-size: $font-size-lg;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0 0 1rem;
+    }
+
+    &__body{
+        text-align: center;
+    }
+
+    &__img{
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .woocommerce-Addresses{
@@ -106,6 +520,150 @@
         border-radius: 100px;
         border: none;
         cursor: pointer;
+    }
+}
+
+// Historique des commandes (cartes)
+.orders-history{
+    width: 100%;
+
+    &__header{
+        margin-bottom: 1.5rem;
+    }
+
+    &__title{
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0 0 0.25em;
+    }
+
+    &__subtitle{
+        font-size: $font-size-base;
+        color: $np-taupe;
+        margin: 0;
+        opacity: 0.9;
+    }
+
+    &__list{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    &__pagination{
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+.order-card{
+    background: $np-white;
+    border-radius: $border-radius-xl;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid $np-gray-light;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    &__id-date{
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    &__id{
+        font-size: $font-size-lg;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0;
+    }
+
+    &__date{
+        font-size: $font-size-sm;
+        color: $np-taupe;
+    }
+
+    &__badge{
+        font-size: $font-size-sm;
+        font-weight: $font-weight-semibold;
+        padding: 0.25em 0.6em;
+        border-radius: $border-radius-sm;
+        flex-shrink: 0;
+        background-color: $np-green-light;
+        color: $np-white;
+
+        &--completed{
+            background-color: $np-green-light;
+            color: $np-white;
+        }
+        &--processing{
+            background-color: #f0ad4e;
+            color: $np-white;
+        }
+        &--on-hold{
+            background-color: #f0ad4e;
+            color: $np-white;
+        }
+        &--pending{
+            background-color: rgba($np-taupe, 0.2);
+            color: $np-taupe;
+        }
+        &--cancelled,
+        &--refunded,
+        &--failed{
+            background-color: rgba($np-taupe, 0.15);
+            color: $np-taupe;
+        }
+    }
+
+    &__items{
+        font-size: $font-size-base;
+        color: $np-taupe;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    &__footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    &__total{
+        font-size: $font-size-base;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+    }
+
+    &__btn{
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4em 0.9em;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        text-decoration: none;
+        border-radius: $border-radius-lg;
+        border: 1px solid $np-gray-light;
+        background: $np-white;
+        color: $np-taupe;
+        transition: background-color 0.2s, border-color 0.2s;
+
+        &:hover{
+            background-color: rgba($np-taupe, 0.06);
+            border-color: $np-taupe;
+        }
     }
 }
 

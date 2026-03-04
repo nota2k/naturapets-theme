@@ -28,6 +28,10 @@ $spacers: (
   7: $spacer * 5,
 );
 
+$padding-large: clamp(2em, 4vw, 4em);
+$padding-medium: clamp(1em, 2vw, 2em);
+$padding-small: clamp(0.5em, 1vw, 1em);
+
 // Breakpoints
 $breakpoint-xs: 0;
 $breakpoint-sm: 576px;
@@ -56,8 +60,8 @@ $np-brown-light: #6b635b;    // Slogan
 $np-gray-light: #e8e6e4;     // Fond bannière
 
 // Bordures
-$border-radius: 0.375rem;
 $border-radius-sm: 0.25rem;
+$border-radius: 0.375rem;
 $border-radius-lg: 0.5rem;
 $border-radius-xl: 1rem;
 $border-radius-pill: 50rem;
