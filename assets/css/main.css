@@ -808,6 +808,10 @@ input, select, textarea {
   margin-right: auto;
 }
 
+.medaillon_public-template-default #header, .medaillon_public-template-default hr {
+  display: none;
+}
+
 .np-header {
   background-color: #ffffff;
 }
@@ -1114,6 +1118,77 @@ body {
 }
 .np-contact__faq-list a:hover {
   color: #6B8E7C;
+}
+
+.medaillon-public {
+  max-width: 600px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.medaillon-public__card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.medaillon-public__photo-wrap {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.medaillon-public__photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #2d5a27;
+}
+
+.medaillon-public__title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.medaillon-public__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.medaillon-public__th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  width: 40%;
+  vertical-align: top;
+}
+
+.medaillon-public__td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.medaillon-public__link {
+  color: #2d5a27;
+  text-decoration: none;
+}
+.medaillon-public__link:hover {
+  text-decoration: underline;
+}
+
+.medaillon-public__empty {
+  text-align: center;
+  color: #666;
+  margin-top: 20px;
+}
+
+.medaillon-public__footer {
+  text-align: center;
+  margin-top: 30px;
+  color: #999;
+  font-size: 0.875rem;
 }
 
 .single-product .wp-block-column:nth-child(2) {

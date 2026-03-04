@@ -1,0 +1,83 @@
+// ==========================================================================
+// Page médaillon public (CPT medaillon_public)
+// Template single-medaillon_public.php
+// ==========================================================================
+
+@use '../abstracts/variables' as *;
+
+$medaillon-primary: #2d5a27;
+$medaillon-border: #eee;
+$medaillon-text-muted: #666;
+$medaillon-text-footer: #999;
+
+.medaillon-public {
+	max-width: 600px;
+	width: 100%;
+	margin: 40px auto;
+	padding: 20px;
+}
+
+.medaillon-public__card {
+	background: $np-white;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+}
+
+.medaillon-public__photo-wrap {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.medaillon-public__photo {
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 4px solid $medaillon-primary;
+}
+
+.medaillon-public__title {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.medaillon-public__table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.medaillon-public__th {
+	text-align: left;
+	padding: 12px;
+	border-bottom: 1px solid $medaillon-border;
+	width: 40%;
+	vertical-align: top;
+}
+
+.medaillon-public__td {
+	padding: 12px;
+	border-bottom: 1px solid $medaillon-border;
+}
+
+.medaillon-public__link {
+	color: $medaillon-primary;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.medaillon-public__empty {
+	text-align: center;
+	color: $medaillon-text-muted;
+	margin-top: 20px;
+}
+
+.medaillon-public__footer {
+	text-align: center;
+	margin-top: 30px;
+	color: $medaillon-text-footer;
+	font-size: $font-size-sm;
+}

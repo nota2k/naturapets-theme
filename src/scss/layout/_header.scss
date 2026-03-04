@@ -5,6 +5,11 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
+.medaillon_public-template-default {
+  #header, hr{  
+    display: none;
+  }
+}
 // En-tête principal
 .np-header {
   background-color: $np-white;
