@@ -798,11 +798,11 @@ input, select, textarea {
   background-color: var(--wp--preset--color--custom-vert);
   padding: 0.5rem;
   text-align: center;
-  font-size: 1rem;
-  font-weight: 700 !important;
 }
 .np-top-banner__text {
   margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
   max-width: var(--wp--style--global--wide-size, 1200px);
   margin-left: auto;
   margin-right: auto;

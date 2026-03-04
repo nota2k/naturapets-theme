@@ -9,12 +9,12 @@
   // color: $np-white;
   padding: 0.5rem;
   text-align: center;
-  font-size: $font-size-base;
-  // font-weight: $font-weight-bold;
-  font-weight: 700!important;
+  
 
   &__text {
     margin: 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
     max-width: var(--wp--style--global--wide-size, 1200px);
     margin-left: auto;
     margin-right: auto;
