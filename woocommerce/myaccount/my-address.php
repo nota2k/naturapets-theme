@@ -89,5 +89,18 @@ $col    = 1;
 
 <?php if ( ! wc_ship_to_billing_address_only() && wc_shipping_enabled() ) : ?>
 	</div>
+
+	<form method="post" class="woocommerce-Addresses-ship-to-billing" style="margin-top: 2rem;">
+		<?php wp_nonce_field( 'naturapets_ship_to_billing', 'naturapets_ship_to_billing_nonce' ); ?>
+		<p class="form-row">
+			<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+				<input type="checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" name="ship_to_billing_address" value="1" <?php checked( function_exists( 'naturapets_shipping_same_as_billing' ) && naturapets_shipping_same_as_billing(), true ); ?> />
+				<span><?php esc_html_e( "L'adresse de livraison est identique à l'adresse de facturation", 'naturapets' ); ?></span>
+			</label>
+		</p>
+		<p class="form-row">
+			<button type="submit" class="button" name="naturapets_apply_ship_to_billing" value="1"><?php esc_html_e( 'Appliquer', 'naturapets' ); ?></button>
+		</p>
+	</form>
 	<?php
 endif;

@@ -61,6 +61,29 @@ $edit_account_url = wc_get_endpoint_url( 'edit-account', '', wc_get_page_permali
 			<?php endif; ?>
 		</dl>
 	</div>
+
+	<div class="profile-summary__delete">
+		<button type="button" class="profile-summary__delete-btn" id="np-delete-account-trigger">
+			Supprimer mon compte
+		</button>
+	</div>
+</div>
+
+<div id="np-delete-account-modal" class="np-delete-account-modal" aria-hidden="true" role="dialog" aria-labelledby="np-delete-account-modal-title">
+	<div class="np-delete-account-modal__backdrop"></div>
+	<div class="np-delete-account-modal__content">
+		<button type="button" class="np-delete-account-modal__close" aria-label="Fermer">&times;</button>
+		<h2 id="np-delete-account-modal-title" class="np-delete-account-modal__title">Supprimer mon compte</h2>
+		<p class="np-delete-account-modal__text">Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible et toutes vos données seront définitivement effacées.</p>
+		<form method="post" action="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="np-delete-account-modal__form">
+			<?php wp_nonce_field( 'naturapets_delete_account', 'naturapets_delete_account_nonce' ); ?>
+			<input type="hidden" name="naturapets_delete_account" value="1" />
+			<div class="np-delete-account-modal__actions">
+				<button type="button" class="np-delete-account-modal__cancel">Annuler</button>
+				<button type="submit" class="np-delete-account-modal__confirm">Confirmer la suppression</button>
+			</div>
+		</form>
+	</div>
 </div>
 
 <?php

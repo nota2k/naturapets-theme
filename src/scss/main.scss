@@ -21,6 +21,7 @@
 @use 'components/found-animal';
 @use 'components/testimonial';
 @use 'components/product-gallery';
+@use 'components/icone';
 
 // Layout
 @use 'layout/header';
@@ -31,6 +32,7 @@
 @use 'pages/home';
 @use 'pages/single';
 @use 'pages/archive';
+@use 'pages/contact';
 
 // WooCommerce (si utilisé)
 @use 'woocommerce/products';
@@ -38,6 +40,24 @@
 @use 'woocommerce/checkout';
 @use 'woocommerce/myaccount';
 
+
+// Masquer l'en-tête de page quand l'option "Afficher le titre" est désactivée
+body.np-hide-page-title .entry-header {
+  display: none;
+}
+
+// Notice suppression de compte (page d'accueil)
+.np-account-deleted-notice {
+  background: #e0ffe0;
+  color: #4f6b4c;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-weight: 600;
+
+  p {
+    margin: 0;
+  }
+}
 
 body .wp-site-blocks:has(main){
     display: flex;

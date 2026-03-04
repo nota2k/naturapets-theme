@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/icone",
+	"title": "Icône",
+	"description": "Bloc rond avec une image au centre et un fond personnalisable. Taille max 60×60 px.",
+	"category": "theme",
+	"icon": "admin-customizer",
+	"keywords": ["icône", "icone", "rond", "cercle", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["left", "center", "right"]
+	}
+}

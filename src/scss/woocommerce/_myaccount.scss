@@ -216,6 +216,31 @@ $np-green-badge: #E0FFE0;
         flex-shrink: 0;
     }
 
+    &__delete{
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid $np-gray-light;
+    }
+
+    &__delete-btn{
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5em 1.25em;
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
+        color: $np-white;
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        border: none;
+        border-radius: $border-radius-xl;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover{
+            background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
+            color: $np-white;
+        }
+    }
+
     &__card{
         background: $np-white;
         border-radius: $border-radius-xl;
@@ -509,6 +534,118 @@ $np-green-badge: #E0FFE0;
     }
 }
 
+// Modal suppression de compte
+.np-delete-account-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+
+    &.is-open{
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__backdrop{
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        cursor: pointer;
+    }
+
+    &__content{
+        position: relative;
+        background: $np-white;
+        border-radius: $border-radius-xl;
+        padding: 2rem;
+        max-width: 400px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    &__close{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        border: none;
+        background: transparent;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        color: $np-taupe;
+
+        &:hover{
+            color: $np-green-dark;
+        }
+    }
+
+    &__title{
+        font-size: $font-size-lg;
+        font-weight: $font-weight-bold;
+        color: $np-green-dark;
+        margin: 0 0 1rem;
+    }
+
+    &__text{
+        font-size: $font-size-base;
+        color: $np-taupe;
+        line-height: 1.5;
+        margin: 0 0 1.5rem;
+    }
+
+    &__form{
+        margin: 0;
+    }
+
+    &__actions{
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    &__cancel{
+        padding: 0.5em 1.25em;
+        background: rgba($np-taupe, 0.2);
+        color: $np-taupe;
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        border: none;
+        border-radius: $border-radius-xl;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover{
+            background: rgba($np-taupe, 0.15);
+            color: $np-taupe;
+        }
+    }
+
+    &__confirm{
+        padding: 0.5em 1.25em;
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
+        color: $np-white;
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        border: none;
+        border-radius: $border-radius-xl;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover{
+            background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
+            color: $np-white;
+        }
+    }
+}
+
 .woocommerce-Addresses{
     h2{
         font-size: $font-size-xl;
@@ -522,6 +659,74 @@ $np-green-badge: #E0FFE0;
         color: $np-taupe;
         font-size: $font-size-base;
         font-weight: $font-weight-normal;
+    }
+}
+
+// Lien création de compte sous le formulaire de connexion
+.woocommerce-form-login__register-link{
+    margin: 1rem 0 0;
+    font-size: $font-size-base;
+    color: $np-taupe;
+
+    a{
+        color: $np-teal;
+        font-weight: $font-weight-semibold;
+        text-decoration: underline;
+
+        &:hover{
+            text-decoration: none;
+        }
+    }
+}
+
+// Checkbox "adresse livraison = adresse facturation" (page Adresses)
+.woocommerce-Addresses-ship-to-billing{
+    padding-top: 1.5rem;
+    border-top: 1px solid $np-gray-light;
+
+    .form-row{
+        margin-bottom: 1rem;
+    }
+
+    .woocommerce-form__label{
+        font-weight: $font-weight-normal;
+        color: $np-taupe;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]{
+        margin-right: 0.5em;
+    }
+
+    .button{
+        padding: 0.5em 1.25em;
+        background-color: $np-green-light;
+        color: $np-white;
+        font-weight: $font-weight-semibold;
+        border: none;
+        border-radius: $border-radius-xl;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover{
+            background-color: color.adjust($np-green-light, $lightness: -8%);
+            color: $np-white;
+        }
+    }
+}
+
+// Checkbox "adresse livraison = adresse facturation" (formulaire édition)
+.woocommerce-form-row--ship-to-billing{
+    margin-bottom: 1.5rem;
+
+    .woocommerce-form__label{
+        font-weight: $font-weight-normal;
+        color: $np-taupe;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]{
+        margin-right: 0.5em;
     }
 }
 

@@ -768,6 +768,32 @@ input, select, textarea {
   flex: 2.55 1 0;
 }
 
+.wp-block-naturapets-icone {
+  width: fit-content;
+}
+
+.np-icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #8a9a7b;
+}
+
+.np-icone__img {
+  width: 36px;
+  height: 36px;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
 .np-header {
   background-color: #ffffff;
 }
@@ -847,6 +873,233 @@ input, select, textarea {
 
 body {
   scroll-behavior: smooth;
+}
+
+.np-contact-page {
+  min-height: 60vh;
+}
+
+.np-contact {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.np-contact__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.np-contact__title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: #405C4D;
+  margin: 0 0 0.5rem;
+}
+
+.np-contact__subtitle {
+  font-size: 1rem;
+  color: #405C4D;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.np-contact__main {
+  margin-bottom: 2.5rem;
+}
+@media (max-width: 767px) {
+  .np-contact__main {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .np-contact__col-left {
+    flex-basis: 100% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .np-contact__col-right {
+    flex-basis: 100% !important;
+  }
+}
+
+.np-contact__section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #405C4D;
+  margin: 0 0 1rem;
+}
+
+.np-contact__coords {
+  margin-bottom: 2rem;
+}
+
+.np-contact__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.np-contact__icon {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #405C4D;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.np-contact__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.np-contact__item-content strong {
+  display: block;
+  font-size: 1rem;
+  color: #405C4D;
+  margin-bottom: 0.25rem;
+}
+.np-contact__item-content p {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #405C4D;
+}
+
+.np-contact__item-note {
+  font-size: 0.875rem;
+  color: #405C4D;
+  opacity: 0.8;
+}
+
+.np-contact__schedule {
+  margin: 0;
+}
+
+.np-contact__schedule-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(64, 92, 77, 0.15);
+}
+.np-contact__schedule-row:last-child {
+  border-bottom: none;
+}
+.np-contact__schedule-row dt, .np-contact__schedule-row dd {
+  margin: 0;
+  font-size: 1rem;
+  color: #405C4D;
+}
+
+.np-contact__form-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8e6e4;
+}
+.np-contact__form-card .wpcf7 {
+  margin-top: 1rem;
+}
+.np-contact__form-card .wpcf7-form-control:not([type=submit]) {
+  width: 100%;
+  padding: 0.6em 1em;
+  border: 1px solid #e8e6e4;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: rgba(232, 230, 228, 0.3);
+}
+.np-contact__form-card .wpcf7-form-control:not([type=submit]):focus {
+  outline: none;
+  border-color: #405C4D;
+}
+.np-contact__form-card .wpcf7-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.np-contact__form-card .wpcf7-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.6em 1.25em;
+  background-color: #6B8E7C;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.np-contact__form-card .wpcf7-submit:hover {
+  background: rgb(89.4674698795, 118.7325301205, 103.6819277108);
+  color: #ffffff;
+}
+
+.np-contact__urgent {
+  background-color: #6B8E7C;
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #ffffff;
+}
+
+.np-contact__urgent-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+}
+
+.np-contact__urgent-desc {
+  font-size: 1rem;
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.np-contact__urgent-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 1.25em;
+  background: rgb(149.7831325301, 175.7168674699, 162.3795180723);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 1rem;
+  transition: background 0.2s ease;
+}
+.np-contact__urgent-btn:hover {
+  background: rgb(129.4240963855, 160.3759036145, 144.4578313253);
+  color: #ffffff;
+}
+
+.np-contact__faq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.np-contact__faq-list li {
+  margin-bottom: 0.75rem;
+}
+.np-contact__faq-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: #405C4D;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+.np-contact__faq-list a:hover {
+  color: #6B8E7C;
 }
 
 .single-product .wp-block-column:nth-child(2) {
@@ -1121,6 +1374,28 @@ body {
 .profile-summary__icon {
   flex-shrink: 0;
 }
+.profile-summary__delete {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8e6e4;
+}
+.profile-summary__delete-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5em 1.25em;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.profile-summary__delete-btn:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
+  color: #ffffff;
+}
 .profile-summary__card {
   background: #ffffff;
   border-radius: 1rem;
@@ -1375,6 +1650,104 @@ body {
   height: auto;
 }
 
+.np-delete-account-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.np-delete-account-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.np-delete-account-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.np-delete-account-modal__content {
+  position: relative;
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+.np-delete-account-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #5c5346;
+}
+.np-delete-account-modal__close:hover {
+  color: #4F6B4C;
+}
+.np-delete-account-modal__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #4F6B4C;
+  margin: 0 0 1rem;
+}
+.np-delete-account-modal__text {
+  font-size: 1rem;
+  color: #5c5346;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+}
+.np-delete-account-modal__form {
+  margin: 0;
+}
+.np-delete-account-modal__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.np-delete-account-modal__cancel {
+  padding: 0.5em 1.25em;
+  background: rgba(92, 83, 70, 0.2);
+  color: #5c5346;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.np-delete-account-modal__cancel:hover {
+  background: rgba(92, 83, 70, 0.15);
+  color: #5c5346;
+}
+.np-delete-account-modal__confirm {
+  padding: 0.5em 1.25em;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.np-delete-account-modal__confirm:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
+  color: #ffffff;
+}
+
 .woocommerce-Addresses h2 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -1386,6 +1759,62 @@ body {
   color: #5c5346;
   font-size: 1rem;
   font-weight: 400;
+}
+
+.woocommerce-form-login__register-link {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  color: #5c5346;
+}
+.woocommerce-form-login__register-link a {
+  color: #2d6a6a;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.woocommerce-form-login__register-link a:hover {
+  text-decoration: none;
+}
+
+.woocommerce-Addresses-ship-to-billing {
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8e6e4;
+}
+.woocommerce-Addresses-ship-to-billing .form-row {
+  margin-bottom: 1rem;
+}
+.woocommerce-Addresses-ship-to-billing .woocommerce-form__label {
+  font-weight: 400;
+  color: #5c5346;
+  cursor: pointer;
+}
+.woocommerce-Addresses-ship-to-billing input[type=checkbox] {
+  margin-right: 0.5em;
+}
+.woocommerce-Addresses-ship-to-billing .button {
+  padding: 0.5em 1.25em;
+  background-color: #8CD28A;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.woocommerce-Addresses-ship-to-billing .button:hover {
+  background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
+  color: #ffffff;
+}
+
+.woocommerce-form-row--ship-to-billing {
+  margin-bottom: 1.5rem;
+}
+.woocommerce-form-row--ship-to-billing .woocommerce-form__label {
+  font-weight: 400;
+  color: #5c5346;
+  cursor: pointer;
+}
+.woocommerce-form-row--ship-to-billing input[type=checkbox] {
+  margin-right: 0.5em;
 }
 
 .woocommerce-EditAccountForm label {
@@ -1599,6 +2028,21 @@ body {
   width: 100%;
   max-width: 100%;
   padding: 0;
+  margin: 0;
+}
+
+body.np-hide-page-title .entry-header {
+  display: none;
+}
+
+.np-account-deleted-notice {
+  background: #e0ffe0;
+  color: #4f6b4c;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+.np-account-deleted-notice p {
   margin: 0;
 }
 

@@ -1,0 +1,255 @@
+// ==========================================================================
+// Page Contact
+// ==========================================================================
+
+@use '../abstracts/variables' as *;
+@use 'sass:color';
+
+$np-contact-green: #405C4D;
+$np-contact-green-light: #6B8E7C;
+$np-contact-bg: #F8F6F1;
+
+.np-contact-page {
+  min-height: 60vh;
+}
+
+.np-contact {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.np-contact__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.np-contact__title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: $font-weight-bold;
+  color: $np-contact-green;
+  margin: 0 0 0.5rem;
+}
+
+.np-contact__subtitle {
+  font-size: $font-size-base;
+  color: $np-contact-green;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.np-contact__main {
+  margin-bottom: 2.5rem;
+
+  @media (max-width: 767px) {
+    flex-direction: column !important;
+  }
+}
+
+.np-contact__col-left {
+  @media (max-width: 767px) {
+    flex-basis: 100% !important;
+  }
+}
+
+.np-contact__col-right {
+  @media (max-width: 767px) {
+    flex-basis: 100% !important;
+  }
+}
+
+.np-contact__section-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $np-contact-green;
+  margin: 0 0 1rem;
+}
+
+// Coordonnées
+.np-contact__coords {
+  margin-bottom: 2rem;
+}
+
+.np-contact__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.np-contact__icon {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: $np-contact-green;
+  color: $np-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.np-contact__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.np-contact__item-content {
+  strong {
+    display: block;
+    font-size: $font-size-base;
+    color: $np-contact-green;
+    margin-bottom: 0.25rem;
+  }
+  p {
+    margin: 0 0 0.25rem;
+    font-size: $font-size-base;
+    color: $np-contact-green;
+  }
+}
+
+.np-contact__item-note {
+  font-size: $font-size-sm;
+  color: $np-contact-green;
+  opacity: 0.8;
+}
+
+// Heures d'ouverture
+.np-contact__schedule {
+  margin: 0;
+}
+
+.np-contact__schedule-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba($np-contact-green, 0.15);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  dt, dd {
+    margin: 0;
+    font-size: $font-size-base;
+    color: $np-contact-green;
+  }
+}
+
+// Carte formulaire
+.np-contact__form-card {
+  background: $np-white;
+  border-radius: $border-radius-xl;
+  padding: 2rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid $np-gray-light;
+
+  .wpcf7 {
+    margin-top: 1rem;
+  }
+
+  .wpcf7-form-control:not([type="submit"]) {
+    width: 100%;
+    padding: 0.6em 1em;
+    border: 1px solid $np-gray-light;
+    border-radius: $border-radius-lg;
+    font-size: $font-size-base;
+    background: rgba($np-gray-light, 0.3);
+
+    &:focus {
+      outline: none;
+      border-color: $np-contact-green;
+    }
+  }
+
+  .wpcf7-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .wpcf7-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.6em 1.25em;
+    background-color: $np-contact-green-light;
+    color: $np-white;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: color.adjust($np-contact-green-light, $lightness: -8%);
+      color: $np-white;
+    }
+  }
+}
+
+// Aide urgente
+.np-contact__urgent {
+  background-color: $np-contact-green-light;
+  border-radius: $border-radius-xl;
+  padding: 2rem;
+  color: $np-white;
+}
+
+.np-contact__urgent-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $np-white;
+  margin: 0 0 0.75rem;
+}
+
+.np-contact__urgent-desc {
+  font-size: $font-size-base;
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.np-contact__urgent-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 1.25em;
+  background: color.adjust($np-contact-green-light, $lightness: 15%);
+  color: $np-white;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  border-radius: $border-radius-xl;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: color.adjust($np-contact-green-light, $lightness: 8%);
+    color: $np-white;
+  }
+}
+
+// FAQ
+.np-contact__faq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin-bottom: 0.75rem;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    color: $np-contact-green;
+    text-decoration: none;
+    font-size: $font-size-base;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $np-contact-green-light;
+    }
+  }
+}

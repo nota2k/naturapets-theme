@@ -32,7 +32,16 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 		<div class="woocommerce-address-fields">
 			<?php do_action( "woocommerce_before_edit_address_form_{$load_address}" ); ?>
 
-			<div class="woocommerce-address-fields__field-wrapper">
+			<?php if ( 'shipping' === $load_address && wc_shipping_enabled() ) : ?>
+			<p class="form-row form-row-wide woocommerce-form-row--ship-to-billing">
+				<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
+					<input type="checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" name="ship_to_billing_address" id="ship_to_billing_address" value="1" <?php checked( naturapets_shipping_same_as_billing(), true ); ?> />
+					<span><?php esc_html_e( "L'adresse de livraison est identique à l'adresse de facturation", 'naturapets' ); ?></span>
+				</label>
+			</p>
+			<?php endif; ?>
+
+			<div class="woocommerce-address-fields__field-wrapper"<?php echo ( 'shipping' === $load_address ) ? ' id="shipping-address-fields"' : ''; ?>>
 				<?php
 				foreach ( $address as $key => $field ) {
 					woocommerce_form_field( $key, $field, wc_get_post_data_by_key( $key, $field['value'] ) );

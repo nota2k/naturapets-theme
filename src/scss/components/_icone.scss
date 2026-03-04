@@ -1,0 +1,32 @@
+// ==========================================================================
+// Bloc Icône – cercle 60×60 avec image au centre et fond personnalisable
+// ==========================================================================
+
+@use '../abstracts/variables' as *;
+
+// Largeur = contenu pour que l'alignement parent (gauche/centre/droite) fonctionne
+.wp-block-naturapets-icone {
+  width: fit-content;
+}
+
+.np-icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #8a9a7b; // Fallback si pas de couleur ACF
+}
+
+.np-icone__img {
+  width: 36px;
+  height: 36px;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}

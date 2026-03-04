@@ -32,6 +32,118 @@ function naturapets_allow_svg_upload($mimes)
 add_filter('upload_mimes', 'naturapets_allow_svg_upload');
 
 /**
+ * Activer l'inscription sur la page Mon compte (affichage du formulaire « Créer un compte »).
+ */
+function naturapets_enable_myaccount_registration($value)
+{
+	return 'yes';
+}
+add_filter('option_woocommerce_enable_myaccount_registration', 'naturapets_enable_myaccount_registration');
+
+/**
+ * Permettre à l'utilisateur de créer son mot de passe à l'inscription (au lieu d'en recevoir un par email).
+ */
+function naturapets_registration_generate_password($value)
+{
+	return 'no';
+}
+add_filter('option_woocommerce_registration_generate_password', 'naturapets_registration_generate_password');
+
+/**
+ * Valider la confirmation du mot de passe à l'inscription.
+ */
+function naturapets_validate_registration_password_confirmation($errors, $username, $password, $email)
+{
+	if (empty($_POST['password_confirm']) || (isset($_POST['password']) && $_POST['password'] !== $_POST['password_confirm'])) {
+		$errors->add('password_mismatch', __('Les mots de passe ne correspondent pas.', 'naturapets'));
+	}
+	return $errors;
+}
+add_filter('woocommerce_process_registration_errors', 'naturapets_validate_registration_password_confirmation', 10, 4);
+
+/**
+ * Vérifier si l'adresse de livraison est identique à l'adresse de facturation.
+ */
+function naturapets_shipping_same_as_billing()
+{
+	$user_id = get_current_user_id();
+	if (!$user_id || !function_exists('WC')) {
+		return false;
+	}
+	$customer = new WC_Customer($user_id);
+	$billing_keys = array('first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country');
+	foreach ($billing_keys as $key) {
+		$billing_val = $customer->{"get_billing_{$key}"}();
+		$shipping_val = $customer->{"get_shipping_{$key}"}();
+		if ($billing_val !== $shipping_val) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * Copier l'adresse de facturation vers l'adresse de livraison quand la checkbox est cochée.
+ */
+function naturapets_copy_billing_to_shipping_on_save()
+{
+	if (empty($_POST['ship_to_billing_address']) || $_POST['ship_to_billing_address'] !== '1') {
+		return;
+	}
+	if (empty($_POST['action']) || $_POST['action'] !== 'edit_address') {
+		return;
+	}
+	global $wp;
+	$address_type = isset($wp->query_vars['edit-address']) ? wc_edit_address_i18n(sanitize_title($wp->query_vars['edit-address']), true) : '';
+	if ($address_type !== 'shipping') {
+		return;
+	}
+	$user_id = get_current_user_id();
+	if ($user_id <= 0 || !function_exists('WC')) {
+		return;
+	}
+	$customer = new WC_Customer($user_id);
+	$billing_keys = array('first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country');
+	foreach ($billing_keys as $key) {
+		$value = $customer->{"get_billing_{$key}"}();
+		$_POST['shipping_' . $key] = $value;
+	}
+}
+add_action('template_redirect', 'naturapets_copy_billing_to_shipping_on_save', 5);
+
+/**
+ * Traiter la checkbox "adresse livraison = facturation" sur la page Adresses.
+ */
+function naturapets_handle_ship_to_billing_from_addresses_page()
+{
+	if (empty($_POST['naturapets_apply_ship_to_billing']) || empty($_POST['naturapets_ship_to_billing_nonce'])) {
+		return;
+	}
+	if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['naturapets_ship_to_billing_nonce'])), 'naturapets_ship_to_billing')) {
+		return;
+	}
+	$user_id = get_current_user_id();
+	if ($user_id <= 0 || !function_exists('WC')) {
+		return;
+	}
+	if (empty($_POST['ship_to_billing_address']) || $_POST['ship_to_billing_address'] !== '1') {
+		wp_safe_redirect(wc_get_endpoint_url('edit-address', '', wc_get_page_permalink('myaccount')));
+		exit;
+	}
+	$customer = new WC_Customer($user_id);
+	$billing_keys = array('first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country');
+	foreach ($billing_keys as $key) {
+		$value = $customer->{"get_billing_{$key}"}();
+		$customer->{"set_shipping_{$key}"}($value);
+	}
+	$customer->save();
+	wc_add_notice(__("L'adresse de livraison a été mise à jour avec l'adresse de facturation.", 'naturapets'), 'success');
+	wp_safe_redirect(wc_get_endpoint_url('edit-address', '', wc_get_page_permalink('myaccount')));
+	exit;
+}
+add_action('template_redirect', 'naturapets_handle_ship_to_billing_from_addresses_page', 5);
+
+/**
  * Corriger la détection du type MIME des SVG.
  */
 function naturapets_fix_svg_mime_type($data, $file, $filename, $mimes)
@@ -134,33 +246,70 @@ function naturapets_myaccount_qr_modal_script()
 	<script>
 	(function() {
 		document.addEventListener('DOMContentLoaded', function() {
-			var triggers = document.querySelectorAll('.animal-card__qr-trigger');
+			// Modal QR Code (page Mes animaux)
 			var modal = document.getElementById('animal-qr-modal');
-			if (!modal) return;
-			var img = modal.querySelector('.animal-qr-modal__img');
-			var title = modal.querySelector('.animal-qr-modal__title');
-			var backdrop = modal.querySelector('.animal-qr-modal__backdrop');
-			var closeBtn = modal.querySelector('.animal-qr-modal__close');
-			function openModal(url, name) {
-				if (img) img.src = url;
-				if (title) title.textContent = 'QR Code - ' + (name || '');
-				modal.classList.add('is-open');
-				modal.setAttribute('aria-hidden', 'false');
-			}
-			function closeModal() {
-				modal.classList.remove('is-open');
-				modal.setAttribute('aria-hidden', 'true');
-			}
-			triggers.forEach(function(btn) {
-				btn.addEventListener('click', function() {
-					openModal(btn.getAttribute('data-qr-url'), btn.getAttribute('data-animal-name'));
+			if (modal) {
+				var triggers = document.querySelectorAll('.animal-card__qr-trigger');
+				var img = modal.querySelector('.animal-qr-modal__img');
+				var title = modal.querySelector('.animal-qr-modal__title');
+				var backdrop = modal.querySelector('.animal-qr-modal__backdrop');
+				var closeBtn = modal.querySelector('.animal-qr-modal__close');
+				function openModal(url, name) {
+					if (img) img.src = url;
+					if (title) title.textContent = 'QR Code - ' + (name || '');
+					modal.classList.add('is-open');
+					modal.setAttribute('aria-hidden', 'false');
+				}
+				function closeModal() {
+					modal.classList.remove('is-open');
+					modal.setAttribute('aria-hidden', 'true');
+				}
+				triggers.forEach(function(btn) {
+					btn.addEventListener('click', function() {
+						openModal(btn.getAttribute('data-qr-url'), btn.getAttribute('data-animal-name'));
+					});
 				});
-			});
-			if (backdrop) backdrop.addEventListener('click', closeModal);
-			if (closeBtn) closeBtn.addEventListener('click', closeModal);
-			document.addEventListener('keydown', function(e) {
-				if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
-			});
+				if (backdrop) backdrop.addEventListener('click', closeModal);
+				if (closeBtn) closeBtn.addEventListener('click', closeModal);
+				document.addEventListener('keydown', function(e) {
+					if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+				});
+			}
+
+			// Modal suppression de compte (page Profil)
+			var deleteTrigger = document.getElementById('np-delete-account-trigger');
+			var deleteModal = document.getElementById('np-delete-account-modal');
+			if (deleteTrigger && deleteModal) {
+				var deleteBackdrop = deleteModal.querySelector('.np-delete-account-modal__backdrop');
+				var deleteClose = deleteModal.querySelector('.np-delete-account-modal__close');
+				var deleteCancel = deleteModal.querySelector('.np-delete-account-modal__cancel');
+				function openDeleteModal() {
+					deleteModal.classList.add('is-open');
+					deleteModal.setAttribute('aria-hidden', 'false');
+				}
+				function closeDeleteModal() {
+					deleteModal.classList.remove('is-open');
+					deleteModal.setAttribute('aria-hidden', 'true');
+				}
+				deleteTrigger.addEventListener('click', openDeleteModal);
+				if (deleteBackdrop) deleteBackdrop.addEventListener('click', closeDeleteModal);
+				if (deleteClose) deleteClose.addEventListener('click', closeDeleteModal);
+				if (deleteCancel) deleteCancel.addEventListener('click', closeDeleteModal);
+				document.addEventListener('keydown', function(e) {
+					if (e.key === 'Escape' && deleteModal.classList.contains('is-open')) closeDeleteModal();
+				});
+			}
+
+			// Checkbox "adresse livraison = adresse facturation"
+			var shipToBilling = document.getElementById('ship_to_billing_address');
+			var shippingFields = document.getElementById('shipping-address-fields');
+			if (shipToBilling && shippingFields) {
+				function toggleShippingFields() {
+					shippingFields.style.display = shipToBilling.checked ? 'none' : '';
+				}
+				toggleShippingFields();
+				shipToBilling.addEventListener('change', toggleShippingFields);
+			}
 		});
 	})();
 	</script>
@@ -204,6 +353,112 @@ function naturapets_enqueue_editor_styles()
 add_action('enqueue_block_editor_assets', 'naturapets_enqueue_editor_styles');
 
 /**
+ * Option "Afficher le titre" dans les paramètres de page.
+ */
+function naturapets_register_hide_page_title_meta()
+{
+	register_post_meta('page', 'naturapets_hide_page_title', array(
+		'show_in_rest'  => true,
+		'single'        => true,
+		'type'          => 'boolean',
+		'default'       => true,
+		'auth_callback' => function ($allowed, $meta_key, $post_id) {
+			return current_user_can('edit_post', $post_id);
+		},
+	));
+}
+add_action('init', 'naturapets_register_hide_page_title_meta');
+
+/**
+ * Traiter la demande de suppression de compte utilisateur.
+ */
+function naturapets_handle_delete_account()
+{
+	if (empty($_POST['naturapets_delete_account']) || empty($_POST['naturapets_delete_account_nonce'])) {
+		return;
+	}
+	if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['naturapets_delete_account_nonce'])), 'naturapets_delete_account')) {
+		wp_die(esc_html__('Erreur de sécurité. Veuillez réessayer.', 'naturapets'), '', array('response' => 403));
+	}
+	$user_id = get_current_user_id();
+	if (!$user_id) {
+		wp_safe_redirect(wc_get_page_permalink('myaccount'));
+		exit;
+	}
+	require_once ABSPATH . 'wp-admin/includes/user.php';
+	wp_logout();
+	$deleted = wp_delete_user($user_id, 0);
+	if ($deleted) {
+		wp_safe_redirect(home_url('/?account_deleted=1'));
+	} else {
+		wp_safe_redirect(wc_get_page_permalink('myaccount'));
+	}
+	exit;
+}
+add_action('init', 'naturapets_handle_delete_account', 5);
+
+/**
+ * Afficher un message de confirmation après suppression du compte.
+ */
+function naturapets_account_deleted_notice()
+{
+	if (!isset($_GET['account_deleted']) || $_GET['account_deleted'] !== '1') {
+		return;
+	}
+	?>
+	<div class="np-account-deleted-notice" role="status">
+		<p>Votre compte a été supprimé avec succès.</p>
+	</div>
+	<?php
+}
+add_action('wp_body_open', 'naturapets_account_deleted_notice', 5);
+
+function naturapets_enqueue_hide_title_editor_script()
+{
+	$deps = array('wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n');
+	$ver  = filemtime(get_stylesheet_directory() . '/assets/js/hide-title-editor.js');
+
+	wp_enqueue_script(
+		'naturapets-hide-title',
+		get_stylesheet_directory_uri() . '/assets/js/hide-title-editor.js',
+		$deps,
+		$ver ?: NATURAPETS_VERSION,
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'naturapets_enqueue_hide_title_editor_script');
+
+function naturapets_hide_page_title_render_block($block_content, $block, $instance)
+{
+	if ($block['blockName'] !== 'core/post-title') {
+		return $block_content;
+	}
+	if (!is_singular('page')) {
+		return $block_content;
+	}
+	$hide = get_post_meta(get_the_ID(), 'naturapets_hide_page_title', true);
+	// Par défaut (meta vide) = titre masqué
+	if ($hide === true || $hide === '1' || $hide === '') {
+		return '';
+	}
+	return $block_content;
+}
+add_filter('render_block', 'naturapets_hide_page_title_render_block', 10, 3);
+
+function naturapets_hide_page_title_body_class($classes)
+{
+	if (!is_singular('page')) {
+		return $classes;
+	}
+	$hide = get_post_meta(get_the_ID(), 'naturapets_hide_page_title', true);
+	if ($hide === true || $hide === '1' || $hide === '') {
+		$classes[] = 'np-hide-page-title';
+	}
+	return $classes;
+}
+add_filter('body_class', 'naturapets_hide_page_title_body_class');
+
+/**
  * ==========================================================================
  * BLOC ACF – Section Hero (design Figma – grille 2x2)
  * ==========================================================================
@@ -244,6 +499,10 @@ function naturapets_register_hero_block()
 	$product_gallery_path = get_stylesheet_directory() . '/blocks/product-gallery';
 	if (file_exists($product_gallery_path . '/block.json')) {
 		register_block_type($product_gallery_path);
+	}
+	$icone_path = get_stylesheet_directory() . '/blocks/icone';
+	if (file_exists($icone_path . '/block.json')) {
+		register_block_type($icone_path);
 	}
 }
 add_action('init', 'naturapets_register_hero_block');
@@ -600,6 +859,51 @@ function naturapets_testimonial_field_group()
 	);
 }
 add_action('acf/init', 'naturapets_testimonial_field_group');
+
+/**
+ * Groupe de champs ACF pour le bloc Icône.
+ */
+function naturapets_icone_field_group()
+{
+	if (! function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_naturapets_icone',
+			'title'                 => 'Bloc Icône – Champs',
+			'fields'                => array(
+				array(
+					'key'           => 'field_icone_image',
+					'label'         => 'Image',
+					'name'          => 'icone_image',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'thumbnail',
+					'instructions'  => __('Image affichée au centre du cercle. Taille max 60×60 px.', 'naturapets'),
+				),
+				array(
+					'key'           => 'field_icone_background',
+					'label'         => 'Couleur de fond',
+					'name'          => 'icone_background',
+					'type'          => 'color_picker',
+					'default_value' => '#8a9a7b',
+					'instructions'  => __('Couleur du cercle de fond.', 'naturapets'),
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'naturapets/icone',
+					),
+				),
+			),
+		)
+	);
+}
+add_action('acf/init', 'naturapets_icone_field_group');
 
 /**
  * Groupe de champs ACF pour le bloc Galerie produit (design Figma 4-129).
