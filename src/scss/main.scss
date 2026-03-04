@@ -22,6 +22,7 @@
 @use 'components/testimonial';
 @use 'components/product-gallery';
 @use 'components/icone';
+@use 'components/top-banner';
 
 // Layout
 @use 'layout/header';
@@ -40,11 +41,6 @@
 @use 'woocommerce/checkout';
 @use 'woocommerce/myaccount';
 
-
-// Masquer l'en-tête de page quand l'option "Afficher le titre" est désactivée
-body.np-hide-page-title .entry-header {
-  display: none;
-}
 
 // Notice suppression de compte (page d'accueil)
 .np-account-deleted-notice {

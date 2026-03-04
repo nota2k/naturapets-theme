@@ -235,6 +235,86 @@ function naturapets_enqueue_styles()
 add_action('wp_enqueue_scripts', 'naturapets_enqueue_styles');
 
 /**
+ * ==========================================================================
+ * BANDEAU DU HAUT – Options du thème (Customizer)
+ * ==========================================================================
+ */
+
+/**
+ * Enregistrer les options du bandeau dans le Customizer.
+ */
+function naturapets_customize_register_banner($wp_customize)
+{
+	$wp_customize->add_section(
+		'np_top_banner',
+		array(
+			'title'    => __('Bandeau du haut', 'naturapets'),
+			'priority' => 30,
+		)
+	);
+
+	$wp_customize->add_setting(
+		'np_top_banner_enabled',
+		array(
+			'default'           => false,
+			'sanitize_callback'  => 'wp_validate_boolean',
+		)
+	);
+
+	$wp_customize->add_control(
+		'np_top_banner_enabled',
+		array(
+			'label'   => __('Afficher le bandeau', 'naturapets'),
+			'section' => 'np_top_banner',
+			'type'    => 'checkbox',
+		)
+	);
+
+	$wp_customize->add_setting(
+		'np_top_banner_text',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_textarea_field',
+		)
+	);
+
+	$wp_customize->add_control(
+		'np_top_banner_text',
+		array(
+			'label'       => __('Texte du bandeau', 'naturapets'),
+			'description' => __('Ce texte s\'affiche tout en haut de la page lorsque le bandeau est activé.', 'naturapets'),
+			'section'     => 'np_top_banner',
+			'type'        => 'textarea',
+			'input_attrs' => array(
+				'placeholder' => __('Ex. : Livraison offerte à partir de 50 € d\'achat', 'naturapets'),
+			),
+		)
+	);
+}
+add_action('customize_register', 'naturapets_customize_register_banner');
+
+/**
+ * Afficher le bandeau en haut de la page si activé.
+ */
+function naturapets_output_top_banner()
+{
+	if (! get_theme_mod('np_top_banner_enabled', false)) {
+		return;
+	}
+
+	$text = get_theme_mod('np_top_banner_text', '');
+	if (empty(trim($text))) {
+		return;
+	}
+	?>
+	<div class="np-top-banner" role="complementary">
+		<p class="np-top-banner__text"><?php echo wp_kses(nl2br(esc_html($text)), array('br' => array())); ?></p>
+	</div>
+	<?php
+}
+add_action('wp_body_open', 'naturapets_output_top_banner', 1);
+
+/**
  * Script pour la modal QR Code sur la page Mes animaux.
  */
 function naturapets_myaccount_qr_modal_script()
@@ -353,21 +433,30 @@ function naturapets_enqueue_editor_styles()
 add_action('enqueue_block_editor_assets', 'naturapets_enqueue_editor_styles');
 
 /**
- * Option "Afficher le titre" dans les paramètres de page.
+ * Styles pour les pastilles de couleur du bloc Icône (palette du thème).
  */
-function naturapets_register_hide_page_title_meta()
+function naturapets_icone_block_editor_styles()
 {
-	register_post_meta('page', 'naturapets_hide_page_title', array(
-		'show_in_rest'  => true,
-		'single'        => true,
-		'type'          => 'boolean',
-		'default'       => true,
-		'auth_callback' => function ($allowed, $meta_key, $post_id) {
-			return current_user_can('edit_post', $post_id);
-		},
-	));
+	$palette = naturapets_get_theme_color_palette();
+	if (empty($palette)) {
+		return;
+	}
+	$rules = array();
+	foreach (array_keys($palette) as $hex) {
+		$esc_hex = esc_attr($hex);
+		$rules[] = sprintf(
+			'.acf-field[data-name="icone_background"] input[value="%1$s"], .acf-field-field_icone_background input[value="%1$s"] { background-color: %1$s !important; }',
+			$esc_hex
+		);
+	}
+	$css = '.acf-field[data-name="icone_background"] .acf-radio-list, .acf-field-field_icone_background .acf-radio-list { display: flex; flex-wrap: wrap; gap: 8px; } ';
+	$css .= '.acf-field[data-name="icone_background"] .acf-radio-list label, .acf-field-field_icone_background .acf-radio-list label { display: flex; align-items: center; gap: 6px; } ';
+	$css .= '.acf-field[data-name="icone_background"] .acf-radio-list input[type="radio"], .acf-field-field_icone_background .acf-radio-list input[type="radio"] { width: 28px; height: 28px; padding: 0; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px; cursor: pointer; appearance: none; -webkit-appearance: none; } ';
+	$css .= '.acf-field[data-name="icone_background"] .acf-radio-list input[type="radio"]:checked, .acf-field-field_icone_background .acf-radio-list input[type="radio"]:checked { border-color: #1e1e1e; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1e1e1e; } ';
+	$css .= implode(' ', $rules);
+	wp_add_inline_style('naturapets-main', $css);
 }
-add_action('init', 'naturapets_register_hide_page_title_meta');
+add_action('enqueue_block_editor_assets', 'naturapets_icone_block_editor_styles', 20);
 
 /**
  * Traiter la demande de suppression de compte utilisateur.
@@ -412,51 +501,6 @@ function naturapets_account_deleted_notice()
 	<?php
 }
 add_action('wp_body_open', 'naturapets_account_deleted_notice', 5);
-
-function naturapets_enqueue_hide_title_editor_script()
-{
-	$deps = array('wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n');
-	$ver  = filemtime(get_stylesheet_directory() . '/assets/js/hide-title-editor.js');
-
-	wp_enqueue_script(
-		'naturapets-hide-title',
-		get_stylesheet_directory_uri() . '/assets/js/hide-title-editor.js',
-		$deps,
-		$ver ?: NATURAPETS_VERSION,
-		true
-	);
-}
-add_action('enqueue_block_editor_assets', 'naturapets_enqueue_hide_title_editor_script');
-
-function naturapets_hide_page_title_render_block($block_content, $block, $instance)
-{
-	if ($block['blockName'] !== 'core/post-title') {
-		return $block_content;
-	}
-	if (!is_singular('page')) {
-		return $block_content;
-	}
-	$hide = get_post_meta(get_the_ID(), 'naturapets_hide_page_title', true);
-	// Par défaut (meta vide) = titre masqué
-	if ($hide === true || $hide === '1' || $hide === '') {
-		return '';
-	}
-	return $block_content;
-}
-add_filter('render_block', 'naturapets_hide_page_title_render_block', 10, 3);
-
-function naturapets_hide_page_title_body_class($classes)
-{
-	if (!is_singular('page')) {
-		return $classes;
-	}
-	$hide = get_post_meta(get_the_ID(), 'naturapets_hide_page_title', true);
-	if ($hide === true || $hide === '1' || $hide === '') {
-		$classes[] = 'np-hide-page-title';
-	}
-	return $classes;
-}
-add_filter('body_class', 'naturapets_hide_page_title_body_class');
 
 /**
  * ==========================================================================
@@ -861,6 +905,40 @@ function naturapets_testimonial_field_group()
 add_action('acf/init', 'naturapets_testimonial_field_group');
 
 /**
+ * Récupérer la palette de couleurs du thème (theme.json).
+ * Retourne un tableau hex => nom pour les choix ACF (affichage + valeur stockée = hex).
+ */
+function naturapets_get_theme_color_palette()
+{
+	$palette = array();
+	if (class_exists('WP_Theme_JSON_Resolver')) {
+		$theme_json = WP_Theme_JSON_Resolver::get_merged_data();
+		$settings   = $theme_json->get_settings();
+		$raw        = $settings['color']['palette'] ?? array();
+		foreach ($raw as $item) {
+			if (!empty($item['color'])) {
+				$hex = is_string($item['color']) ? $item['color'] : '';
+				if ($hex && preg_match('/^#[0-9a-fA-F]{3,8}$/', $hex)) {
+					$name = isset($item['name']) ? $item['name'] : $item['slug'] ?? $hex;
+					$palette[$hex] = $name;
+				}
+			}
+		}
+	}
+	if (empty($palette)) {
+		$palette = array(
+			'#848A71' => 'Olive',
+			'#C5E3C6' => 'Vert d\'eau',
+			'#774A0A' => 'Brun',
+			'#F4F3EA' => 'Beige',
+			'#FF5E5E' => 'Rouge moyen',
+			'#ffffff' => 'Base',
+		);
+	}
+	return $palette;
+}
+
+/**
  * Groupe de champs ACF pour le bloc Icône.
  */
 function naturapets_icone_field_group()
@@ -868,6 +946,8 @@ function naturapets_icone_field_group()
 	if (! function_exists('acf_add_local_field_group')) {
 		return;
 	}
+	$palette_choices = naturapets_get_theme_color_palette();
+	$default_hex     = array_key_first($palette_choices);
 	acf_add_local_field_group(
 		array(
 			'key'                   => 'group_naturapets_icone',
@@ -886,9 +966,12 @@ function naturapets_icone_field_group()
 					'key'           => 'field_icone_background',
 					'label'         => 'Couleur de fond',
 					'name'          => 'icone_background',
-					'type'          => 'color_picker',
-					'default_value' => '#8a9a7b',
-					'instructions'  => __('Couleur du cercle de fond.', 'naturapets'),
+					'type'          => 'radio',
+					'choices'       => $palette_choices,
+					'default_value' => $default_hex ?: '#848A71',
+					'layout'        => 'horizontal',
+					'return_format' => 'value',
+					'instructions'  => __('Couleur du cercle de fond (palette du thème).', 'naturapets'),
 				),
 			),
 			'location'              => array(

@@ -112,8 +112,9 @@ $np-green-badge: #E0FFE0;
             }
 
             .myaccount-tabs__item.is-active .myaccount-tabs__link{
-                background-color: $np-white;
-                color: $np-green-dark;
+                background-color: var(--wp--preset--color--custom-vert);
+                // color: $np-white;
+                font-weight: $font-weight-bold;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             }
         }
