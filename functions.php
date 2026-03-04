@@ -315,7 +315,7 @@ function naturapets_output_top_banner()
 add_action('wp_body_open', 'naturapets_output_top_banner', 1);
 
 /**
- * Script pour la modal QR Code sur la page Mes animaux.
+ * Script pour la modal QR Code sur la page Mes médaillons.
  */
 function naturapets_myaccount_qr_modal_script()
 {
@@ -326,7 +326,7 @@ function naturapets_myaccount_qr_modal_script()
 	<script>
 	(function() {
 		document.addEventListener('DOMContentLoaded', function() {
-			// Modal QR Code (page Mes animaux)
+			// Modal QR Code (page Mes médaillons)
 			var modal = document.getElementById('animal-qr-modal');
 			if (modal) {
 				var triggers = document.querySelectorAll('.animal-card__qr-trigger');
@@ -1345,7 +1345,7 @@ function naturapets_add_animals_endpoint()
 add_action('init', 'naturapets_add_animals_endpoint');
 
 /**
- * Ajouter la règle de réécriture pour les fiches animaux publiques.
+ * Ajouter la règle de réécriture pour les médaillons publics.
  */
 function naturapets_add_animal_rewrite_rules()
 {
@@ -1374,7 +1374,7 @@ function naturapets_add_animals_menu_item($items)
 	$labels = array(
 		'dashboard'      => 'Profil',
 		'orders'         => 'Commandes',
-		'mes-animaux'    => 'Mes animaux',
+		'mes-animaux'    => 'Mes médaillons',
 		'edit-address'   => 'Adresses',
 		'edit-account'   => 'Sécurité',
 		'payment-methods' => 'Moyens de paiement',
@@ -1392,9 +1392,9 @@ function naturapets_add_animals_menu_item($items)
 		}
 		$new_items[$key] = isset($labels[$key]) ? $labels[$key] : $value;
 
-		// Insérer "Mes animaux" après "Commandes"
+		// Insérer "Mes médaillons" après "Commandes"
 		if ($key === 'orders') {
-			$new_items['mes-animaux'] = 'Mes animaux';
+			$new_items['mes-animaux'] = 'Mes médaillons';
 		}
 	}
 
@@ -1458,13 +1458,13 @@ function naturapets_display_animals_list($customer_id)
 
 	echo '<div class="myaccount-animals">';
 	echo '<div class="myaccount-animals__header">';
-	echo '<h2 class="myaccount-animals__title">Mes animaux</h2>';
-	echo '<p class="myaccount-animals__subtitle">Gérez les fiches de vos animaux</p>';
-	echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="myaccount-animals__add-btn">+ Ajouter un animal</a>';
+	echo '<h2 class="myaccount-animals__title">Mes médaillons</h2>';
+	echo '<p class="myaccount-animals__subtitle">Gérez vos médaillons</p>';
+	echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="myaccount-animals__add-btn">+ Ajouter un médaillon</a>';
 	echo '</div>';
 
 	if (empty($animals)) {
-		echo '<p class="myaccount-animals__empty">Vous n\'avez pas encore d\'animaux enregistrés. Ils apparaîtront ici après votre première commande.</p>';
+		echo '<p class="myaccount-animals__empty">Vous n\'avez pas encore de médaillons enregistrés. Ils apparaîtront ici après votre première commande.</p>';
 		echo '</div>';
 		return;
 	}
@@ -1503,7 +1503,7 @@ function naturapets_display_animals_list($customer_id)
 		echo '<div class="animal-card__actions">';
 		echo '<a href="' . esc_url($edit_url) . '" class="animal-card__btn animal-card__btn--secondary">';
 		echo '<svg class="animal-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
-		echo ' Modifier</a>';
+		echo ' Modifier médaillon</a>';
 		echo '<button type="button" class="animal-card__btn animal-card__btn--secondary animal-card__qr-trigger" data-qr-url="' . esc_attr($qr_url) . '" data-animal-name="' . esc_attr($display_name) . '">';
 		echo '<svg class="animal-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>';
 		echo ' Voir le QR</button>';
@@ -1514,7 +1514,7 @@ function naturapets_display_animals_list($customer_id)
 	echo '</div>';
 	echo '</div>';
 
-	// Modal QR Code (affiché uniquement s'il y a des animaux)
+	// Modal QR Code (affiché uniquement s'il y a des médaillons)
 	echo '<div id="animal-qr-modal" class="animal-qr-modal" aria-hidden="true" role="dialog" aria-labelledby="animal-qr-modal-title">';
 	echo '<div class="animal-qr-modal__backdrop"></div>';
 	echo '<div class="animal-qr-modal__content">';
@@ -1532,7 +1532,7 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 	// Vérifier que l'animal appartient bien au client
 	$animal_customer = get_post_meta($animal_id, '_customer_id', true);
 	if (!$animal || $animal->post_type !== 'animal' || $animal_customer != $customer_id) {
-		echo '<p>Animal non trouvé.</p>';
+		echo '<p>Médaillon non trouvé.</p>';
 		echo '<a href="' . esc_url(wc_get_account_endpoint_url('mes-animaux')) . '">&larr; Retour à la liste</a>';
 		return;
 	}
@@ -1574,7 +1574,7 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 			));
 		}
 
-		wc_add_notice('Les informations de votre animal ont été enregistrées.', 'success');
+		wc_add_notice('Les informations de votre médaillon ont été enregistrées.', 'success');
 	}
 
 	// Récupérer les données ACF
@@ -1591,11 +1591,11 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 ?>
 	<p><a href="<?php echo esc_url(wc_get_account_endpoint_url('mes-animaux')); ?>">&larr; Retour à la liste</a></p>
 
-	<h2>Informations de l'animal</h2>
+	<h2>Informations du médaillon</h2>
 
 	
 
-	<form method="post" enctype="multipart/form-data" class="woocommerce-EditAccountForm edit-account edit-account-form-fiche-animal">
+	<form method="post" enctype="multipart/form-data" class="woocommerce-EditAccountForm edit-account edit-account-form-medaillon">
 		<?php wp_nonce_field('save_animal_' . $animal_id); ?>
 		<div class="row-animal-photo">
 			<?php
@@ -1753,7 +1753,7 @@ function naturapets_add_order_animals_metabox()
 
 	add_meta_box(
 		'naturapets_order_animals',
-		'Animaux liés à cette commande',
+		'Médaillons liés à cette commande',
 		'naturapets_order_animals_metabox_content',
 		$screen,
 		'normal',
@@ -1763,11 +1763,55 @@ function naturapets_add_order_animals_metabox()
 add_action('add_meta_boxes', 'naturapets_add_order_animals_metabox');
 
 /**
+ * Télécharger le QR code d'un animal (proxy pour forcer le téléchargement).
+ */
+function naturapets_admin_download_qrcode()
+{
+	if (!isset($_GET['naturapets_qr_download']) || !isset($_GET['animal_id']) || !isset($_GET['nonce'])) {
+		return;
+	}
+
+	$animal_id = absint($_GET['animal_id']);
+	if (!$animal_id || !wp_verify_nonce(sanitize_text_field($_GET['nonce']), 'download_qr_' . $animal_id)) {
+		wp_die(__('Lien invalide ou expiré.', 'naturapets'));
+	}
+
+	if (!current_user_can('edit_others_posts')) {
+		wp_die(__('Accès non autorisé.', 'naturapets'));
+	}
+
+	$animal = get_post($animal_id);
+	if (!$animal || $animal->post_type !== 'animal') {
+		wp_die(__('Médaillon introuvable.', 'naturapets'));
+	}
+
+	$animal_url = naturapets_get_animal_url($animal_id);
+	$qr_url = naturapets_get_qrcode_download_url($animal_url, 300);
+
+	$response = wp_remote_get($qr_url, array('timeout' => 15));
+	if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+		wp_die(__('Impossible de générer le QR code.', 'naturapets'));
+	}
+
+	$body = wp_remote_retrieve_body($response);
+	$nom = get_field('nom', $animal_id);
+	$filename = 'qrcode-animal-' . $animal_id . '-' . ($nom ? sanitize_file_name($nom) : 'animal') . '.png';
+
+	header('Content-Type: image/png');
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+	header('Content-Length: ' . strlen($body));
+	echo $body;
+	exit;
+}
+add_action('admin_init', 'naturapets_admin_download_qrcode');
+
+/**
  * Contenu de la metabox des animaux sur une commande.
  */
 function naturapets_order_animals_metabox_content($post_or_order)
 {
-	$order_id = $post_or_order instanceof WC_Order ? $post_or_order->get_id() : $post_or_order->ID;
+	$order = $post_or_order instanceof WC_Order ? $post_or_order : wc_get_order($post_or_order->ID);
+	$order_id = $order ? $order->get_id() : ($post_or_order->ID ?? 0);
 
 	$animals = get_posts(array(
 		'post_type' => 'animal',
@@ -1778,10 +1822,13 @@ function naturapets_order_animals_metabox_content($post_or_order)
 	));
 
 	if (empty($animals)) {
-		echo '<p>Aucun animal associé à cette commande.</p>';
-		echo '<p><em>Les animaux sont créés automatiquement lorsque la commande passe en statut "En cours" ou "Terminée".</em></p>';
+		echo '<p>Aucun médaillon associé à cette commande.</p>';
+		echo '<p><em>Les médaillons sont créés automatiquement lorsque la commande passe en statut "En cours" ou "Terminée".</em></p>';
 		return;
 	}
+
+	$order_validated = $order && in_array($order->get_status(), array('processing', 'completed'), true);
+	$show_qrcode = $order_validated;
 
 	echo '<table class="widefat striped">';
 	echo '<thead><tr>';
@@ -1790,12 +1837,14 @@ function naturapets_order_animals_metabox_content($post_or_order)
 	echo '<th>Téléphone</th>';
 	echo '<th>Allergies</th>';
 	echo '<th>Produit</th>';
+	if ($show_qrcode) {
+		echo '<th>QR Code</th>';
+	}
 	echo '<th>Actions</th>';
 	echo '</tr></thead>';
 	echo '<tbody>';
 
 	foreach ($animals as $animal) {
-		// Utiliser les champs ACF
 		$nom = get_field('nom', $animal->ID);
 		$photo = get_field('photo-animal', $animal->ID);
 		$telephone = get_field('telephone', $animal->ID);
@@ -1817,7 +1866,24 @@ function naturapets_order_animals_metabox_content($post_or_order)
 		echo '<td>' . ($telephone ? esc_html($telephone) : '-') . '</td>';
 		echo '<td>' . ($allergies ? esc_html(wp_trim_words($allergies, 5, '...')) : '-') . '</td>';
 		echo '<td>' . ($product ? esc_html($product->get_name()) : '-') . '</td>';
-		echo '<td><a href="' . get_edit_post_link($animal->ID) . '" class="button button-small">Modifier</a></td>';
+
+		if ($show_qrcode) {
+			$animal_url = naturapets_get_animal_url($animal->ID);
+			$qr_url = naturapets_get_qrcode_url($animal_url, 80);
+			$download_url = add_query_arg(array(
+				'naturapets_qr_download' => '1',
+				'animal_id' => $animal->ID,
+				'nonce' => wp_create_nonce('download_qr_' . $animal->ID),
+			), admin_url('index.php'));
+			echo '<td style="vertical-align: middle;">';
+			echo '<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">';
+			echo '<img src="' . esc_url($qr_url) . '" width="60" height="60" alt="QR Code" style="flex-shrink: 0;" />';
+			echo '<a href="' . esc_url($download_url) . '" class="button button-small">Télécharger</a>';
+			echo '</div>';
+			echo '</td>';
+		}
+
+		echo '<td><a href="' . get_edit_post_link($animal->ID) . '" class="button button-small">Modifier médaillon</a></td>';
 		echo '</tr>';
 	}
 
@@ -1936,7 +2002,204 @@ function naturapets_animal_sortable_columns($columns)
 add_filter('manage_edit-animal_sortable_columns', 'naturapets_animal_sortable_columns');
 
 /**
- * Ajouter un lien vers les animaux du client dans la page utilisateur.
+ * Récupérer le terme de catégorie "Médaillon" (slug ou nom).
+ */
+function naturapets_get_medaillon_category()
+{
+	$term = get_term_by('slug', 'medaillon', 'product_cat');
+	if (!$term) {
+		$term = get_term_by('slug', 'médaillon', 'product_cat');
+	}
+	if (!$term) {
+		$terms = get_terms(array('taxonomy' => 'product_cat', 'search' => 'Médaillon', 'hide_empty' => false));
+		$term = !empty($terms) ? $terms[0] : null;
+	}
+	return $term;
+}
+
+/**
+ * Vérifier si un produit appartient à la catégorie Médaillon.
+ */
+function naturapets_product_is_medaillon($product_id)
+{
+	$term = naturapets_get_medaillon_category();
+	if (!$term) {
+		return false;
+	}
+	return has_term($term->term_id, 'product_cat', $product_id);
+}
+
+/**
+ * Vérifier si le médaillon est rempli (nom et type au minimum).
+ */
+function naturapets_animal_fiche_is_filled($animal_id)
+{
+	$nom = get_field('nom', $animal_id);
+	$type = get_field('type_animal', $animal_id);
+	return !empty(trim((string) $nom)) && !empty(trim((string) $type));
+}
+
+/**
+ * Section produits Médaillon sur la page utilisateur (informations client).
+ */
+function naturapets_user_medaillon_products_section($user)
+{
+	if (!current_user_can('manage_woocommerce') && !current_user_can('edit_users')) {
+		return;
+	}
+
+	$medaillon_term = naturapets_get_medaillon_category();
+	if (!$medaillon_term) {
+		echo '<h2>Produits Médaillon</h2>';
+		echo '<p><em>La catégorie produit "Médaillon" n\'existe pas encore. Créez-la dans Produits → Catégories.</em></p>';
+		return;
+	}
+
+	// Traitement de l'ajout manuel d'un produit
+	if (isset($_POST['naturapets_add_medaillon_product']) && wp_verify_nonce($_POST['_wpnonce_medaillon'], 'add_medaillon_' . $user->ID)) {
+		$product_id = isset($_POST['medaillon_product_id']) ? absint($_POST['medaillon_product_id']) : 0;
+		if ($product_id && naturapets_product_is_medaillon($product_id)) {
+			$product = wc_get_product($product_id);
+			if ($product) {
+				$animal_id = wp_insert_post(array(
+					'post_type' => 'animal',
+					'post_title' => sprintf('Animal - %s (ajout manuel)', $product->get_name()),
+					'post_status' => 'publish',
+					'post_author' => $user->ID,
+				));
+				if ($animal_id && !is_wp_error($animal_id)) {
+					update_post_meta($animal_id, '_customer_id', $user->ID);
+					update_post_meta($animal_id, '_product_id', $product_id);
+					update_post_meta($animal_id, '_order_id', 0);
+					update_post_meta($animal_id, '_order_item_id', 0);
+					echo '<div class="notice notice-success"><p>Produit ajouté avec succès. Un médaillon a été créé.</p></div>';
+				}
+			}
+		}
+	}
+
+	// Récupérer les animaux du client dont le produit est dans Médaillon
+	$animals = get_posts(array(
+		'post_type' => 'animal',
+		'meta_key' => '_customer_id',
+		'meta_value' => $user->ID,
+		'posts_per_page' => -1,
+		'post_status' => 'any',
+	));
+
+	$medaillon_animals = array();
+	foreach ($animals as $animal) {
+		$product_id = get_post_meta($animal->ID, '_product_id', true);
+		if ($product_id && naturapets_product_is_medaillon($product_id)) {
+			$medaillon_animals[] = $animal;
+		}
+	}
+
+	// Produits Médaillon disponibles pour l'ajout
+	$medaillon_products = get_posts(array(
+		'post_type' => 'product',
+		'posts_per_page' => -1,
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'product_cat',
+				'field' => 'term_id',
+				'terms' => $medaillon_term->term_id,
+			),
+		),
+		'post_status' => 'publish',
+		'orderby' => 'title',
+		'order' => 'ASC',
+	));
+	?>
+	<h2>Produits Médaillon</h2>
+
+	<table class="form-table">
+		<tr>
+			<th>Produits Médaillon commandés</th>
+			<td>
+				<?php if (empty($medaillon_animals)): ?>
+					<p>Aucun produit Médaillon commandé par ce client.</p>
+				<?php else: ?>
+					<table class="widefat striped" style="max-width: 800px;">
+						<thead>
+							<tr>
+								<th>Produit</th>
+								<th>ID unique</th>
+								<th>Date commande</th>
+								<th>Médaillon rempli</th>
+								<th>Nom animal</th>
+								<th>Type animal</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($medaillon_animals as $animal):
+								$product_id = get_post_meta($animal->ID, '_product_id', true);
+								$order_id = get_post_meta($animal->ID, '_order_id', true);
+								$product = wc_get_product($product_id);
+								$unique_id = $product_id ? naturapets_get_product_unique_id($product_id) : '—';
+								$order = ($order_id && $order_id > 0) ? wc_get_order($order_id) : null;
+								$order_date = $order ? $order->get_date_created()->format('d/m/Y') : 'Ajout manuel';
+								$fiche_filled = naturapets_animal_fiche_is_filled($animal->ID);
+								$nom = get_field('nom', $animal->ID);
+								$type = get_field('type_animal', $animal->ID);
+							?>
+								<tr>
+									<td><?php echo $product ? esc_html($product->get_name()) : '—'; ?></td>
+									<td><code><?php echo esc_html($unique_id); ?></code></td>
+									<td><?php echo esc_html($order_date); ?></td>
+									<td>
+										<?php if ($fiche_filled): ?>
+											<span style="color: #00a32a;">✓ Oui</span>
+										<?php else: ?>
+											<span style="color: #d63638;">✗ Non</span>
+										<?php endif; ?>
+									</td>
+									<td><?php echo $nom ? esc_html($nom) : '—'; ?></td>
+									<td><?php echo $type ? esc_html($type) : '—'; ?></td>
+									<td>
+										<a href="<?php echo get_edit_post_link($animal->ID); ?>" class="button button-small">Modifier médaillon</a>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<th>Ajouter un produit Médaillon</th>
+			<td>
+				<?php if (empty($medaillon_products)): ?>
+					<p><em>Aucun produit dans la catégorie Médaillon.</em></p>
+				<?php else: ?>
+					<form method="post" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+						<?php wp_nonce_field('add_medaillon_' . $user->ID, '_wpnonce_medaillon'); ?>
+						<input type="hidden" name="naturapets_add_medaillon_product" value="1" />
+						<select name="medaillon_product_id" required>
+							<option value="">— Choisir un produit —</option>
+							<?php foreach ($medaillon_products as $p):
+								$prod = wc_get_product($p->ID);
+								if (!$prod) continue;
+							?>
+								<option value="<?php echo esc_attr($p->ID); ?>"><?php echo esc_html($prod->get_name()); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<button type="submit" class="button button-primary">Ajouter au client</button>
+					</form>
+					<p class="description">Crée un médaillon associé à ce produit pour le client.</p>
+				<?php endif; ?>
+			</td>
+		</tr>
+	</table>
+	<?php
+}
+
+add_action('show_user_profile', 'naturapets_user_medaillon_products_section');
+add_action('edit_user_profile', 'naturapets_user_medaillon_products_section');
+
+/**
+ * Ajouter un lien vers les médaillons du client dans la page utilisateur.
  */
 function naturapets_user_animals_section($user)
 {
@@ -1949,23 +2212,23 @@ function naturapets_user_animals_section($user)
 	));
 
 ?>
-	<h2>Animaux du client</h2>
+	<h2>Médaillons du client</h2>
 	<table class="form-table">
 		<tr>
-			<th>Animaux enregistrés</th>
+			<th>Médaillons enregistrés</th>
 			<td>
 				<?php if (empty($animals)): ?>
-					<p>Aucun animal enregistré pour ce client.</p>
+					<p>Aucun médaillon enregistré pour ce client.</p>
 				<?php else: ?>
 					<ul>
 						<?php foreach ($animals as $animal):
-							$nom = get_post_meta($animal->ID, '_animal_nom', true);
+							$nom = get_field('nom', $animal->ID);
 							$product_id = get_post_meta($animal->ID, '_product_id', true);
 							$product = wc_get_product($product_id);
 						?>
 							<li>
 								<a href="<?php echo get_edit_post_link($animal->ID); ?>">
-									<strong><?php echo $nom ? esc_html($nom) : 'Animal #' . $animal->ID; ?></strong>
+									<strong><?php echo $nom ? esc_html($nom) : 'Médaillon #' . $animal->ID; ?></strong>
 								</a>
 								<?php if ($product): ?>
 									- <?php echo esc_html($product->get_name()); ?>
@@ -1975,7 +2238,7 @@ function naturapets_user_animals_section($user)
 					</ul>
 					<p>
 						<a href="<?php echo admin_url('edit.php?post_type=animal&meta_key=_customer_id&meta_value=' . $user->ID); ?>" class="button">
-							Voir tous les animaux de ce client
+							Voir tous les médaillons de ce client
 						</a>
 					</p>
 				<?php endif; ?>
@@ -2046,7 +2309,7 @@ add_filter('woocommerce_loop_add_to_cart_link', 'naturapets_add_cart_icon_to_loo
  */
 
 /**
- * Générer l'URL unique de la fiche animal.
+ * Générer l'URL unique du médaillon.
  * Le token est basé sur l'ID unique du produit associé.
  */
 function naturapets_get_animal_url($animal_id)
@@ -2066,13 +2329,13 @@ function naturapets_get_animal_url($animal_id)
 }
 
 /**
- * Ajouter une metabox QR Code sur les fiches animaux.
+ * Ajouter une metabox QR Code sur les médaillons.
  */
 function naturapets_add_qrcode_metabox()
 {
 	add_meta_box(
 		'naturapets_animal_qrcode',
-		'QR Code de l\'animal',
+		'QR Code du médaillon',
 		'naturapets_qrcode_metabox_content',
 		'animal',
 		'side',
@@ -2120,7 +2383,7 @@ function naturapets_qrcode_column_content($column, $post_id)
 add_action('manage_animal_posts_custom_column', 'naturapets_qrcode_column_content', 10, 2);
 
 /**
- * Créer la page virtuelle pour afficher la fiche animal publique.
+ * Créer la page virtuelle pour afficher le médaillon public.
  */
 function naturapets_animal_public_page()
 {
@@ -2150,7 +2413,7 @@ function naturapets_animal_public_page()
 		wp_die('Lien invalide ou expiré.', 'Erreur', array('response' => 403));
 	}
 
-	// Afficher la fiche animal
+	// Afficher le médaillon
 	naturapets_display_public_animal_page($animal);
 	exit;
 }
@@ -2187,7 +2450,7 @@ function naturapets_display_public_animal_page($animal)
 			<?php endif; ?>
 
 			<h1 style="text-align: center; margin-bottom: 30px;">
-				<?php echo $nom ? esc_html($nom) : 'Fiche Animal'; ?>
+				<?php echo $nom ? esc_html($nom) : 'Médaillon'; ?>
 			</h1>
 
 			<table style="width: 100%; border-collapse: collapse;">
@@ -2240,12 +2503,12 @@ function naturapets_display_public_animal_page($animal)
 
 			<?php if (!$nom && !$informations && !$allergies): ?>
 				<p style="text-align: center; color: #666; margin-top: 20px;">
-					<em>Les informations de cet animal n'ont pas encore été renseignées.</em>
+					<em>Les informations de ce médaillon n'ont pas encore été renseignées.</em>
 				</p>
 			<?php endif; ?>
 
 			<p style="text-align: center; margin-top: 30px; color: #999; font-size: 14px;">
-				Fiche générée par <?php bloginfo('name'); ?>
+				Médaillon généré par <?php bloginfo('name'); ?>
 			</p>
 		</div>
 	</main>
@@ -2254,15 +2517,15 @@ function naturapets_display_public_animal_page($animal)
 }
 
 /**
- * Ajouter le QR code dans l'espace client (page de modification animal).
+ * Ajouter le QR code dans l'espace client (page de modification médaillon).
  */
 function naturapets_add_qrcode_to_animal_form($animal_id)
 {
 	$animal_url = naturapets_get_animal_url($animal_id);
 ?>
 	<div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-		<h3 style="margin-top: 0;">QR Code de votre animal</h3>
-		<p style="color: #666; font-size: 14px;">Scannez ce QR code pour accéder à la fiche de votre animal.</p>
+		<h3 style="margin-top: 0;">QR Code de votre médaillon</h3>
+		<p style="color: #666; font-size: 14px;">Scannez ce QR code pour accéder à votre médaillon.</p>
 		<?php echo naturapets_generate_qrcode($animal_url, 150); ?>
 	</div>
 <?php

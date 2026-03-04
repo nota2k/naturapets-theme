@@ -2002,32 +2002,32 @@ body {
   padding: 5px 15px !important;
 }
 
-.edit-account-form-fiche-animal {
+.edit-account-form-medaillon {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
   column-gap: 2rem;
 }
-.edit-account-form-fiche-animal .form-row, .edit-account-form-fiche-animal .row-animal-photo {
+.edit-account-form-medaillon .form-row, .edit-account-form-medaillon .row-animal-photo {
   width: 48%;
   max-width: 100%;
   padding: 0;
   margin: 0;
 }
-.edit-account-form-fiche-animal .row-animal-photo > div {
+.edit-account-form-medaillon .row-animal-photo > div {
   height: 100%;
   width: 100%;
   overflow: hidden;
   margin-top: 10px !important;
   border-radius: 8px;
 }
-.edit-account-form-fiche-animal .row-animal-photo > div img {
+.edit-account-form-medaillon .row-animal-photo > div img {
   max-width: 100%;
   width: 100%;
   object-fit: cover;
 }
-.edit-account-form-fiche-animal .row-animal-photo input[type=file] {
+.edit-account-form-medaillon .row-animal-photo input[type=file] {
   margin-top: 10px !important;
   font-size: 1rem;
   font-weight: 400;
@@ -2038,7 +2038,7 @@ body {
   border: none;
   cursor: pointer;
 }
-.edit-account-form-fiche-animal fieldset {
+.edit-account-form-medaillon fieldset {
   width: 100%;
   max-width: 100%;
   padding: 0;

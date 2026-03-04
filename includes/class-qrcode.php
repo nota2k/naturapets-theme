@@ -86,13 +86,25 @@ class Naturapets_QRCode {
  */
 function naturapets_generate_qrcode($url, $size = 200) {
     $qr = new Naturapets_QRCode($url, $size);
-    return $qr->get_html('QR Code de l\'animal');
+    return $qr->get_html('QR Code du médaillon');
 }
 
 /**
- * Fonction pour obtenir l'URL du QR code.
+ * Fonction pour obtenir l'URL du QR code (SVG par défaut).
  */
 function naturapets_get_qrcode_url($url, $size = 200) {
     $qr = new Naturapets_QRCode($url, $size);
     return $qr->get_qrserver_url();
+}
+
+/**
+ * Fonction pour obtenir l'URL de téléchargement du QR code en PNG.
+ */
+function naturapets_get_qrcode_download_url($url, $size = 300) {
+    return 'https://api.qrserver.com/v1/create-qr-code/?' . http_build_query(array(
+        'size' => $size . 'x' . $size,
+        'data' => $url,
+        'margin' => 10,
+        'format' => 'png',
+    ));
 }
