@@ -2802,6 +2802,52 @@ function naturapets_redirect_old_medaillon_url()
 add_action('template_redirect', 'naturapets_redirect_old_medaillon_url', 5);
 
 /**
+ * Rediriger vers le médaillon public si l'ID est saisi dans le champ de recherche.
+ * Gère les requêtes GET du bloc "J'ai trouvé un animal".
+ */
+function naturapets_redirect_medaillon_search()
+{
+	if (is_admin() || wp_doing_ajax()) {
+		return;
+	}
+
+	$param_names = array('medaillon', 'medaillon_id', 'numero_medaillon');
+	$search_value = null;
+
+	foreach ($param_names as $name) {
+		if (!empty($_GET[$name])) {
+			$search_value = trim(sanitize_text_field(wp_unslash($_GET[$name])));
+			break;
+		}
+	}
+
+	if (!$search_value) {
+		return;
+	}
+
+	// Normaliser pour la recherche (format ID affichage : PSI-YYYY-NNNNNN)
+	$slug = sanitize_title($search_value);
+
+	// Vérifier le format PSI-YYYY-NNNNNN
+	if (!preg_match('/^psi-\d{4}-\d{6}$/', $slug)) {
+		return;
+	}
+
+	$posts = get_posts(array(
+		'post_type'      => 'medaillon_public',
+		'name'           => $slug,
+		'posts_per_page' => 1,
+		'post_status'    => 'publish',
+	));
+
+	if (!empty($posts)) {
+		wp_safe_redirect(get_permalink($posts[0]->ID), 302);
+		exit;
+	}
+}
+add_action('template_redirect', 'naturapets_redirect_medaillon_search', 5);
+
+/**
  * Afficher la page publique du médaillon (accessible via QR code).
  */
 function naturapets_display_public_animal_page($animal)
