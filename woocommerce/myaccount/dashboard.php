@@ -25,24 +25,7 @@ $user = wp_get_current_user();
 $billing_address = function_exists( 'wc_get_account_formatted_address' ) ? wc_get_account_formatted_address( 'billing' ) : '';
 $shipping_address = ( function_exists( 'wc_shipping_enabled' ) && wc_shipping_enabled() && ! wc_ship_to_billing_address_only() && function_exists( 'wc_get_account_formatted_address' ) ) ? wc_get_account_formatted_address( 'shipping' ) : '';
 $edit_account_url = wc_get_endpoint_url( 'edit-account', '', wc_get_page_permalink( 'myaccount' ) );
-$allowed_html = array( 'a' => array( 'href' => array() ) );
 ?>
-
-<div class="header-dashboard">
-	<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/naturapet-account.jpg' ); ?>" alt="NaturaPets">
-	<h2><?php echo esc_html( $user->display_name ); ?></h2>
-</div>
-
-<p class="profile-summary__welcome">
-	<?php
-	printf(
-		/* translators: 1: user display name 2: logout url */
-		wp_kses( __( 'Bonjour %1$s (pas %1$s ? <a href="%2$s">Se déconnecter</a>)', 'woocommerce' ), $allowed_html ),
-		'<strong>' . esc_html( $user->display_name ) . '</strong>',
-		esc_url( wc_logout_url() )
-	);
-	?>
-</p>
 
 <div class="profile-summary">
 	<div class="profile-summary__header">

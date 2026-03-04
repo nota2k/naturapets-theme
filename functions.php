@@ -995,8 +995,12 @@ function naturapets_add_animals_menu_item($items)
 	);
 
 	foreach ($items as $key => $value) {
-		// Ne pas afficher "Téléchargements" dans le menu Mon compte
-		if ($key === 'downloads') {
+		// Ne pas afficher "Téléchargements" et "Sécurité" dans le menu Mon compte
+		if ($key === 'downloads' || $key === 'edit-account') {
+			continue;
+		}
+		// Ne pas afficher "Déconnexion" dans les onglets (affiché dans le header)
+		if ($key === 'customer-logout') {
 			continue;
 		}
 		$new_items[$key] = isset($labels[$key]) ? $labels[$key] : $value;
