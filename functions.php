@@ -1345,27 +1345,156 @@ function naturapets_add_animals_endpoint()
 add_action('init', 'naturapets_add_animals_endpoint');
 
 /**
- * Ajouter la règle de réécriture pour les médaillons publics.
+ * Enregistrer le CPT Médaillon public (version publique, une URL propre par médaillon).
  */
-function naturapets_add_animal_rewrite_rules()
+function naturapets_register_medaillon_public_cpt()
 {
-	add_rewrite_rule(
-		'^fiche-animal/?$',
-		'index.php?naturapets_animal_page=1',
-		'top'
+	$labels = array(
+		'name'               => __('Médaillons publics', 'naturapets'),
+		'singular_name'      => __('Médaillon public', 'naturapets'),
+		'menu_name'          => __('Médaillons publics', 'naturapets'),
+		'add_new'            => __('Ajouter', 'naturapets'),
+		'add_new_item'       => __('Ajouter un médaillon public', 'naturapets'),
+		'edit_item'          => __('Modifier le médaillon public', 'naturapets'),
+		'new_item'           => __('Nouveau médaillon public', 'naturapets'),
+		'view_item'          => __('Voir le médaillon public', 'naturapets'),
+		'search_items'       => __('Rechercher', 'naturapets'),
+		'not_found'          => __('Aucun médaillon public trouvé', 'naturapets'),
+		'not_found_in_trash' => __('Aucun médaillon public dans la corbeille', 'naturapets'),
 	);
+
+	register_post_type('medaillon_public', array(
+		'labels'              => $labels,
+		'public'              => true,
+		'publicly_queryable'  => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'query_var'           => true,
+		'rewrite'             => array('slug' => 'medaillons'),
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => 25,
+		'menu_icon'           => 'dashicons-visibility',
+		'supports'            => array('title'),
+		'show_in_rest'        => false,
+	));
 }
-add_action('init', 'naturapets_add_animal_rewrite_rules');
+add_action('init', 'naturapets_register_medaillon_public_cpt');
 
 /**
- * Ajouter la query var pour la page animal.
+ * Flush des règles de réécriture et création des posts medaillon_public pour les animaux existants.
  */
-function naturapets_add_query_vars($vars)
+function naturapets_flush_rewrite_rules_on_activation()
 {
-	$vars[] = 'naturapets_animal_page';
-	return $vars;
+	naturapets_register_medaillon_public_cpt();
+	flush_rewrite_rules();
+
+	// Créer les posts medaillon_public pour les animaux existants
+	$animals = get_posts(array(
+		'post_type'      => 'animal',
+		'posts_per_page' => -1,
+		'post_status'    => 'any',
+	));
+
+	foreach ($animals as $animal) {
+		naturapets_get_or_create_medaillon_public_post($animal->ID);
+	}
 }
-add_filter('query_vars', 'naturapets_add_query_vars');
+add_action('after_switch_theme', 'naturapets_flush_rewrite_rules_on_activation');
+
+/**
+ * Générer le slug sécurisé pour un médaillon public (basé sur animal_id + token).
+ */
+function naturapets_get_medaillon_public_slug($animal_id)
+{
+	$product_id = get_post_meta($animal_id, '_product_id', true);
+	$token      = $product_id ? naturapets_get_product_unique_id($product_id) : 'NO-PRODUCT';
+
+	return substr(bin2hex(hash('sha256', $animal_id . '-' . $token, true)), 0, 12);
+}
+
+/**
+ * Récupérer ou créer le post medaillon_public pour un animal.
+ */
+function naturapets_get_or_create_medaillon_public_post($animal_id)
+{
+	$animal = get_post($animal_id);
+	if (!$animal || $animal->post_type !== 'animal') {
+		return;
+	}
+
+	$existing_id = get_posts(array(
+		'post_type'      => 'medaillon_public',
+		'meta_key'       => '_animal_id',
+		'meta_value'     => $animal_id,
+		'posts_per_page' => 1,
+		'post_status'    => 'any',
+		'fields'         => 'ids',
+	));
+
+	if (!empty($existing_id)) {
+		return (int) $existing_id[0];
+	}
+
+	$slug = naturapets_get_medaillon_public_slug($animal_id);
+	$nom  = get_field('nom', $animal_id);
+	$title = $nom ? sprintf('%s – Médaillon', $nom) : sprintf('Médaillon #%d', $animal_id);
+
+	$post_id = wp_insert_post(array(
+		'post_type'   => 'medaillon_public',
+		'post_title'  => $title,
+		'post_name'   => $slug,
+		'post_status' => 'publish',
+		'post_author' => 1,
+	));
+
+	if ($post_id && !is_wp_error($post_id)) {
+		update_post_meta($post_id, '_animal_id', $animal_id);
+		return $post_id;
+	}
+
+	return null;
+}
+
+/**
+ * Synchroniser le titre du post medaillon_public avec le nom de l'animal.
+ */
+function naturapets_sync_medaillon_public_title($animal_id)
+{
+	$posts = get_posts(array(
+		'post_type'      => 'medaillon_public',
+		'meta_key'       => '_animal_id',
+		'meta_value'     => $animal_id,
+		'posts_per_page' => 1,
+		'post_status'    => 'any',
+	));
+
+	if (empty($posts)) {
+		return;
+	}
+
+	$nom   = get_field('nom', $animal_id);
+	$title = $nom ? sprintf('%s – Médaillon', $nom) : sprintf('Médaillon #%d', $animal_id);
+
+	wp_update_post(array(
+		'ID'         => $posts[0]->ID,
+		'post_title' => $title,
+	));
+}
+
+/**
+ * Synchroniser le titre medaillon_public quand l'animal est modifié depuis l'admin.
+ */
+function naturapets_sync_medaillon_public_on_animal_save($post_id)
+{
+	if (get_post_type($post_id) !== 'animal') {
+		return;
+	}
+
+	naturapets_sync_medaillon_public_title($post_id);
+}
+add_action('save_post', 'naturapets_sync_medaillon_public_on_animal_save');
 
 // Ajouter au menu et personnaliser les libellés
 function naturapets_add_animals_menu_item($items)
@@ -1569,10 +1698,13 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 		// Mettre à jour le titre du post avec le nom de l'animal
 		if (!empty($_POST['nom'])) {
 			wp_update_post(array(
-				'ID' => $animal_id,
+				'ID'         => $animal_id,
 				'post_title' => sanitize_text_field($_POST['nom']),
 			));
 		}
+
+		// Synchroniser le titre du post medaillon_public lié
+		naturapets_sync_medaillon_public_title($animal_id);
 
 		wc_add_notice('Les informations de votre médaillon ont été enregistrées.', 'success');
 	}
@@ -1728,6 +1860,7 @@ function naturapets_create_animal_on_order($order_id)
 				update_post_meta($animal_id, '_product_id', $product_id);
 				update_post_meta($animal_id, '_order_id', $order_id);
 				update_post_meta($animal_id, '_order_item_id', $item_id);
+				naturapets_get_or_create_medaillon_public_post($animal_id);
 			}
 		}
 	}
@@ -2032,7 +2165,7 @@ function naturapets_product_is_medaillon($product_id)
 /**
  * Vérifier si le médaillon est rempli (nom et type au minimum).
  */
-function naturapets_animal_fiche_is_filled($animal_id)
+function naturapets_medaillon_is_filled($animal_id)
 {
 	$nom = get_field('nom', $animal_id);
 	$type = get_field('type_animal', $animal_id);
@@ -2072,6 +2205,7 @@ function naturapets_user_medaillon_products_section($user)
 					update_post_meta($animal_id, '_product_id', $product_id);
 					update_post_meta($animal_id, '_order_id', 0);
 					update_post_meta($animal_id, '_order_item_id', 0);
+					naturapets_get_or_create_medaillon_public_post($animal_id);
 					echo '<div class="notice notice-success"><p>Produit ajouté avec succès. Un médaillon a été créé.</p></div>';
 				}
 			}
@@ -2140,7 +2274,7 @@ function naturapets_user_medaillon_products_section($user)
 								$unique_id = $product_id ? naturapets_get_product_unique_id($product_id) : '—';
 								$order = ($order_id && $order_id > 0) ? wc_get_order($order_id) : null;
 								$order_date = $order ? $order->get_date_created()->format('d/m/Y') : 'Ajout manuel';
-								$fiche_filled = naturapets_animal_fiche_is_filled($animal->ID);
+								$medaillon_filled = naturapets_medaillon_is_filled($animal->ID);
 								$nom = get_field('nom', $animal->ID);
 								$type = get_field('type_animal', $animal->ID);
 							?>
@@ -2149,7 +2283,7 @@ function naturapets_user_medaillon_products_section($user)
 									<td><code><?php echo esc_html($unique_id); ?></code></td>
 									<td><?php echo esc_html($order_date); ?></td>
 									<td>
-										<?php if ($fiche_filled): ?>
+										<?php if ($medaillon_filled): ?>
 											<span style="color: #00a32a;">✓ Oui</span>
 										<?php else: ?>
 											<span style="color: #d63638;">✗ Non</span>
@@ -2309,23 +2443,24 @@ add_filter('woocommerce_loop_add_to_cart_link', 'naturapets_add_cart_icon_to_loo
  */
 
 /**
- * Générer l'URL unique du médaillon.
- * Le token est basé sur l'ID unique du produit associé.
+ * Générer l'URL unique du médaillon (version publique avec URL propre).
  */
 function naturapets_get_animal_url($animal_id)
 {
-	$product_id = get_post_meta($animal_id, '_product_id', true);
+	$public_post_id = naturapets_get_or_create_medaillon_public_post($animal_id);
 
-	if (!$product_id) {
-		$token = 'NO-PRODUCT';
-	} else {
-		$token = naturapets_get_product_unique_id($product_id);
+	if ($public_post_id) {
+		return get_permalink($public_post_id);
 	}
+
+	// Fallback : ancienne URL avec paramètres (si création du CPT a échoué)
+	$product_id = get_post_meta($animal_id, '_product_id', true);
+	$token      = $product_id ? naturapets_get_product_unique_id($product_id) : 'NO-PRODUCT';
 
 	return add_query_arg(array(
 		'animal' => $animal_id,
-		'token' => $token,
-	), home_url('/fiche-animal/'));
+		'token'  => $token,
+	), home_url('/medaillons/'));
 }
 
 /**
@@ -2383,16 +2518,16 @@ function naturapets_qrcode_column_content($column, $post_id)
 add_action('manage_animal_posts_custom_column', 'naturapets_qrcode_column_content', 10, 2);
 
 /**
- * Créer la page virtuelle pour afficher le médaillon public.
+ * Rediriger l'ancienne URL (?animal=&token=) vers la nouvelle URL propre du CPT.
  */
-function naturapets_animal_public_page()
+function naturapets_redirect_old_medaillon_url()
 {
 	if (!isset($_GET['animal']) || !isset($_GET['token'])) {
 		return;
 	}
 
 	$animal_id = absint($_GET['animal']);
-	$token = sanitize_text_field($_GET['token']);
+	$token     = sanitize_text_field($_GET['token']);
 
 	$animal = get_post($animal_id);
 
@@ -2400,7 +2535,6 @@ function naturapets_animal_public_page()
 		return;
 	}
 
-	// Vérifier le token basé sur l'ID unique du produit
 	$product_id = get_post_meta($animal_id, '_product_id', true);
 
 	if ($product_id) {
@@ -2413,14 +2547,21 @@ function naturapets_animal_public_page()
 		wp_die('Lien invalide ou expiré.', 'Erreur', array('response' => 403));
 	}
 
-	// Afficher le médaillon
+	$public_post_id = naturapets_get_or_create_medaillon_public_post($animal_id);
+
+	if ($public_post_id) {
+		wp_safe_redirect(get_permalink($public_post_id), 301);
+		exit;
+	}
+
+	// Fallback : afficher directement si le CPT n'a pas pu être créé
 	naturapets_display_public_animal_page($animal);
 	exit;
 }
-add_action('template_redirect', 'naturapets_animal_public_page');
+add_action('template_redirect', 'naturapets_redirect_old_medaillon_url', 5);
 
 /**
- * Afficher la page publique de l'animal (accessible via QR code).
+ * Afficher la page publique du médaillon (accessible via QR code).
  */
 function naturapets_display_public_animal_page($animal)
 {
