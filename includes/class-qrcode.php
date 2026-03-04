@@ -83,10 +83,14 @@ class Naturapets_QRCode {
 
 /**
  * Fonction helper pour générer un QR code facilement.
+ *
+ * @param string $url           URL à encoder.
+ * @param int    $size         Taille en pixels.
+ * @param bool   $show_download Afficher le bouton de téléchargement (défaut true).
  */
-function naturapets_generate_qrcode($url, $size = 200) {
+function naturapets_generate_qrcode($url, $size = 200, $show_download = true) {
     $qr = new Naturapets_QRCode($url, $size);
-    return $qr->get_html('QR Code du médaillon');
+    return $qr->get_html('QR Code du médaillon', $show_download);
 }
 
 /**
