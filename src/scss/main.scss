@@ -20,7 +20,7 @@
 @use 'components/split-cta';
 @use 'components/found-animal';
 @use 'components/testimonial';
-@use 'components/product-gallery';
+// @use 'components/product-gallery';
 @use 'components/icone';
 @use 'components/top-banner';
 
@@ -56,18 +56,19 @@
   }
 }
 
-body .wp-site-blocks:has(main){
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: space-between;
-    min-height: 100vh;
+body .wp-site-blocks:has(main) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  min-height: 100vh;
 
-    main{
-        flex-grow: 1;
-    }
+  main {
+    flex-grow: 1;
+  }
 
-    header,footer{
-        flex-shrink: 0;
-    }
+  header,
+  footer {
+    flex-shrink: 0;
+  }
 }

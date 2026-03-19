@@ -7,34 +7,41 @@ $np-green-dark: #4F6B4C;
 $np-green-light: #8CD28A;
 $np-green-badge: #E0FFE0;
 
-.woocommerce-myaccount-wrapper{
+.woocommerce-myaccount-wrapper {
     font-size: $font-size-base;
     height: 100%;
     min-height: 64vh;
 
-    >.woocommerce-account, .woocommerce.account-navigation {
+    >.woocommerce-account,
+    .woocommerce.account-navigation {
         width: 100%;
-        max-width: var(--wp--style--global--wide-size)!important;
+        max-width: var(--wp--style--global--wide-size) !important;
     }
 
     // En-tête Mon compte
-    .myaccount-header{
+    .myaccount-header {
         margin-bottom: 1.5rem;
 
-        &__top{
+        &__top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 0.25em;
+            flex-wrap: wrap;
+            gap: clamp(1rem, 2vw, 4rem);
+            margin-bottom: 1.25em;
+            border-bottom: 1px solid $np-gray-light;
+            padding-bottom: 1.25em;
         }
-        &__title{
-            font-size: $font-size-xl;
-            font-weight: $font-weight-bold;
+
+        &__title {
+            font-size: $font-size-xxl;
+            line-height: 1.2em;
+            font-weight: $font-weight-normal;
             color: $np-green-dark;
             margin: 0;
         }
-        &__logout{
+
+        &__logout {
             display: inline-flex;
             align-items: center;
             gap: 0.5em;
@@ -48,16 +55,17 @@ $np-green-badge: #E0FFE0;
             flex-shrink: 0;
             transition: all 0.2s ease-in-out;
 
-            &-icon{
+            &-icon {
                 flex-shrink: 0;
             }
 
-            &:hover{
+            &:hover {
                 background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
                 color: $np-white;
             }
         }
-        &__subtitle{
+
+        &__subtitle {
             font-size: $font-size-base;
             color: $np-taupe;
             margin: 0;
@@ -65,7 +73,7 @@ $np-green-badge: #E0FFE0;
         }
     }
 
-    .woocommerce.account-navigation{
+    .woocommerce.account-navigation {
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -73,7 +81,7 @@ $np-green-badge: #E0FFE0;
         background-color: $np-white;
 
         // Onglets horizontaux
-        .woocommerce-MyAccount-navigation.myaccount-tabs{
+        .woocommerce-MyAccount-navigation.myaccount-tabs {
             width: 100%;
             padding: 0 0 1em 0;
             min-height: auto;
@@ -81,7 +89,7 @@ $np-green-badge: #E0FFE0;
             border-bottom: 1px solid $np-gray-light;
             margin-bottom: 2rem;
 
-            .myaccount-tabs__list{
+            .myaccount-tabs__list {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 0.5rem;
@@ -90,36 +98,38 @@ $np-green-badge: #E0FFE0;
                 padding: 0;
             }
 
-            .myaccount-tabs__item{
+            .myaccount-tabs__item {
                 padding: 0;
             }
 
-            .myaccount-tabs__link{
+            .myaccount-tabs__link {
                 display: inline-block;
                 padding: 0.5em 1.25em;
-                border-radius: $border-radius-xl;
+                border-radius: 40px;
                 color: $np-taupe;
                 font-size: $font-size-base;
                 font-weight: $font-weight-semibold;
                 text-decoration: none;
-                background-color: rgba($np-taupe, 0.08);
+                background-color: #fff;
+                border: 1px solid $np-green-dark;
                 transition: background-color 0.2s, color 0.2s;
 
-                &:hover{
-                    background-color: rgba($np-taupe, 0.12);
+                &:hover {
+                    background-color: var(--wp--preset--color--custom-vert);
                     color: $np-green-dark;
                 }
             }
 
-            .myaccount-tabs__item.is-active .myaccount-tabs__link{
+            .myaccount-tabs__item.is-active .myaccount-tabs__link {
                 background-color: var(--wp--preset--color--custom-vert);
                 // color: $np-white;
                 font-weight: $font-weight-bold;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             }
         }
-    
-        .woocommerce-MyAccount-content{
+
+        .woocommerce-MyAccount-content {
+            width: 100%;
             padding: 0;
             display: flex;
             flex-grow: 2;
@@ -128,17 +138,19 @@ $np-green-badge: #E0FFE0;
         }
     }
 
-    .header-dashboard{
+    .header-dashboard {
         max-height: 250px;
         width: 100%;
         overflow: hidden;
         margin-bottom: 1rem;
-        img{
+
+        img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        h2{
+
+        h2 {
             margin: 0;
             padding: 1rem 0 0;
             font-size: $font-size-xl;
@@ -147,29 +159,29 @@ $np-green-badge: #E0FFE0;
         }
     }
 
-    .profile-summary__welcome{
+    .profile-summary__welcome {
         margin: 0 0 2rem;
         font-size: $font-size-base;
         color: $np-taupe;
 
-        a{
+        a {
             color: $np-teal;
             text-decoration: underline;
 
-            &:hover{
+            &:hover {
                 text-decoration: none;
             }
         }
     }
-    
+
 }
 
 // Résumé profil (page Profil)
-.profile-summary{
+.profile-summary {
     width: 100%;
     max-width: 600px;
 
-    &__header{
+    &__header {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
@@ -178,14 +190,14 @@ $np-green-badge: #E0FFE0;
         margin-bottom: 1.5rem;
     }
 
-    &__title{
+    &__title {
         font-size: $font-size-xl;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
 
-    &__subtitle{
+    &__subtitle {
         font-size: $font-size-base;
         color: $np-taupe;
         margin: 0;
@@ -193,7 +205,7 @@ $np-green-badge: #E0FFE0;
         opacity: 0.9;
     }
 
-    &__edit-btn{
+    &__edit-btn {
         display: inline-flex;
         align-items: center;
         gap: 0.35em;
@@ -207,23 +219,23 @@ $np-green-badge: #E0FFE0;
         border: none;
         transition: background-color 0.2s;
 
-        &:hover{
+        &:hover {
             background-color: color.adjust($np-green-light, $lightness: -8%);
             color: $np-white;
         }
     }
 
-    &__icon{
+    &__icon {
         flex-shrink: 0;
     }
 
-    &__delete{
+    &__delete {
         margin-top: 1.5rem;
         padding-top: 1.5rem;
         border-top: 1px solid $np-gray-light;
     }
 
-    &__delete-btn{
+    &__delete-btn {
         display: inline-flex;
         align-items: center;
         padding: 0.5em 1.25em;
@@ -236,40 +248,41 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         transition: background 0.2s;
 
-        &:hover{
+        &:hover {
             background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
             color: $np-white;
         }
     }
 
-    &__card{
+    &__card {
         background: $np-white;
         border-radius: $border-radius-xl;
         padding: 1.5rem;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         border: 1px solid $np-gray-light;
         margin-bottom: 1rem;
     }
 
-    &__list{
+    &__list {
         display: flex;
         flex-direction: column;
         gap: 1rem;
         margin: 0;
     }
 
-    &__row{
+    &__row {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
 
-        dt{
+        dt {
             font-size: $font-size-sm;
             font-weight: $font-weight-medium;
             color: $np-taupe;
             margin: 0;
         }
-        dd{
+
+        dd {
             font-size: $font-size-base;
             font-weight: $font-weight-normal;
             color: $np-green-dark;
@@ -278,16 +291,16 @@ $np-green-badge: #E0FFE0;
         }
     }
 
-    &__logout{
+    &__logout {
         font-size: $font-size-sm;
         color: $np-taupe;
         margin: 0;
 
-        a{
+        a {
             color: $np-teal;
             text-decoration: underline;
 
-            &:hover{
+            &:hover {
                 text-decoration: none;
             }
         }
@@ -295,10 +308,10 @@ $np-green-badge: #E0FFE0;
 }
 
 // Section Mes animaux
-.myaccount-animals{
+.myaccount-animals {
     width: 100%;
 
-    &__header{
+    &__header {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
@@ -307,14 +320,14 @@ $np-green-badge: #E0FFE0;
         margin-bottom: 1.5rem;
     }
 
-    &__title{
+    &__title {
         font-size: $font-size-xl;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
 
-    &__subtitle{
+    &__subtitle {
         font-size: $font-size-base;
         color: $np-taupe;
         margin: 0;
@@ -322,7 +335,7 @@ $np-green-badge: #E0FFE0;
         opacity: 0.9;
     }
 
-    &__add-btn{
+    &__add-btn {
         display: inline-flex;
         align-items: center;
         padding: 0.5em 1.25em;
@@ -336,18 +349,18 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         transition: background-color 0.2s, transform 0.1s;
 
-        &:hover{
+        &:hover {
             background-color: color.adjust($np-green-light, $lightness: -8%);
             color: $np-white;
         }
     }
 
-    &__empty{
+    &__empty {
         color: $np-taupe;
         padding: 2rem;
     }
 
-    &__grid{
+    &__grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
@@ -355,68 +368,69 @@ $np-green-badge: #E0FFE0;
 }
 
 // Cartes animaux
-.animal-card{
+.animal-card {
     background: $np-white;
     border-radius: $border-radius-xl;
     padding: 1.5rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     border: 1px solid $np-gray-light;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
-    &__header{
+    &__header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         gap: 0.5rem;
     }
 
-    &__name{
+    &__name {
         font-size: $font-size-lg;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0;
     }
 
-    &__badge{
+    &__badge {
         font-size: $font-size-sm;
         font-weight: $font-weight-semibold;
         padding: 0.25em 0.6em;
         border-radius: $border-radius-sm;
         flex-shrink: 0;
 
-        &--active{
+        &--active {
             background-color: $np-green-badge;
             color: $np-green-dark;
         }
     }
 
-    &__id{
+    &__id {
         font-size: $font-size-sm;
         color: $np-taupe;
         margin: 0;
     }
 
-    &__details{
+    &__details {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         margin: 0;
     }
 
-    &__row{
+    &__row {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
         gap: 1rem;
 
-        dt{
+        dt {
             font-weight: $font-weight-normal;
             color: $np-taupe;
             margin: 0;
         }
-        dd{
+
+        dd {
             margin: 0;
             font-weight: $font-weight-medium;
             color: $np-green-dark;
@@ -424,14 +438,14 @@ $np-green-badge: #E0FFE0;
         }
     }
 
-    &__actions{
+    &__actions {
         display: flex;
         gap: 0.75rem;
         margin-top: auto;
         flex-wrap: wrap;
     }
 
-    &__btn{
+    &__btn {
         display: inline-flex;
         align-items: center;
         gap: 0.35em;
@@ -446,27 +460,27 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         transition: background-color 0.2s, border-color 0.2s;
 
-        &:hover{
+        &:hover {
             background-color: rgba($np-taupe, 0.06);
             border-color: $np-taupe;
         }
 
-        &--secondary{
+        &--secondary {
             border: 1px solid $np-gray-light;
         }
     }
 
-    &__icon{
+    &__icon {
         flex-shrink: 0;
     }
 
-    &__qr-trigger{
+    &__qr-trigger {
         font-family: inherit;
     }
 }
 
 // Modal QR Code
-.animal-qr-modal{
+.animal-qr-modal {
     position: fixed;
     inset: 0;
     z-index: 100000;
@@ -478,28 +492,28 @@ $np-green-badge: #E0FFE0;
     visibility: hidden;
     transition: opacity 0.2s, visibility 0.2s;
 
-    &.is-open{
+    &.is-open {
         opacity: 1;
         visibility: visible;
     }
 
-    &__backdrop{
+    &__backdrop {
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         cursor: pointer;
     }
 
-    &__content{
+    &__content {
         position: relative;
         background: $np-white;
         border-radius: $border-radius-xl;
         padding: 2rem;
         max-width: 320px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
-    &__close{
+    &__close {
         position: absolute;
         top: 1rem;
         right: 1rem;
@@ -513,30 +527,30 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         color: $np-taupe;
 
-        &:hover{
+        &:hover {
             color: $np-green-dark;
         }
     }
 
-    &__title{
+    &__title {
         font-size: $font-size-lg;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0 0 1rem;
     }
 
-    &__body{
+    &__body {
         text-align: center;
     }
 
-    &__img{
+    &__img {
         max-width: 100%;
         height: auto;
     }
 }
 
 // Modal suppression de compte
-.np-delete-account-modal{
+.np-delete-account-modal {
     position: fixed;
     inset: 0;
     z-index: 100000;
@@ -548,28 +562,28 @@ $np-green-badge: #E0FFE0;
     visibility: hidden;
     transition: opacity 0.2s, visibility 0.2s;
 
-    &.is-open{
+    &.is-open {
         opacity: 1;
         visibility: visible;
     }
 
-    &__backdrop{
+    &__backdrop {
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         cursor: pointer;
     }
 
-    &__content{
+    &__content {
         position: relative;
         background: $np-white;
         border-radius: $border-radius-xl;
         padding: 2rem;
         max-width: 400px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
-    &__close{
+    &__close {
         position: absolute;
         top: 1rem;
         right: 1rem;
@@ -583,36 +597,36 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         color: $np-taupe;
 
-        &:hover{
+        &:hover {
             color: $np-green-dark;
         }
     }
 
-    &__title{
+    &__title {
         font-size: $font-size-lg;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0 0 1rem;
     }
 
-    &__text{
+    &__text {
         font-size: $font-size-base;
         color: $np-taupe;
         line-height: 1.5;
         margin: 0 0 1.5rem;
     }
 
-    &__form{
+    &__form {
         margin: 0;
     }
 
-    &__actions{
+    &__actions {
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
     }
 
-    &__cancel{
+    &__cancel {
         padding: 0.5em 1.25em;
         background: rgba($np-taupe, 0.2);
         color: $np-taupe;
@@ -623,13 +637,13 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         transition: background 0.2s;
 
-        &:hover{
+        &:hover {
             background: rgba($np-taupe, 0.15);
             color: $np-taupe;
         }
     }
 
-    &__confirm{
+    &__confirm {
         padding: 0.5em 1.25em;
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
         color: $np-white;
@@ -640,22 +654,22 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         transition: background 0.2s;
 
-        &:hover{
+        &:hover {
             background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
             color: $np-white;
         }
     }
 }
 
-.woocommerce-Addresses{
-    h2{
+.woocommerce-Addresses {
+    h2 {
         font-size: $font-size-xl;
         font-weight: $font-weight-semibold;
         color: $np-taupe;
         margin-bottom: 1rem;
     }
-    
-    a{
+
+    a {
         text-decoration: underline;
         color: $np-taupe;
         font-size: $font-size-base;
@@ -664,42 +678,42 @@ $np-green-badge: #E0FFE0;
 }
 
 // Lien création de compte sous le formulaire de connexion
-.woocommerce-form-login__register-link{
+.woocommerce-form-login__register-link {
     margin: 1rem 0 0;
     font-size: $font-size-base;
     color: $np-taupe;
 
-    a{
+    a {
         color: $np-teal;
         font-weight: $font-weight-semibold;
         text-decoration: underline;
 
-        &:hover{
+        &:hover {
             text-decoration: none;
         }
     }
 }
 
 // Checkbox "adresse livraison = adresse facturation" (page Adresses)
-.woocommerce-Addresses-ship-to-billing{
+.woocommerce-Addresses-ship-to-billing {
     padding-top: 1.5rem;
     border-top: 1px solid $np-gray-light;
 
-    .form-row{
+    .form-row {
         margin-bottom: 1rem;
     }
 
-    .woocommerce-form__label{
+    .woocommerce-form__label {
         font-weight: $font-weight-normal;
         color: $np-taupe;
         cursor: pointer;
     }
 
-    input[type="checkbox"]{
+    input[type="checkbox"] {
         margin-right: 0.5em;
     }
 
-    .button{
+    .button {
         padding: 0.5em 1.25em;
         background-color: $np-green-light;
         color: $np-white;
@@ -709,7 +723,7 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
         transition: background-color 0.2s;
 
-        &:hover{
+        &:hover {
             background-color: color.adjust($np-green-light, $lightness: -8%);
             color: $np-white;
         }
@@ -717,42 +731,42 @@ $np-green-badge: #E0FFE0;
 }
 
 // Checkbox "adresse livraison = adresse facturation" (formulaire édition)
-.woocommerce-form-row--ship-to-billing{
+.woocommerce-form-row--ship-to-billing {
     margin-bottom: 1.5rem;
 
-    .woocommerce-form__label{
+    .woocommerce-form__label {
         font-weight: $font-weight-normal;
         color: $np-taupe;
         cursor: pointer;
     }
 
-    input[type="checkbox"]{
+    input[type="checkbox"] {
         margin-right: 0.5em;
     }
 }
 
-.woocommerce-EditAccountForm{
-    label{
+.woocommerce-EditAccountForm {
+    label {
         font-size: $font-size-base;
         font-weight: $font-weight-bold;
         color: $np-taupe;
-        line-height: 1!important;
+        line-height: 1 !important;
     }
 
-    input.woocommerce-Input.input-text{
+    input.woocommerce-Input.input-text {
         border: 1px solid $np-gray-light;
-        padding: 10px!important;
-        margin-top: 0.7em!important;
-        margin-bottom: 0.7em!important;
+        padding: 10px !important;
+        margin-top: 0.7em !important;
+        margin-bottom: 0.7em !important;
         border-radius: 0.25em;
         width: 100%;
     }
 
-    button.woocommerce-Button.button{
+    button.woocommerce-Button.button {
         background-color: $np-teal;
         color: $np-white;
         padding: 10px 20px;
-        margin-top: 1em!important;
+        margin-top: 1em !important;
         font-size: $font-size-base;
         border-radius: 100px;
         border: none;
@@ -761,76 +775,76 @@ $np-green-badge: #E0FFE0;
 }
 
 // Historique des commandes (cartes)
-.orders-history{
+.orders-history {
     width: 100%;
 
-    &__header{
+    &__header {
         margin-bottom: 1.5rem;
     }
 
-    &__title{
+    &__title {
         font-size: $font-size-xl;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
 
-    &__subtitle{
+    &__subtitle {
         font-size: $font-size-base;
         color: $np-taupe;
         margin: 0;
         opacity: 0.9;
     }
 
-    &__list{
+    &__list {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
     }
 
-    &__pagination{
+    &__pagination {
         display: flex;
         gap: 1rem;
         margin-top: 2rem;
     }
 }
 
-.order-card{
+.order-card {
     background: $np-white;
     border-radius: $border-radius-xl;
     padding: 1.5rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     border: 1px solid $np-gray-light;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
-    &__header{
+    &__header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         gap: 1rem;
     }
 
-    &__id-date{
+    &__id-date {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
     }
 
-    &__id{
+    &__id {
         font-size: $font-size-lg;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
         margin: 0;
     }
 
-    &__date{
+    &__date {
         font-size: $font-size-sm;
         color: $np-taupe;
     }
 
-    &__badge{
+    &__badge {
         font-size: $font-size-sm;
         font-weight: $font-weight-semibold;
         padding: 0.25em 0.6em;
@@ -839,38 +853,42 @@ $np-green-badge: #E0FFE0;
         background-color: $np-green-light;
         color: $np-white;
 
-        &--completed{
+        &--completed {
             background-color: $np-green-light;
             color: $np-white;
         }
-        &--processing{
+
+        &--processing {
             background-color: #f0ad4e;
             color: $np-white;
         }
-        &--on-hold{
+
+        &--on-hold {
             background-color: #f0ad4e;
             color: $np-white;
         }
-        &--pending{
+
+        &--pending {
             background-color: rgba($np-taupe, 0.2);
             color: $np-taupe;
         }
+
         &--cancelled,
         &--refunded,
-        &--failed{
+        &--failed {
             background-color: rgba($np-taupe, 0.15);
             color: $np-taupe;
         }
     }
 
-    &__items{
+    &__items {
         font-size: $font-size-base;
         color: $np-taupe;
         margin: 0;
         line-height: 1.5;
     }
 
-    &__footer{
+    &__footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -878,13 +896,13 @@ $np-green-badge: #E0FFE0;
         margin-top: 0.5rem;
     }
 
-    &__total{
+    &__total {
         font-size: $font-size-base;
         font-weight: $font-weight-bold;
         color: $np-green-dark;
     }
 
-    &__btn{
+    &__btn {
         display: inline-flex;
         align-items: center;
         padding: 0.4em 0.9em;
@@ -897,7 +915,7 @@ $np-green-badge: #E0FFE0;
         color: $np-taupe;
         transition: background-color 0.2s, border-color 0.2s;
 
-        &:hover{
+        &:hover {
             background-color: rgba($np-taupe, 0.06);
             border-color: $np-taupe;
         }
@@ -905,7 +923,7 @@ $np-green-badge: #E0FFE0;
 }
 
 .woocommerce-MyAccount-orders {
-    .woocommerce-button{
+    .woocommerce-button {
         background-color: $np-teal;
         color: $np-white;
         padding: 0.2em 2em;
@@ -916,28 +934,31 @@ $np-green-badge: #E0FFE0;
         cursor: pointer;
     }
 
-    thead{
+    thead {
         font-size: $font-size-base;
-        background-color:var(--wp--preset--color--custom-vert-gris);
-        th{
-            padding: 15px!important;
+        background-color: var(--wp--preset--color--custom-vert-gris);
+
+        th {
+            padding: 15px !important;
         }
     }
-    .woocommerce-orders-table__row{
-        > *{
-            padding:5px 15px!important;
+
+    .woocommerce-orders-table__row {
+        >* {
+            padding: 5px 15px !important;
         }
     }
 }
 
-.edit-account-form-medaillon{
+.edit-account-form-medaillon {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-wrap: wrap;
     column-gap: 2rem;
 
-    .form-row,.row-animal-photo{
+    .form-row,
+    .row-animal-photo {
         width: 48%;
         // flex-grow: 2;
         max-width: 100%;
@@ -945,16 +966,16 @@ $np-green-badge: #E0FFE0;
         margin: 0;
     }
 
-    .row-animal-photo{
+    .row-animal-photo {
 
-        > div{
+        >div {
             height: 100%;
             width: 100%;
             overflow: hidden;
-            margin-top: 10px!important;
+            margin-top: 10px !important;
             border-radius: 8px;
 
-            img{
+            img {
                 max-width: 100%;
                 width: 100%;
                 object-fit: cover;
@@ -962,24 +983,28 @@ $np-green-badge: #E0FFE0;
             }
         }
 
-        input[type="file"]{
-            margin-top: 10px!important;
+        input[type="file"] {
+            margin-top: 10px !important;
             font-size: $font-size-base;
             font-weight: $font-weight-normal;
             color: $np-taupe;
-            line-height: 1!important;
+            line-height: 1 !important;
             padding: 10px 20px;
             border-radius: 100px;
             border: none;
             cursor: pointer;
         }
-        
+
     }
 
-    fieldset{
+    fieldset {
         width: 100%;
         max-width: 100%;
         padding: 0;
         margin: 0;
     }
+}
+
+.woocommerce form .form-row {
+    flex-grow: 2;
 }

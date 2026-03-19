@@ -6,7 +6,7 @@
  * @package Naturapets
  */
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
@@ -25,7 +25,7 @@ require_once get_stylesheet_directory() . '/includes/class-qrcode.php';
  */
 function naturapets_allow_svg_upload($mimes)
 {
-	$mimes['svg']  = 'image/svg+xml';
+	$mimes['svg'] = 'image/svg+xml';
 	$mimes['svgz'] = 'image/svg+xml';
 	return $mimes;
 }
@@ -152,7 +152,7 @@ function naturapets_fix_svg_mime_type($data, $file, $filename, $mimes)
 		$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 		if ($ext === 'svg' || $ext === 'svgz') {
 			$data['type'] = 'image/svg+xml';
-			$data['ext']  = $ext;
+			$data['ext'] = $ext;
 			$data['proper_filename'] = $filename;
 		}
 	}
@@ -253,8 +253,20 @@ function naturapets_enqueue_header_scroll()
 			true
 		);
 	}
+
+	$mobile_menu_file = get_stylesheet_directory() . '/assets/js/mobile-menu.js';
+	if (file_exists($mobile_menu_file)) {
+		wp_enqueue_script(
+			'naturapets-mobile-menu',
+			get_stylesheet_directory_uri() . '/assets/js/mobile-menu.js',
+			array(),
+			filemtime($mobile_menu_file),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'naturapets_enqueue_header_scroll');
+
 
 /**
  * ==========================================================================
@@ -270,7 +282,7 @@ function naturapets_customize_register_banner($wp_customize)
 	$wp_customize->add_section(
 		'np_top_banner',
 		array(
-			'title'    => __('Bandeau du haut', 'naturapets'),
+			'title' => __('Bandeau du haut', 'naturapets'),
 			'priority' => 30,
 		)
 	);
@@ -278,24 +290,24 @@ function naturapets_customize_register_banner($wp_customize)
 	$wp_customize->add_setting(
 		'np_top_banner_enabled',
 		array(
-			'default'           => false,
-			'sanitize_callback'  => 'wp_validate_boolean',
+			'default' => false,
+			'sanitize_callback' => 'wp_validate_boolean',
 		)
 	);
 
 	$wp_customize->add_control(
 		'np_top_banner_enabled',
 		array(
-			'label'   => __('Afficher le bandeau', 'naturapets'),
+			'label' => __('Afficher le bandeau', 'naturapets'),
 			'section' => 'np_top_banner',
-			'type'    => 'checkbox',
+			'type' => 'checkbox',
 		)
 	);
 
 	$wp_customize->add_setting(
 		'np_top_banner_text',
 		array(
-			'default'           => '',
+			'default' => '',
 			'sanitize_callback' => 'sanitize_textarea_field',
 		)
 	);
@@ -303,10 +315,10 @@ function naturapets_customize_register_banner($wp_customize)
 	$wp_customize->add_control(
 		'np_top_banner_text',
 		array(
-			'label'       => __('Texte du bandeau', 'naturapets'),
+			'label' => __('Texte du bandeau', 'naturapets'),
 			'description' => __('Ce texte s\'affiche tout en haut de la page lorsque le bandeau est activé.', 'naturapets'),
-			'section'     => 'np_top_banner',
-			'type'        => 'textarea',
+			'section' => 'np_top_banner',
+			'type' => 'textarea',
 			'input_attrs' => array(
 				'placeholder' => __('Ex. : Livraison offerte à partir de 50 € d\'achat', 'naturapets'),
 			),
@@ -320,7 +332,7 @@ add_action('customize_register', 'naturapets_customize_register_banner');
  */
 function naturapets_output_top_banner()
 {
-	if (! get_theme_mod('np_top_banner_enabled', false)) {
+	if (!get_theme_mod('np_top_banner_enabled', false)) {
 		return;
 	}
 
@@ -346,74 +358,74 @@ function naturapets_myaccount_qr_modal_script()
 	}
 	?>
 	<script>
-	(function() {
-		document.addEventListener('DOMContentLoaded', function() {
-			// Modal QR Code (page Mes médaillons)
-			var modal = document.getElementById('animal-qr-modal');
-			if (modal) {
-				var triggers = document.querySelectorAll('.animal-card__qr-trigger');
-				var img = modal.querySelector('.animal-qr-modal__img');
-				var title = modal.querySelector('.animal-qr-modal__title');
-				var backdrop = modal.querySelector('.animal-qr-modal__backdrop');
-				var closeBtn = modal.querySelector('.animal-qr-modal__close');
-				function openModal(url, name) {
-					if (img) img.src = url;
-					if (title) title.textContent = 'QR Code - ' + (name || '');
-					modal.classList.add('is-open');
-					modal.setAttribute('aria-hidden', 'false');
-				}
-				function closeModal() {
-					modal.classList.remove('is-open');
-					modal.setAttribute('aria-hidden', 'true');
-				}
-				triggers.forEach(function(btn) {
-					btn.addEventListener('click', function() {
-						openModal(btn.getAttribute('data-qr-url'), btn.getAttribute('data-animal-name'));
+		(function () {
+			document.addEventListener('DOMContentLoaded', function () {
+				// Modal QR Code (page Mes médaillons)
+				var modal = document.getElementById('animal-qr-modal');
+				if (modal) {
+					var triggers = document.querySelectorAll('.animal-card__qr-trigger');
+					var img = modal.querySelector('.animal-qr-modal__img');
+					var title = modal.querySelector('.animal-qr-modal__title');
+					var backdrop = modal.querySelector('.animal-qr-modal__backdrop');
+					var closeBtn = modal.querySelector('.animal-qr-modal__close');
+					function openModal(url, name) {
+						if (img) img.src = url;
+						if (title) title.textContent = 'QR Code - ' + (name || '');
+						modal.classList.add('is-open');
+						modal.setAttribute('aria-hidden', 'false');
+					}
+					function closeModal() {
+						modal.classList.remove('is-open');
+						modal.setAttribute('aria-hidden', 'true');
+					}
+					triggers.forEach(function (btn) {
+						btn.addEventListener('click', function () {
+							openModal(btn.getAttribute('data-qr-url'), btn.getAttribute('data-animal-name'));
+						});
 					});
-				});
-				if (backdrop) backdrop.addEventListener('click', closeModal);
-				if (closeBtn) closeBtn.addEventListener('click', closeModal);
-				document.addEventListener('keydown', function(e) {
-					if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
-				});
-			}
+					if (backdrop) backdrop.addEventListener('click', closeModal);
+					if (closeBtn) closeBtn.addEventListener('click', closeModal);
+					document.addEventListener('keydown', function (e) {
+						if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+					});
+				}
 
-			// Modal suppression de compte (page Profil)
-			var deleteTrigger = document.getElementById('np-delete-account-trigger');
-			var deleteModal = document.getElementById('np-delete-account-modal');
-			if (deleteTrigger && deleteModal) {
-				var deleteBackdrop = deleteModal.querySelector('.np-delete-account-modal__backdrop');
-				var deleteClose = deleteModal.querySelector('.np-delete-account-modal__close');
-				var deleteCancel = deleteModal.querySelector('.np-delete-account-modal__cancel');
-				function openDeleteModal() {
-					deleteModal.classList.add('is-open');
-					deleteModal.setAttribute('aria-hidden', 'false');
+				// Modal suppression de compte (page Profil)
+				var deleteTrigger = document.getElementById('np-delete-account-trigger');
+				var deleteModal = document.getElementById('np-delete-account-modal');
+				if (deleteTrigger && deleteModal) {
+					var deleteBackdrop = deleteModal.querySelector('.np-delete-account-modal__backdrop');
+					var deleteClose = deleteModal.querySelector('.np-delete-account-modal__close');
+					var deleteCancel = deleteModal.querySelector('.np-delete-account-modal__cancel');
+					function openDeleteModal() {
+						deleteModal.classList.add('is-open');
+						deleteModal.setAttribute('aria-hidden', 'false');
+					}
+					function closeDeleteModal() {
+						deleteModal.classList.remove('is-open');
+						deleteModal.setAttribute('aria-hidden', 'true');
+					}
+					deleteTrigger.addEventListener('click', openDeleteModal);
+					if (deleteBackdrop) deleteBackdrop.addEventListener('click', closeDeleteModal);
+					if (deleteClose) deleteClose.addEventListener('click', closeDeleteModal);
+					if (deleteCancel) deleteCancel.addEventListener('click', closeDeleteModal);
+					document.addEventListener('keydown', function (e) {
+						if (e.key === 'Escape' && deleteModal.classList.contains('is-open')) closeDeleteModal();
+					});
 				}
-				function closeDeleteModal() {
-					deleteModal.classList.remove('is-open');
-					deleteModal.setAttribute('aria-hidden', 'true');
-				}
-				deleteTrigger.addEventListener('click', openDeleteModal);
-				if (deleteBackdrop) deleteBackdrop.addEventListener('click', closeDeleteModal);
-				if (deleteClose) deleteClose.addEventListener('click', closeDeleteModal);
-				if (deleteCancel) deleteCancel.addEventListener('click', closeDeleteModal);
-				document.addEventListener('keydown', function(e) {
-					if (e.key === 'Escape' && deleteModal.classList.contains('is-open')) closeDeleteModal();
-				});
-			}
 
-			// Checkbox "adresse livraison = adresse facturation"
-			var shipToBilling = document.getElementById('ship_to_billing_address');
-			var shippingFields = document.getElementById('shipping-address-fields');
-			if (shipToBilling && shippingFields) {
-				function toggleShippingFields() {
-					shippingFields.style.display = shipToBilling.checked ? 'none' : '';
+				// Checkbox "adresse livraison = adresse facturation"
+				var shipToBilling = document.getElementById('ship_to_billing_address');
+				var shippingFields = document.getElementById('shipping-address-fields');
+				if (shipToBilling && shippingFields) {
+					function toggleShippingFields() {
+						shippingFields.style.display = shipToBilling.checked ? 'none' : '';
+					}
+					toggleShippingFields();
+					shipToBilling.addEventListener('change', toggleShippingFields);
 				}
-				toggleShippingFields();
-				shipToBilling.addEventListener('change', toggleShippingFields);
-			}
-		});
-	})();
+			});
+		})();
 	</script>
 	<?php
 }
@@ -535,7 +547,7 @@ add_action('wp_body_open', 'naturapets_account_deleted_notice', 5);
  */
 function naturapets_register_hero_block()
 {
-	if (! function_exists('acf_register_block_type') && ! function_exists('register_block_type')) {
+	if (!function_exists('acf_register_block_type') && !function_exists('register_block_type')) {
 		return;
 	}
 	$block_path = get_stylesheet_directory() . '/blocks/hero-section';
@@ -578,53 +590,53 @@ add_action('init', 'naturapets_register_hero_block');
  */
 function naturapets_hero_block_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_hero_section',
-			'title'                 => 'Bloc Section Hero – Champs',
-			'fields'                => array(
+			'key' => 'group_naturapets_hero_section',
+			'title' => 'Bloc Section Hero – Champs',
+			'fields' => array(
 				array(
-					'key'   => 'field_hero_texte_haut',
+					'key' => 'field_hero_texte_haut',
 					'label' => 'Texte en haut à droite',
-					'name'  => 'texte_haut',
-					'type'  => 'textarea',
-					'rows'  => 3,
+					'name' => 'texte_haut',
+					'type' => 'textarea',
+					'rows' => 3,
 					'placeholder' => "Un système\nsimple et efficace",
 				),
 				array(
-					'key'   => 'field_hero_texte_bas',
+					'key' => 'field_hero_texte_bas',
 					'label' => 'Texte en bas à gauche',
-					'name'  => 'texte_bas',
-					'type'  => 'textarea',
-					'rows'  => 3,
+					'name' => 'texte_bas',
+					'type' => 'textarea',
+					'rows' => 3,
 					'placeholder' => "Pour nos amis les\nbêtes",
 				),
 				array(
-					'key'           => 'field_hero_image_haut_gauche',
-					'label'         => 'Image en haut à gauche',
-					'name'          => 'image_haut_gauche',
-					'type'          => 'image',
+					'key' => 'field_hero_image_haut_gauche',
+					'label' => 'Image en haut à gauche',
+					'name' => 'image_haut_gauche',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
+					'preview_size' => 'medium',
 				),
 				array(
-					'key'           => 'field_hero_image_bas_droite',
-					'label'         => 'Image en bas à droite',
-					'name'          => 'image_bas_droite',
-					'type'          => 'image',
+					'key' => 'field_hero_image_bas_droite',
+					'label' => 'Image en bas à droite',
+					'name' => 'image_bas_droite',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
+					'preview_size' => 'medium',
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/hero-section',
+						'value' => 'naturapets/hero-section',
 					),
 				),
 			),
@@ -638,103 +650,103 @@ add_action('acf/init', 'naturapets_hero_block_field_group');
  */
 function naturapets_hero_banner_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_hero_banner',
-			'title'                 => 'Bloc Bannière Hero – Champs',
-			'fields'                => array(
+			'key' => 'group_naturapets_hero_banner',
+			'title' => 'Bloc Bannière Hero – Champs',
+			'fields' => array(
 				array(
-					'key'           => 'field_hero_banner_image',
-					'label'         => 'Image de fond',
-					'name'          => 'hero_banner_image',
-					'type'          => 'image',
+					'key' => 'field_hero_banner_image',
+					'label' => 'Image de fond',
+					'name' => 'hero_banner_image',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
-					'instructions'  => 'Affichée si aucune vidéo n\'est renseignée.',
+					'preview_size' => 'medium',
+					'instructions' => 'Affichée si aucune vidéo n\'est renseignée.',
 				),
 				array(
-					'key'           => 'field_hero_banner_video',
-					'label'         => 'Vidéo de fond',
-					'name'          => 'hero_banner_video',
-					'type'          => 'file',
+					'key' => 'field_hero_banner_video',
+					'label' => 'Vidéo de fond',
+					'name' => 'hero_banner_video',
+					'type' => 'file',
 					'return_format' => 'array',
-					'mime_types'    => 'mp4,webm',
-					'instructions'  => 'Prioritaire sur l\'image. Formats : MP4, WebM.',
+					'mime_types' => 'mp4,webm',
+					'instructions' => 'Prioritaire sur l\'image. Formats : MP4, WebM.',
 				),
 				array(
-					'key'         => 'field_hero_banner_titre',
-					'label'       => 'Titre',
-					'name'        => 'hero_banner_titre',
-					'type'        => 'text',
+					'key' => 'field_hero_banner_titre',
+					'label' => 'Titre',
+					'name' => 'hero_banner_titre',
+					'type' => 'text',
 					'placeholder' => 'Naturapets',
 				),
 				array(
-					'key'         => 'field_hero_banner_slogan',
-					'label'       => 'Slogan',
-					'name'        => 'hero_banner_slogan',
-					'type'        => 'text',
+					'key' => 'field_hero_banner_slogan',
+					'label' => 'Slogan',
+					'name' => 'hero_banner_slogan',
+					'type' => 'text',
 					'placeholder' => 'La tranquillité au bout du collier',
 				),
 				array(
-					'key'         => 'field_hero_banner_bouton_texte',
-					'label'       => 'Texte du bouton',
-					'name'        => 'hero_banner_bouton_texte',
-					'type'        => 'text',
+					'key' => 'field_hero_banner_bouton_texte',
+					'label' => 'Texte du bouton',
+					'name' => 'hero_banner_bouton_texte',
+					'type' => 'text',
 					'placeholder' => 'Découvrir',
 				),
 				array(
-					'key'         => 'field_hero_banner_bouton_url',
-					'label'       => 'URL du bouton',
-					'name'        => 'hero_banner_bouton_url',
-					'type'        => 'url',
+					'key' => 'field_hero_banner_bouton_url',
+					'label' => 'URL du bouton',
+					'name' => 'hero_banner_bouton_url',
+					'type' => 'url',
 					'placeholder' => 'https://',
 				),
 				array(
-					'key'           => 'field_hero_banner_bouton_taille',
-					'label'         => 'Taille du bouton',
-					'name'          => 'hero_banner_bouton_taille',
-					'type'          => 'select',
-					'choices'       => array(
-						''          => __('Défaut (thème)', 'naturapets'),
-						'x-small'   => __('Très petit', 'naturapets'),
-						'small'     => __('Petit', 'naturapets'),
-						'medium'    => __('Moyen', 'naturapets'),
-						'large'     => __('Grand', 'naturapets'),
-						'x-large'   => __('Très grand', 'naturapets'),
+					'key' => 'field_hero_banner_bouton_taille',
+					'label' => 'Taille du bouton',
+					'name' => 'hero_banner_bouton_taille',
+					'type' => 'select',
+					'choices' => array(
+						'' => __('Défaut (thème)', 'naturapets'),
+						'x-small' => __('Très petit', 'naturapets'),
+						'small' => __('Petit', 'naturapets'),
+						'medium' => __('Moyen', 'naturapets'),
+						'large' => __('Grand', 'naturapets'),
+						'x-large' => __('Très grand', 'naturapets'),
 					),
 					'default_value' => '',
-					'instructions'  => __('Utilise les presets de typographie du thème.', 'naturapets'),
+					'instructions' => __('Utilise les presets de typographie du thème.', 'naturapets'),
 				),
 				array(
-					'key'           => 'field_hero_banner_titre_taille',
-					'label'         => 'Taille du titre',
-					'name'          => 'hero_banner_titre_taille',
-					'type'          => 'select',
-					'choices'       => array(
-						''          => __('Défaut (ou panneau Typographie du bloc)', 'naturapets'),
-						'x-small'   => __('Très petit', 'naturapets'),
-						'small'     => __('Petit', 'naturapets'),
-						'medium'    => __('Moyen', 'naturapets'),
-						'large'     => __('Grand', 'naturapets'),
-						'x-large'   => __('Très grand', 'naturapets'),
-						'max-36'    => __('36px', 'naturapets'),
-						'max-48'    => __('48px', 'naturapets'),
-						'max-60'    => __('60px', 'naturapets'),
-						'max-72'    => __('72px', 'naturapets'),
+					'key' => 'field_hero_banner_titre_taille',
+					'label' => 'Taille du titre',
+					'name' => 'hero_banner_titre_taille',
+					'type' => 'select',
+					'choices' => array(
+						'' => __('Défaut (ou panneau Typographie du bloc)', 'naturapets'),
+						'x-small' => __('Très petit', 'naturapets'),
+						'small' => __('Petit', 'naturapets'),
+						'medium' => __('Moyen', 'naturapets'),
+						'large' => __('Grand', 'naturapets'),
+						'x-large' => __('Très grand', 'naturapets'),
+						'max-36' => __('36px', 'naturapets'),
+						'max-48' => __('48px', 'naturapets'),
+						'max-60' => __('60px', 'naturapets'),
+						'max-72' => __('72px', 'naturapets'),
 					),
 					'default_value' => '',
-					'instructions'  => __('Optionnel. Sinon, utilisez le panneau « Typographie » dans la barre latérale du bloc.', 'naturapets'),
+					'instructions' => __('Optionnel. Sinon, utilisez le panneau « Typographie » dans la barre latérale du bloc.', 'naturapets'),
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/hero-banner',
+						'value' => 'naturapets/hero-banner',
 					),
 				),
 			),
@@ -748,59 +760,59 @@ add_action('acf/init', 'naturapets_hero_banner_field_group');
  */
 function naturapets_split_cta_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_split_cta',
-			'title'                 => 'Bloc Section deux colonnes – Champs',
-			'fields'                => array(
+			'key' => 'group_naturapets_split_cta',
+			'title' => 'Bloc Section deux colonnes – Champs',
+			'fields' => array(
 				array(
-					'key'           => 'field_split_cta_image_gauche',
-					'label'         => 'Image colonne gauche',
-					'name'          => 'split_cta_image_gauche',
-					'type'          => 'image',
+					'key' => 'field_split_cta_image_gauche',
+					'label' => 'Image colonne gauche',
+					'name' => 'split_cta_image_gauche',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
-					'instructions'  => 'Optionnel. Si vide, fond gris clair affiché.',
+					'preview_size' => 'medium',
+					'instructions' => 'Optionnel. Si vide, fond gris clair affiché.',
 				),
 				array(
-					'key'         => 'field_split_cta_titre',
-					'label'       => 'Titre',
-					'name'        => 'split_cta_titre',
-					'type'        => 'text',
+					'key' => 'field_split_cta_titre',
+					'label' => 'Titre',
+					'name' => 'split_cta_titre',
+					'type' => 'text',
 					'placeholder' => 'GROS TITRE',
 				),
 				array(
-					'key'         => 'field_split_cta_texte',
-					'label'       => 'Texte',
-					'name'        => 'split_cta_texte',
-					'type'        => 'textarea',
-					'rows'        => 4,
+					'key' => 'field_split_cta_texte',
+					'label' => 'Texte',
+					'name' => 'split_cta_texte',
+					'type' => 'textarea',
+					'rows' => 4,
 					'placeholder' => 'Lorem ipsum dolor sit amet...',
 				),
 				array(
-					'key'         => 'field_split_cta_bouton_texte',
-					'label'       => 'Texte du bouton',
-					'name'        => 'split_cta_bouton_texte',
-					'type'        => 'text',
+					'key' => 'field_split_cta_bouton_texte',
+					'label' => 'Texte du bouton',
+					'name' => 'split_cta_bouton_texte',
+					'type' => 'text',
 					'placeholder' => 'Découvrir',
 				),
 				array(
-					'key'         => 'field_split_cta_bouton_url',
-					'label'       => 'URL du bouton',
-					'name'        => 'split_cta_bouton_url',
-					'type'        => 'url',
+					'key' => 'field_split_cta_bouton_url',
+					'label' => 'URL du bouton',
+					'name' => 'split_cta_bouton_url',
+					'type' => 'url',
 					'placeholder' => 'https://',
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/split-cta',
+						'value' => 'naturapets/split-cta',
 					),
 				),
 			),
@@ -814,58 +826,58 @@ add_action('acf/init', 'naturapets_split_cta_field_group');
  */
 function naturapets_found_animal_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_found_animal',
-			'title'                 => "Bloc J'ai trouvé un animal – Champs",
-			'fields'                => array(
+			'key' => 'group_naturapets_found_animal',
+			'title' => "Bloc J'ai trouvé un animal – Champs",
+			'fields' => array(
 				array(
-					'key'         => 'field_found_animal_titre',
-					'label'       => 'Titre',
-					'name'        => 'found_animal_titre',
-					'type'        => 'text',
+					'key' => 'field_found_animal_titre',
+					'label' => 'Titre',
+					'name' => 'found_animal_titre',
+					'type' => 'text',
 					'placeholder' => "J'ai trouvé un animal",
 				),
 				array(
-					'key'         => 'field_found_animal_placeholder',
-					'label'       => 'Placeholder du champ',
-					'name'        => 'found_animal_placeholder',
-					'type'        => 'text',
+					'key' => 'field_found_animal_placeholder',
+					'label' => 'Placeholder du champ',
+					'name' => 'found_animal_placeholder',
+					'type' => 'text',
 					'placeholder' => 'entrer le numéro du médaillon',
 				),
 				array(
-					'key'         => 'field_found_animal_bouton_texte',
-					'label'       => 'Texte du bouton',
-					'name'        => 'found_animal_bouton_texte',
-					'type'        => 'text',
+					'key' => 'field_found_animal_bouton_texte',
+					'label' => 'Texte du bouton',
+					'name' => 'found_animal_bouton_texte',
+					'type' => 'text',
 					'placeholder' => 'Chercher',
 				),
 				array(
-					'key'         => 'field_found_animal_form_action_url',
-					'label'       => 'URL de la page de recherche',
-					'name'        => 'found_animal_form_action_url',
-					'type'        => 'url',
+					'key' => 'field_found_animal_form_action_url',
+					'label' => 'URL de la page de recherche',
+					'name' => 'found_animal_form_action_url',
+					'type' => 'url',
 					'placeholder' => 'https://',
 					'instructions' => 'Page vers laquelle le formulaire envoie (GET). Si vide, accueil.',
 				),
 				array(
-					'key'         => 'field_found_animal_param_name',
-					'label'       => 'Nom du paramètre (médaillon)',
-					'name'        => 'found_animal_param_name',
-					'type'        => 'text',
+					'key' => 'field_found_animal_param_name',
+					'label' => 'Nom du paramètre (médaillon)',
+					'name' => 'found_animal_param_name',
+					'type' => 'text',
 					'placeholder' => 'medaillon',
 					'instructions' => 'Nom du paramètre GET pour le numéro de médaillon.',
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/found-animal',
+						'value' => 'naturapets/found-animal',
 					),
 				),
 			),
@@ -879,45 +891,45 @@ add_action('acf/init', 'naturapets_found_animal_field_group');
  */
 function naturapets_testimonial_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_testimonial',
-			'title'                 => 'Bloc Témoignage – Champs',
-			'fields'                => array(
+			'key' => 'group_naturapets_testimonial',
+			'title' => 'Bloc Témoignage – Champs',
+			'fields' => array(
 				array(
-					'key'           => 'field_testimonial_photo',
-					'label'         => 'Photo (cercle)',
-					'name'          => 'testimonial_photo',
-					'type'          => 'image',
+					'key' => 'field_testimonial_photo',
+					'label' => 'Photo (cercle)',
+					'name' => 'testimonial_photo',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
-					'instructions'  => __('Optionnel. Si vide, un cercle gris est affiché.', 'naturapets'),
+					'preview_size' => 'medium',
+					'instructions' => __('Optionnel. Si vide, un cercle gris est affiché.', 'naturapets'),
 				),
 				array(
-					'key'         => 'field_testimonial_citation',
-					'label'       => 'Citation',
-					'name'        => 'testimonial_citation',
-					'type'        => 'textarea',
-					'rows'        => 3,
+					'key' => 'field_testimonial_citation',
+					'label' => 'Citation',
+					'name' => 'testimonial_citation',
+					'type' => 'textarea',
+					'rows' => 3,
 					'placeholder' => __("J'ai retrouvé facilement Rantanplan et j'en suis très rassurée!", 'naturapets'),
 				),
 				array(
-					'key'         => 'field_testimonial_auteur',
-					'label'       => 'Auteur',
-					'name'        => 'testimonial_auteur',
-					'type'        => 'text',
+					'key' => 'field_testimonial_auteur',
+					'label' => 'Auteur',
+					'name' => 'testimonial_auteur',
+					'type' => 'text',
 					'placeholder' => 'Liliane',
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/testimonial',
+						'value' => 'naturapets/testimonial',
 					),
 				),
 			),
@@ -935,8 +947,8 @@ function naturapets_get_theme_color_palette()
 	$palette = array();
 	if (class_exists('WP_Theme_JSON_Resolver')) {
 		$theme_json = WP_Theme_JSON_Resolver::get_merged_data();
-		$settings   = $theme_json->get_settings();
-		$raw        = $settings['color']['palette'] ?? array();
+		$settings = $theme_json->get_settings();
+		$raw = $settings['color']['palette'] ?? array();
 		foreach ($raw as $item) {
 			if (!empty($item['color'])) {
 				$hex = is_string($item['color']) ? $item['color'] : '';
@@ -965,43 +977,43 @@ function naturapets_get_theme_color_palette()
  */
 function naturapets_icone_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	$palette_choices = naturapets_get_theme_color_palette();
-	$default_hex     = array_key_first($palette_choices);
+	$default_hex = array_key_first($palette_choices);
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_icone',
-			'title'                 => 'Bloc Icône – Champs',
-			'fields'                => array(
+			'key' => 'group_naturapets_icone',
+			'title' => 'Bloc Icône – Champs',
+			'fields' => array(
 				array(
-					'key'           => 'field_icone_image',
-					'label'         => 'Image',
-					'name'          => 'icone_image',
-					'type'          => 'image',
+					'key' => 'field_icone_image',
+					'label' => 'Image',
+					'name' => 'icone_image',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'thumbnail',
-					'instructions'  => __('Image affichée au centre du cercle. Taille max 60×60 px.', 'naturapets'),
+					'preview_size' => 'thumbnail',
+					'instructions' => __('Image affichée au centre du cercle. Taille max 60×60 px.', 'naturapets'),
 				),
 				array(
-					'key'           => 'field_icone_background',
-					'label'         => 'Couleur de fond',
-					'name'          => 'icone_background',
-					'type'          => 'radio',
-					'choices'       => $palette_choices,
+					'key' => 'field_icone_background',
+					'label' => 'Couleur de fond',
+					'name' => 'icone_background',
+					'type' => 'radio',
+					'choices' => $palette_choices,
 					'default_value' => $default_hex ?: '#848A71',
-					'layout'        => 'horizontal',
+					'layout' => 'horizontal',
 					'return_format' => 'value',
-					'instructions'  => __('Couleur du cercle de fond (palette du thème).', 'naturapets'),
+					'instructions' => __('Couleur du cercle de fond (palette du thème).', 'naturapets'),
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/icone',
+						'value' => 'naturapets/icone',
 					),
 				),
 			),
@@ -1015,45 +1027,45 @@ add_action('acf/init', 'naturapets_icone_field_group');
  */
 function naturapets_product_gallery_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_product_gallery',
-			'title'                 => 'Bloc Galerie produit – Champs',
-			'fields'                => array(
+			'key' => 'group_naturapets_product_gallery',
+			'title' => 'Bloc Galerie produit – Champs',
+			'fields' => array(
 				array(
-					'key'           => 'field_product_gallery_image_1',
-					'label'         => __('Image principale (en haut)', 'naturapets'),
-					'name'          => 'product_gallery_image_1',
-					'type'          => 'image',
+					'key' => 'field_product_gallery_image_1',
+					'label' => __('Image principale (en haut)', 'naturapets'),
+					'name' => 'product_gallery_image_1',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
+					'preview_size' => 'medium',
 				),
 				array(
-					'key'           => 'field_product_gallery_image_2',
-					'label'         => __('Image bandeau (au centre)', 'naturapets'),
-					'name'          => 'product_gallery_image_2',
-					'type'          => 'image',
+					'key' => 'field_product_gallery_image_2',
+					'label' => __('Image bandeau (au centre)', 'naturapets'),
+					'name' => 'product_gallery_image_2',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
+					'preview_size' => 'medium',
 				),
 				array(
-					'key'           => 'field_product_gallery_image_3',
-					'label'         => __('Image grande (en bas)', 'naturapets'),
-					'name'          => 'product_gallery_image_3',
-					'type'          => 'image',
+					'key' => 'field_product_gallery_image_3',
+					'label' => __('Image grande (en bas)', 'naturapets'),
+					'name' => 'product_gallery_image_3',
+					'type' => 'image',
 					'return_format' => 'array',
-					'preview_size'  => 'medium',
+					'preview_size' => 'medium',
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/product-gallery',
+						'value' => 'naturapets/product-gallery',
 					),
 				),
 			),
@@ -1073,137 +1085,137 @@ add_action('acf/init', 'naturapets_product_gallery_field_group');
  */
 function naturapets_moveblock_field_group()
 {
-	if (! function_exists('acf_add_local_field_group')) {
+	if (!function_exists('acf_add_local_field_group')) {
 		return;
 	}
 	$effect_choices = array(
-		'fadeIn'         => 'Fade In',
-		'fadeOut'        => 'Fade Out',
-		'fadeFromTo'     => 'Fade In/Out',
-		'slideInLeft'    => 'Slide from left',
-		'slideInRight'   => 'Slide from right',
-		'slideInTop'     => 'Slide from top',
-		'slideInBottom'  => 'Slide from bottom',
-		'slideOutLeft'   => 'Slide to left',
-		'slideOutRight'  => 'Slide to right',
-		'moveX'          => 'Move X',
-		'moveY'          => 'Move Y',
-		'scaleUp'        => 'Scale up',
-		'scaleDown'      => 'Scale down',
-		'scaleFromTo'    => 'Scale pulse',
-		'scaleX'         => 'Scale X',
-		'scaleY'         => 'Scale Y',
-		'rotateIn'       => 'Rotate in',
-		'rotateOut'      => 'Rotate out',
-		'rotateY'        => 'Rotate Y (3D)',
-		'rotateX'        => 'Rotate X (3D)',
-		'skewIn'         => 'Skew in',
-		'skewOut'        => 'Skew out',
-		'popIn'          => 'Pop in',
-		'blurIn'         => 'Blur in',
-		'blurOut'        => 'Blur out',
-		'dropIn'         => 'Drop in',
-		'bounceIn'       => 'Bounce in',
-		'colorChange'    => 'Color change',
+		'fadeIn' => 'Fade In',
+		'fadeOut' => 'Fade Out',
+		'fadeFromTo' => 'Fade In/Out',
+		'slideInLeft' => 'Slide from left',
+		'slideInRight' => 'Slide from right',
+		'slideInTop' => 'Slide from top',
+		'slideInBottom' => 'Slide from bottom',
+		'slideOutLeft' => 'Slide to left',
+		'slideOutRight' => 'Slide to right',
+		'moveX' => 'Move X',
+		'moveY' => 'Move Y',
+		'scaleUp' => 'Scale up',
+		'scaleDown' => 'Scale down',
+		'scaleFromTo' => 'Scale pulse',
+		'scaleX' => 'Scale X',
+		'scaleY' => 'Scale Y',
+		'rotateIn' => 'Rotate in',
+		'rotateOut' => 'Rotate out',
+		'rotateY' => 'Rotate Y (3D)',
+		'rotateX' => 'Rotate X (3D)',
+		'skewIn' => 'Skew in',
+		'skewOut' => 'Skew out',
+		'popIn' => 'Pop in',
+		'blurIn' => 'Blur in',
+		'blurOut' => 'Blur out',
+		'dropIn' => 'Drop in',
+		'bounceIn' => 'Bounce in',
+		'colorChange' => 'Color change',
 		'backgroundColor' => 'Background color',
 	);
 	$ease_choices = array(
-		'none'           => 'none',
-		'power1.in'      => 'power1.in',
-		'power1.out'     => 'power1.out',
-		'power1.inOut'   => 'power1.inOut',
-		'power2.in'      => 'power2.in',
-		'power2.out'     => 'power2.out',
-		'power2.inOut'   => 'power2.inOut',
-		'power3.in'      => 'power3.in',
-		'power3.out'     => 'power3.out',
-		'power3.inOut'   => 'power3.inOut',
-		'power4.in'      => 'power4.in',
-		'power4.out'     => 'power4.out',
-		'power4.inOut'   => 'power4.inOut',
-		'back.in'        => 'back.in',
-		'back.out'       => 'back.out',
-		'back.inOut'     => 'back.inOut',
-		'bounce.in'      => 'bounce.in',
-		'bounce.out'     => 'bounce.out',
-		'bounce.inOut'   => 'bounce.inOut',
-		'circ.in'        => 'circ.in',
-		'circ.out'       => 'circ.out',
-		'circ.inOut'     => 'circ.inOut',
-		'elastic.in'     => 'elastic.in',
-		'elastic.out'    => 'elastic.out',
-		'elastic.inOut'  => 'elastic.inOut',
-		'expo.in'        => 'expo.in',
-		'expo.out'       => 'expo.out',
-		'expo.inOut'     => 'expo.inOut',
-		'sine.in'        => 'sine.in',
-		'sine.out'       => 'sine.out',
-		'sine.inOut'     => 'sine.inOut',
+		'none' => 'none',
+		'power1.in' => 'power1.in',
+		'power1.out' => 'power1.out',
+		'power1.inOut' => 'power1.inOut',
+		'power2.in' => 'power2.in',
+		'power2.out' => 'power2.out',
+		'power2.inOut' => 'power2.inOut',
+		'power3.in' => 'power3.in',
+		'power3.out' => 'power3.out',
+		'power3.inOut' => 'power3.inOut',
+		'power4.in' => 'power4.in',
+		'power4.out' => 'power4.out',
+		'power4.inOut' => 'power4.inOut',
+		'back.in' => 'back.in',
+		'back.out' => 'back.out',
+		'back.inOut' => 'back.inOut',
+		'bounce.in' => 'bounce.in',
+		'bounce.out' => 'bounce.out',
+		'bounce.inOut' => 'bounce.inOut',
+		'circ.in' => 'circ.in',
+		'circ.out' => 'circ.out',
+		'circ.inOut' => 'circ.inOut',
+		'elastic.in' => 'elastic.in',
+		'elastic.out' => 'elastic.out',
+		'elastic.inOut' => 'elastic.inOut',
+		'expo.in' => 'expo.in',
+		'expo.out' => 'expo.out',
+		'expo.inOut' => 'expo.inOut',
+		'sine.in' => 'sine.in',
+		'sine.out' => 'sine.out',
+		'sine.inOut' => 'sine.inOut',
 	);
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_naturapets_moveblock',
-			'title'                 => 'Moveblock – Animation GSAP',
-			'fields'                => array(
+			'key' => 'group_naturapets_moveblock',
+			'title' => 'Moveblock – Animation GSAP',
+			'fields' => array(
 				array(
-					'key'          => 'field_moveblock_effect',
-					'label'        => 'Effet GSAP',
-					'name'         => 'effect',
-					'type'         => 'select',
-					'choices'      => $effect_choices,
+					'key' => 'field_moveblock_effect',
+					'label' => 'Effet GSAP',
+					'name' => 'effect',
+					'type' => 'select',
+					'choices' => $effect_choices,
 					'default_value' => 'fadeIn',
 				),
 				array(
-					'key'          => 'field_moveblock_target',
-					'label'        => 'Cibler l’élément (sélecteur CSS)',
-					'name'         => 'target_selector',
-					'type'         => 'text',
-					'placeholder'  => 'ex: .hero-title, #nav, .ma-classe',
+					'key' => 'field_moveblock_target',
+					'label' => 'Cibler l’élément (sélecteur CSS)',
+					'name' => 'target_selector',
+					'type' => 'text',
+					'placeholder' => 'ex: .hero-title, #nav, .ma-classe',
 					'instructions' => 'Sélecteur CSS de l’élément à animer sur la page (classe, id, etc.).',
 				),
 				array(
-					'key'          => 'field_moveblock_duration',
-					'label'        => 'Durée (secondes)',
-					'name'         => 'duration',
-					'type'         => 'number',
-					'min'          => 0,
-					'step'         => 0.1,
+					'key' => 'field_moveblock_duration',
+					'label' => 'Durée (secondes)',
+					'name' => 'duration',
+					'type' => 'number',
+					'min' => 0,
+					'step' => 0.1,
 					'default_value' => 1,
 				),
 				array(
-					'key'          => 'field_moveblock_delay',
-					'label'        => 'Délai (secondes)',
-					'name'         => 'delay',
-					'type'         => 'number',
-					'min'          => 0,
-					'step'         => 0.1,
+					'key' => 'field_moveblock_delay',
+					'label' => 'Délai (secondes)',
+					'name' => 'delay',
+					'type' => 'number',
+					'min' => 0,
+					'step' => 0.1,
 					'default_value' => 0,
 				),
 				array(
-					'key'          => 'field_moveblock_ease',
-					'label'        => 'Ease',
-					'name'         => 'ease',
-					'type'         => 'select',
-					'choices'      => $ease_choices,
+					'key' => 'field_moveblock_ease',
+					'label' => 'Ease',
+					'name' => 'ease',
+					'type' => 'select',
+					'choices' => $ease_choices,
 					'default_value' => 'power2.out',
 				),
 				array(
-					'key'          => 'field_moveblock_stagger',
-					'label'        => 'Stagger (secondes)',
-					'name'         => 'stagger',
-					'type'         => 'number',
-					'min'          => 0,
-					'step'         => 0.05,
+					'key' => 'field_moveblock_stagger',
+					'label' => 'Stagger (secondes)',
+					'name' => 'stagger',
+					'type' => 'number',
+					'min' => 0,
+					'step' => 0.05,
 					'default_value' => 0,
 					'instructions' => 'Décalage entre chaque élément si le sélecteur en cible plusieurs. 0 = pas de stagger.',
 				),
 			),
-			'location'              => array(
+			'location' => array(
 				array(
 					array(
-						'param'    => 'block',
+						'param' => 'block',
 						'operator' => '==',
-						'value'    => 'naturapets/moveblock',
+						'value' => 'naturapets/moveblock',
 					),
 				),
 			),
@@ -1217,11 +1229,11 @@ add_action('acf/init', 'naturapets_moveblock_field_group');
  */
 function naturapets_enqueue_moveblock_assets()
 {
-	if (! function_exists('has_blocks')) {
+	if (!function_exists('has_blocks')) {
 		return;
 	}
 	global $post;
-	if (! $post || ! has_blocks($post->post_content)) {
+	if (!$post || !has_blocks($post->post_content)) {
 		return;
 	}
 	if (strpos($post->post_content, 'naturapets/moveblock') === false) {
@@ -1372,34 +1384,34 @@ add_action('init', 'naturapets_add_animals_endpoint');
 function naturapets_register_medaillon_public_cpt()
 {
 	$labels = array(
-		'name'               => __('Médaillons publics', 'naturapets'),
-		'singular_name'      => __('Médaillon public', 'naturapets'),
-		'menu_name'          => __('Médaillons publics', 'naturapets'),
-		'add_new'            => __('Ajouter', 'naturapets'),
-		'add_new_item'       => __('Ajouter un médaillon public', 'naturapets'),
-		'edit_item'          => __('Modifier le médaillon public', 'naturapets'),
-		'new_item'           => __('Nouveau médaillon public', 'naturapets'),
-		'view_item'          => __('Voir le médaillon public', 'naturapets'),
-		'search_items'       => __('Rechercher', 'naturapets'),
-		'not_found'          => __('Aucun médaillon public trouvé', 'naturapets'),
+		'name' => __('Médaillons publics', 'naturapets'),
+		'singular_name' => __('Médaillon public', 'naturapets'),
+		'menu_name' => __('Médaillons publics', 'naturapets'),
+		'add_new' => __('Ajouter', 'naturapets'),
+		'add_new_item' => __('Ajouter un médaillon public', 'naturapets'),
+		'edit_item' => __('Modifier le médaillon public', 'naturapets'),
+		'new_item' => __('Nouveau médaillon public', 'naturapets'),
+		'view_item' => __('Voir le médaillon public', 'naturapets'),
+		'search_items' => __('Rechercher', 'naturapets'),
+		'not_found' => __('Aucun médaillon public trouvé', 'naturapets'),
 		'not_found_in_trash' => __('Aucun médaillon public dans la corbeille', 'naturapets'),
 	);
 
 	register_post_type('medaillon_public', array(
-		'labels'              => $labels,
-		'public'              => true,
-		'publicly_queryable'  => true,
-		'show_ui'             => true,
-		'show_in_menu'        => true,
-		'query_var'           => true,
-		'rewrite'             => array('slug' => 'medaillons'),
-		'capability_type'     => 'post',
-		'has_archive'         => false,
-		'hierarchical'        => false,
-		'menu_position'       => 25,
-		'menu_icon'           => 'dashicons-visibility',
-		'supports'            => array('title'),
-		'show_in_rest'        => false,
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'query_var' => true,
+		'rewrite' => array('slug' => 'medaillons'),
+		'capability_type' => 'post',
+		'has_archive' => false,
+		'hierarchical' => false,
+		'menu_position' => 25,
+		'menu_icon' => 'dashicons-visibility',
+		'supports' => array('title'),
+		'show_in_rest' => false,
 	));
 }
 add_action('init', 'naturapets_register_medaillon_public_cpt');
@@ -1456,7 +1468,7 @@ function naturapets_medaillon_public_admin_columns_content($column, $post_id)
 		}
 
 		$animal_url = naturapets_get_animal_url($animal_id);
-		$qr_url    = naturapets_get_qrcode_url($animal_url, 60);
+		$qr_url = naturapets_get_qrcode_url($animal_url, 60);
 		$download_url = admin_url('admin.php?naturapets_qr_download=1&medaillon_public_id=' . $post_id . '&nonce=' . wp_create_nonce('download_qr_mp_' . $post_id));
 
 		echo '<div style="display: flex; align-items: center; gap: 8px;">';
@@ -1503,23 +1515,23 @@ function naturapets_medaillon_public_info_metabox_content($post)
 		return;
 	}
 
-	$nom                = get_field('nom', $animal_id);
-	$type_animal        = get_field('type_animal', $animal_id);
-	$race               = get_field('race', $animal_id);
-	$age                = get_field('age', $animal_id);
-	$photo              = get_field('photo_de_lanimal', $animal_id);
-	$informations       = get_field('informations_importantes', $animal_id);
-	$allergies          = get_field('allergies', $animal_id);
-	$telephone          = get_field('telephone', $animal_id);
-	$adresse            = get_field('adresse', $animal_id);
-	$customer_id        = get_post_meta($animal_id, '_customer_id', true);
-	$product_id         = get_post_meta($animal_id, '_product_id', true);
-	$customer           = $customer_id ? get_user_by('id', $customer_id) : null;
-	$product            = $product_id ? wc_get_product($product_id) : null;
-	$photo_url          = function_exists('naturapets_get_acf_image_url') ? naturapets_get_acf_image_url($photo, 'medium') : '';
-	$display_id         = function_exists('naturapets_get_animal_display_id') ? naturapets_get_animal_display_id($animal_id) : $animal_id;
-	$animal_url         = naturapets_get_animal_url($animal_id);
-	$download_qr_url    = admin_url('admin.php?naturapets_qr_download=1&medaillon_public_id=' . $post->ID . '&nonce=' . wp_create_nonce('download_qr_mp_' . $post->ID));
+	$nom = get_field('nom', $animal_id);
+	$type_animal = get_field('type_animal', $animal_id);
+	$race = get_field('race', $animal_id);
+	$age = get_field('age', $animal_id);
+	$photo = get_field('photo_de_lanimal', $animal_id);
+	$informations = get_field('informations_importantes', $animal_id);
+	$allergies = get_field('allergies', $animal_id);
+	$telephone = get_field('telephone', $animal_id);
+	$adresse = get_field('adresse', $animal_id);
+	$customer_id = get_post_meta($animal_id, '_customer_id', true);
+	$product_id = get_post_meta($animal_id, '_product_id', true);
+	$customer = $customer_id ? get_user_by('id', $customer_id) : null;
+	$product = $product_id ? wc_get_product($product_id) : null;
+	$photo_url = function_exists('naturapets_get_acf_image_url') ? naturapets_get_acf_image_url($photo, 'medium') : '';
+	$display_id = function_exists('naturapets_get_animal_display_id') ? naturapets_get_animal_display_id($animal_id) : $animal_id;
+	$animal_url = naturapets_get_animal_url($animal_id);
+	$download_qr_url = admin_url('admin.php?naturapets_qr_download=1&medaillon_public_id=' . $post->ID . '&nonce=' . wp_create_nonce('download_qr_mp_' . $post->ID));
 	?>
 	<div class="naturapets-medaillon-public-info" style="max-width: 600px;">
 		<table class="form-table" role="presentation">
@@ -1543,11 +1555,12 @@ function naturapets_medaillon_public_info_metabox_content($post)
 				<th>Âge</th>
 				<td><?php echo $age ? esc_html($age) : '<em>—</em>'; ?></td>
 			</tr>
-			<?php if ($photo_url) : ?>
-			<tr>
-				<th>Photo</th>
-				<td><img src="<?php echo esc_url($photo_url); ?>" alt="" style="max-width: 150px; height: auto; border-radius: 50%; border: 2px solid #ddd;" /></td>
-			</tr>
+			<?php if ($photo_url): ?>
+				<tr>
+					<th>Photo</th>
+					<td><img src="<?php echo esc_url($photo_url); ?>" alt=""
+							style="max-width: 150px; height: auto; border-radius: 50%; border: 2px solid #ddd;" /></td>
+				</tr>
 			<?php endif; ?>
 			<tr>
 				<th>Informations importantes</th>
@@ -1559,14 +1572,16 @@ function naturapets_medaillon_public_info_metabox_content($post)
 			</tr>
 			<tr>
 				<th>Téléphone</th>
-				<td><?php echo $telephone ? '<a href="tel:' . esc_attr($telephone) . '">' . esc_html($telephone) . '</a>' : '<em>—</em>'; ?></td>
+				<td><?php echo $telephone ? '<a href="tel:' . esc_attr($telephone) . '">' . esc_html($telephone) . '</a>' : '<em>—</em>'; ?>
+				</td>
 			</tr>
 			<tr>
 				<th>Adresse</th>
 				<td>
 					<?php
 					if ($adresse && ($adresse['rue'] || $adresse['code_postal'] || $adresse['ville'])) {
-						if (!empty($adresse['rue'])) echo esc_html($adresse['rue']) . '<br>';
+						if (!empty($adresse['rue']))
+							echo esc_html($adresse['rue']) . '<br>';
 						if (!empty($adresse['code_postal']) || !empty($adresse['ville'])) {
 							echo esc_html(trim(($adresse['code_postal'] ?? '') . ' ' . ($adresse['ville'] ?? '')));
 						}
@@ -1603,11 +1618,13 @@ function naturapets_medaillon_public_info_metabox_content($post)
 			</tr>
 			<tr>
 				<th>URL publique</th>
-				<td><a href="<?php echo esc_url($animal_url); ?>" target="_blank" rel="noopener"><?php echo esc_html($animal_url); ?></a></td>
+				<td><a href="<?php echo esc_url($animal_url); ?>" target="_blank"
+						rel="noopener"><?php echo esc_html($animal_url); ?></a></td>
 			</tr>
 			<tr>
 				<th>Médaillon (fiche animal)</th>
-				<td><a href="<?php echo get_edit_post_link($animal_id); ?>" class="button button-small">Modifier le médaillon</a></td>
+				<td><a href="<?php echo get_edit_post_link($animal_id); ?>" class="button button-small">Modifier le
+						médaillon</a></td>
 			</tr>
 		</table>
 
@@ -1615,7 +1632,8 @@ function naturapets_medaillon_public_info_metabox_content($post)
 			<h4 style="margin-top: 0;">QR Code</h4>
 			<?php echo naturapets_generate_qrcode($animal_url, 150, false); ?>
 			<p style="margin-top: 10px;">
-				<a href="<?php echo esc_url($download_qr_url); ?>" class="button"><?php _e('Télécharger le QR code', 'naturapets'); ?></a>
+				<a href="<?php echo esc_url($download_qr_url); ?>"
+					class="button"><?php _e('Télécharger le QR code', 'naturapets'); ?></a>
 			</p>
 		</div>
 	</div>
@@ -1632,9 +1650,9 @@ function naturapets_flush_rewrite_rules_on_activation()
 
 	// Créer les posts medaillon_public pour les animaux existants
 	$animals = get_posts(array(
-		'post_type'      => 'animal',
+		'post_type' => 'animal',
 		'posts_per_page' => -1,
-		'post_status'    => 'any',
+		'post_status' => 'any',
 	));
 
 	foreach ($animals as $animal) {
@@ -1664,21 +1682,21 @@ function naturapets_get_or_create_medaillon_public_post($animal_id)
 	}
 
 	$existing = get_posts(array(
-		'post_type'      => 'medaillon_public',
-		'meta_key'       => '_animal_id',
-		'meta_value'     => $animal_id,
+		'post_type' => 'medaillon_public',
+		'meta_key' => '_animal_id',
+		'meta_value' => $animal_id,
 		'posts_per_page' => 1,
-		'post_status'    => 'any',
+		'post_status' => 'any',
 	));
 
 	if (!empty($existing)) {
-		$post_id   = (int) $existing[0]->ID;
-		$new_slug  = naturapets_get_medaillon_public_slug($animal_id);
+		$post_id = (int) $existing[0]->ID;
+		$new_slug = naturapets_get_medaillon_public_slug($animal_id);
 
 		// Mettre à jour le slug si différent (migration des anciens médaillons)
 		if ($existing[0]->post_name !== $new_slug) {
 			wp_update_post(array(
-				'ID'        => $post_id,
+				'ID' => $post_id,
 				'post_name' => $new_slug,
 			));
 		}
@@ -1686,14 +1704,14 @@ function naturapets_get_or_create_medaillon_public_post($animal_id)
 		return $post_id;
 	}
 
-	$slug  = naturapets_get_medaillon_public_slug($animal_id);
-	$nom   = get_field('nom', $animal_id);
+	$slug = naturapets_get_medaillon_public_slug($animal_id);
+	$nom = get_field('nom', $animal_id);
 	$title = $nom ? sprintf('%s – Médaillon', $nom) : sprintf('Médaillon #%d', $animal_id);
 
 	$post_id = wp_insert_post(array(
-		'post_type'   => 'medaillon_public',
-		'post_title'  => $title,
-		'post_name'   => $slug,
+		'post_type' => 'medaillon_public',
+		'post_title' => $title,
+		'post_name' => $slug,
 		'post_status' => 'publish',
 		'post_author' => 1,
 	));
@@ -1712,22 +1730,22 @@ function naturapets_get_or_create_medaillon_public_post($animal_id)
 function naturapets_sync_medaillon_public_title($animal_id)
 {
 	$posts = get_posts(array(
-		'post_type'      => 'medaillon_public',
-		'meta_key'       => '_animal_id',
-		'meta_value'     => $animal_id,
+		'post_type' => 'medaillon_public',
+		'meta_key' => '_animal_id',
+		'meta_value' => $animal_id,
 		'posts_per_page' => 1,
-		'post_status'    => 'any',
+		'post_status' => 'any',
 	));
 
 	if (empty($posts)) {
 		return;
 	}
 
-	$nom   = get_field('nom', $animal_id);
+	$nom = get_field('nom', $animal_id);
 	$title = $nom ? sprintf('%s – Médaillon', $nom) : sprintf('Médaillon #%d', $animal_id);
 
 	wp_update_post(array(
-		'ID'         => $posts[0]->ID,
+		'ID' => $posts[0]->ID,
 		'post_title' => $title,
 	));
 }
@@ -1750,11 +1768,11 @@ function naturapets_add_animals_menu_item($items)
 {
 	$new_items = array();
 	$labels = array(
-		'dashboard'      => 'Profil',
-		'orders'         => 'Commandes',
-		'mes-animaux'    => 'Mes médaillons',
-		'edit-address'   => 'Adresses',
-		'edit-account'   => 'Sécurité',
+		'dashboard' => 'Profil',
+		'orders' => 'Commandes',
+		'mes-animaux' => 'Mes médaillons',
+		'edit-address' => 'Adresses',
+		'edit-account' => 'Sécurité',
 		'payment-methods' => 'Moyens de paiement',
 		'customer-logout' => 'Déconnexion',
 	);
@@ -1785,7 +1803,7 @@ add_filter('woocommerce_account_menu_items', 'naturapets_add_animals_menu_item')
  */
 function naturapets_myaccount_wrapper_class($content)
 {
-	if (! function_exists('is_account_page') || ! is_account_page()) {
+	if (!function_exists('is_account_page') || !is_account_page()) {
 		return $content;
 	}
 	// Un seul remplacement : le div.woocommerce du shortcode [woocommerce_my_account]
@@ -1947,7 +1965,7 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 		// Mettre à jour le titre du post avec le nom de l'animal
 		if (!empty($_POST['nom'])) {
 			wp_update_post(array(
-				'ID'         => $animal_id,
+				'ID' => $animal_id,
 				'post_title' => sanitize_text_field($_POST['nom']),
 			));
 		}
@@ -1969,30 +1987,31 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 	$product_id = get_post_meta($animal_id, '_product_id', true);
 	$product = wc_get_product($product_id);
 
-?>
+	?>
 	<p><a href="<?php echo esc_url(wc_get_account_endpoint_url('mes-animaux')); ?>">&larr; Retour à la liste</a></p>
 
 	<h2>Informations du médaillon</h2>
 
-	
 
-	<form method="post" enctype="multipart/form-data" class="woocommerce-EditAccountForm edit-account edit-account-form-medaillon">
+
+	<form method="post" enctype="multipart/form-data"
+		class="woocommerce-EditAccountForm edit-account edit-account-form-medaillon">
 		<?php wp_nonce_field('save_animal_' . $animal_id); ?>
 		<div class="row-animal-photo">
 			<?php
 			$photo_url_medium = naturapets_get_acf_image_url($photo, 'medium');
-			if ($photo_url_medium) : ?>
+			if ($photo_url_medium): ?>
 				<div style="margin-bottom: 10px;">
 					<img src="<?php echo esc_url($photo_url_medium); ?>" alt="" />
 				</div>
 			<?php endif; ?>
-		
+
 			<input type="file" name="photo_de_lanimal" id="photo_de_lanimal" accept="image/*" />
 			<small style="display: block; margin-top: 5px; color: #666;">Formats acceptés : JPG, PNG, GIF. Max 2 Mo.</small>
 		</div>
 		<div class="qrcode-container">
 			<?php if ($product): ?>
-			<p><strong>Produit associé :</strong> <?php echo esc_html($product->get_name()); ?></p>
+				<p><strong>Produit associé :</strong> <?php echo esc_html($product->get_name()); ?></p>
 			<?php endif; ?>
 
 			<?php
@@ -2005,28 +2024,28 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="nom">Nom de l'animal <span class="required">*</span></label>
-			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text"
-				name="nom" id="nom" value="<?php echo esc_attr($nom); ?>" required />
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="nom" id="nom"
+				value="<?php echo esc_attr($nom); ?>" required />
 		</p>
 
-		
+
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="informations_importantes">Informations importantes</label>
-			<textarea class="woocommerce-Input woocommerce-Input--textarea input-text"
-				name="informations_importantes" id="informations_importantes" rows="4"><?php echo esc_textarea($informations); ?></textarea>
+			<textarea class="woocommerce-Input woocommerce-Input--textarea input-text" name="informations_importantes"
+				id="informations_importantes" rows="4"><?php echo esc_textarea($informations); ?></textarea>
 		</p>
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="allergies">Allergies</label>
-			<textarea class="woocommerce-Input woocommerce-Input--textarea input-text"
-				name="allergies" id="allergies" rows="3"><?php echo esc_textarea($allergies); ?></textarea>
+			<textarea class="woocommerce-Input woocommerce-Input--textarea input-text" name="allergies" id="allergies"
+				rows="3"><?php echo esc_textarea($allergies); ?></textarea>
 		</p>
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="telephone">Téléphone</label>
-			<input type="tel" class="woocommerce-Input woocommerce-Input--text input-text"
-				name="telephone" id="telephone" value="<?php echo esc_attr($telephone); ?>" />
+			<input type="tel" class="woocommerce-Input woocommerce-Input--text input-text" name="telephone" id="telephone"
+				value="<?php echo esc_attr($telephone); ?>" />
 		</p>
 
 		<fieldset style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
@@ -2034,20 +2053,20 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="adresse_rue">Rue</label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text"
-					name="adresse_rue" id="adresse_rue" value="<?php echo esc_attr($adresse['rue'] ?? ''); ?>" />
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="adresse_rue"
+					id="adresse_rue" value="<?php echo esc_attr($adresse['rue'] ?? ''); ?>" />
 			</p>
 
 			<p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
 				<label for="adresse_code_postal">Code postal</label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text"
-					name="adresse_code_postal" id="adresse_code_postal" value="<?php echo esc_attr($adresse['code_postal'] ?? ''); ?>" />
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="adresse_code_postal"
+					id="adresse_code_postal" value="<?php echo esc_attr($adresse['code_postal'] ?? ''); ?>" />
 			</p>
 
 			<p class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
 				<label for="adresse_ville">Ville</label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text"
-					name="adresse_ville" id="adresse_ville" value="<?php echo esc_attr($adresse['ville'] ?? ''); ?>" />
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="adresse_ville"
+					id="adresse_ville" value="<?php echo esc_attr($adresse['ville'] ?? ''); ?>" />
 			</p>
 		</fieldset>
 
@@ -2059,7 +2078,7 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 			</button>
 		</p>
 	</form>
-<?php
+	<?php
 }
 
 /**
@@ -2371,8 +2390,10 @@ function naturapets_animal_admin_columns_content($column, $post_id)
 
 			if ($nom || $telephone || $allergies) {
 				$infos = array();
-				if ($telephone) $infos[] = $telephone;
-				if ($allergies) $infos[] = 'Allergies: ' . wp_trim_words($allergies, 3, '...');
+				if ($telephone)
+					$infos[] = $telephone;
+				if ($allergies)
+					$infos[] = 'Allergies: ' . wp_trim_words($allergies, 3, '...');
 				echo implode(' • ', $infos);
 
 				if (!$nom) {
@@ -2540,7 +2561,7 @@ function naturapets_user_medaillon_products_section($user)
 								$medaillon_filled = naturapets_medaillon_is_filled($animal->ID);
 								$nom = get_field('nom', $animal->ID);
 								$type = get_field('type_animal', $animal->ID);
-							?>
+								?>
 								<tr>
 									<td><?php echo $product ? esc_html($product->get_name()) : '—'; ?></td>
 									<td><code><?php echo esc_html($unique_id); ?></code></td>
@@ -2555,7 +2576,8 @@ function naturapets_user_medaillon_products_section($user)
 									<td><?php echo $nom ? esc_html($nom) : '—'; ?></td>
 									<td><?php echo $type ? esc_html($type) : '—'; ?></td>
 									<td>
-										<a href="<?php echo get_edit_post_link($animal->ID); ?>" class="button button-small">Modifier médaillon</a>
+										<a href="<?php echo get_edit_post_link($animal->ID); ?>"
+											class="button button-small">Modifier médaillon</a>
 									</td>
 								</tr>
 							<?php endforeach; ?>
@@ -2577,8 +2599,9 @@ function naturapets_user_medaillon_products_section($user)
 							<option value="">— Choisir un produit —</option>
 							<?php foreach ($medaillon_products as $p):
 								$prod = wc_get_product($p->ID);
-								if (!$prod) continue;
-							?>
+								if (!$prod)
+									continue;
+								?>
 								<option value="<?php echo esc_attr($p->ID); ?>"><?php echo esc_html($prod->get_name()); ?></option>
 							<?php endforeach; ?>
 						</select>
@@ -2608,7 +2631,7 @@ function naturapets_user_animals_section($user)
 		'post_status' => 'any',
 	));
 
-?>
+	?>
 	<h2>Médaillons du client</h2>
 	<table class="form-table">
 		<tr>
@@ -2622,7 +2645,7 @@ function naturapets_user_animals_section($user)
 							$nom = get_field('nom', $animal->ID);
 							$product_id = get_post_meta($animal->ID, '_product_id', true);
 							$product = wc_get_product($product_id);
-						?>
+							?>
 							<li>
 								<a href="<?php echo get_edit_post_link($animal->ID); ?>">
 									<strong><?php echo $nom ? esc_html($nom) : 'Médaillon #' . $animal->ID; ?></strong>
@@ -2634,7 +2657,8 @@ function naturapets_user_animals_section($user)
 						<?php endforeach; ?>
 					</ul>
 					<p>
-						<a href="<?php echo admin_url('edit.php?post_type=animal&meta_key=_customer_id&meta_value=' . $user->ID); ?>" class="button">
+						<a href="<?php echo admin_url('edit.php?post_type=animal&meta_key=_customer_id&meta_value=' . $user->ID); ?>"
+							class="button">
 							Voir tous les médaillons de ce client
 						</a>
 					</p>
@@ -2642,7 +2666,7 @@ function naturapets_user_animals_section($user)
 			</td>
 		</tr>
 	</table>
-<?php
+	<?php
 }
 add_action('show_user_profile', 'naturapets_user_animals_section');
 add_action('edit_user_profile', 'naturapets_user_animals_section');
@@ -2718,11 +2742,11 @@ function naturapets_get_animal_url($animal_id)
 
 	// Fallback : ancienne URL avec paramètres (si création du CPT a échoué)
 	$product_id = get_post_meta($animal_id, '_product_id', true);
-	$token      = $product_id ? naturapets_get_product_unique_id($product_id) : 'NO-PRODUCT';
+	$token = $product_id ? naturapets_get_product_unique_id($product_id) : 'NO-PRODUCT';
 
 	return add_query_arg(array(
 		'animal' => $animal_id,
-		'token'  => $token,
+		'token' => $token,
 	), home_url('/medaillons/'));
 }
 
@@ -2790,7 +2814,7 @@ function naturapets_redirect_old_medaillon_url()
 	}
 
 	$animal_id = absint($_GET['animal']);
-	$token     = sanitize_text_field($_GET['token']);
+	$token = sanitize_text_field($_GET['token']);
 
 	$animal = get_post($animal_id);
 
@@ -2856,10 +2880,10 @@ function naturapets_redirect_medaillon_search()
 	}
 
 	$posts = get_posts(array(
-		'post_type'      => 'medaillon_public',
-		'name'           => $slug,
+		'post_type' => 'medaillon_public',
+		'name' => $slug,
 		'posts_per_page' => 1,
-		'post_status'    => 'publish',
+		'post_status' => 'publish',
 	));
 
 	if (!empty($posts)) {
@@ -2886,7 +2910,7 @@ function naturapets_display_public_animal_page($animal)
 	$customer = get_user_by('id', $customer_id);
 
 	get_header();
-?>
+	?>
 	<main class="naturapets-animal-page" style="max-width: 600px; margin: 40px auto; padding: 20px;">
 		<div style="background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 30px;">
 
@@ -2906,15 +2930,20 @@ function naturapets_display_public_animal_page($animal)
 			<table style="width: 100%; border-collapse: collapse;">
 				<?php if ($informations): ?>
 					<tr>
-						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; width: 40%; vertical-align: top;">Informations importantes</th>
-						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo nl2br(esc_html($informations)); ?></td>
+						<th
+							style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; width: 40%; vertical-align: top;">
+							Informations importantes</th>
+						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo nl2br(esc_html($informations)); ?>
+						</td>
 					</tr>
 				<?php endif; ?>
 
 				<?php if ($allergies): ?>
 					<tr>
-						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; vertical-align: top;">Allergies</th>
-						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo nl2br(esc_html($allergies)); ?></td>
+						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; vertical-align: top;">
+							Allergies</th>
+						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo nl2br(esc_html($allergies)); ?>
+						</td>
 					</tr>
 				<?php endif; ?>
 
@@ -2931,10 +2960,12 @@ function naturapets_display_public_animal_page($animal)
 
 				<?php if ($adresse && ($adresse['rue'] || $adresse['code_postal'] || $adresse['ville'])): ?>
 					<tr>
-						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; vertical-align: top;">Adresse</th>
+						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; vertical-align: top;">Adresse
+						</th>
 						<td style="padding: 12px; border-bottom: 1px solid #eee;">
 							<?php
-							if ($adresse['rue']) echo esc_html($adresse['rue']) . '<br>';
+							if ($adresse['rue'])
+								echo esc_html($adresse['rue']) . '<br>';
 							if ($adresse['code_postal'] || $adresse['ville']) {
 								echo esc_html(trim($adresse['code_postal'] . ' ' . $adresse['ville']));
 							}
@@ -2946,7 +2977,8 @@ function naturapets_display_public_animal_page($animal)
 				<?php if ($customer): ?>
 					<tr>
 						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee;">Propriétaire</th>
-						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo esc_html($customer->display_name); ?></td>
+						<td style="padding: 12px; border-bottom: 1px solid #eee;">
+							<?php echo esc_html($customer->display_name); ?></td>
 					</tr>
 				<?php endif; ?>
 			</table>
@@ -2962,7 +2994,7 @@ function naturapets_display_public_animal_page($animal)
 			</p>
 		</div>
 	</main>
-<?php
+	<?php
 	get_footer();
 }
 
@@ -2972,11 +3004,45 @@ function naturapets_display_public_animal_page($animal)
 function naturapets_add_qrcode_to_animal_form($animal_id)
 {
 	$animal_url = naturapets_get_animal_url($animal_id);
-?>
+	?>
 	<div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
 		<h3 style="margin-top: 0;">QR Code de votre médaillon</h3>
 		<p style="color: #666; font-size: 14px;">Scannez ce QR code pour accéder à votre médaillon.</p>
 		<?php echo naturapets_generate_qrcode($animal_url, 150); ?>
 	</div>
-<?php
+	<?php
 }
+
+function naturapets_product_grid_shortcode($atts)
+{
+	$atts = shortcode_atts(array(
+		'limit' => 8,
+		'columns' => 4,
+		'orderby' => 'date',
+		'order' => 'DESC',
+		'category' => '',
+	), $atts, 'naturapets_products');
+	$args = array(
+		'limit' => intval($atts['limit']),
+		'orderby' => $atts['orderby'],
+		'order' => $atts['order'],
+		'status' => 'publish',
+	);
+	if (!empty($atts['category'])) {
+		$args['category'] = array($atts['category']);
+	}
+	$products = wc_get_products($args);
+	if (empty($products)) {
+		return '<p>Aucun produit trouvé.</p>';
+	}
+	ob_start();
+	echo '<div class="np-product-grid">';
+	foreach ($products as $product) {
+		$GLOBALS['product'] = $product;
+		get_template_part('parts/product-card');
+	}
+	echo '</div>';
+	wp_reset_postdata();
+	return ob_get_clean();
+}
+add_shortcode('naturapets_products', 'naturapets_product_grid_shortcode');

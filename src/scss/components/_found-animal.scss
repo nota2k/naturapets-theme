@@ -6,9 +6,9 @@
 @use 'sass:color';
 @use '../abstracts/variables' as *;
 
-$np-found-animal-bg: #c5e3c6;        // Vert menthe pastel
-$np-found-animal-text: #4a4a4a;     // Gris foncé (titre)
-$np-found-animal-btn-bg: #4a4a4a;   // Gris foncé (bouton)
+$np-found-animal-bg: #c5e3c6; // Vert menthe pastel
+$np-found-animal-text: #4a4a4a; // Gris foncé (titre)
+$np-found-animal-btn-bg: #4a4a4a; // Gris foncé (bouton)
 $np-found-animal-placeholder: #9e9e9e;
 $np-found-animal-input-bg: $np-white;
 
@@ -53,6 +53,7 @@ $np-found-animal-input-bg: $np-white;
   border: none;
   border-radius: $border-radius-pill;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  max-height: 40px;
 
   &::placeholder {
     color: $np-found-animal-placeholder;
