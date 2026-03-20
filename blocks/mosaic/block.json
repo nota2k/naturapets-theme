@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/mosaic",
+	"title": "Mosaïque",
+	"description": "Bloc mosaïque deux colonnes : grande image à gauche, image + zone texte verte à droite. Inversion optionnelle.",
+	"category": "theme",
+	"icon": "layout",
+	"keywords": ["mosaïque", "image", "texte", "split", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

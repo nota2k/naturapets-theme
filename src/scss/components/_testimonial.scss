@@ -45,10 +45,12 @@ $np-testimonial-text: #000;
 }
 
 .np-testimonial__photo {
-  display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   object-fit: cover;
+  display: block;
 }
 
 // Zone citation + auteur

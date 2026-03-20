@@ -6,24 +6,26 @@
 @use '../abstracts/mixins' as *;
 
 .medaillon_public-template-default {
-  #header, hr{
+
+  #header,
+  hr {
     display: none;
   }
 }
 
-// Animation au scroll : slide vers le haut après 100px
-body:not(.medaillon_public-template-default) .wp-site-blocks > header {
-  position: fixed;
+// Sticky : dans le flux normal en haut de page (ne chevauche pas le bandeau promo),
+// colle en haut du viewport dès que l'on scroll.
+body:not(.medaillon_public-template-default) .wp-site-blocks>header {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
   transition: transform 0.3s ease;
 
   &.np-header--hidden {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
   }
 }
+
 // En-tête principal
 .np-header {
   background-color: $np-white;
@@ -34,26 +36,35 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header {
     justify-content: space-between;
     gap: $spacer * 0.5;
   }
+
+  .wp-block-woocommerce-customer-account {
+    background-color: #D4845A;
+    border-radius: 30px;
+
+    svg {
+      color: white;
+    }
+  }
 }
 
 // Bloc marque (logo + texte)
 .np-header-brand {
   align-items: center;
-  border-radius: 100%;
-  overflow: hidden;
-  margin-bottom: -70px !important;
-  margin-top: -10px !important;
-  z-index: 10;
-  background: white;
-  box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.4);
+  // border-radius: 100%;
+  // overflow: hidden;
+  // margin-bottom: -70px !important;
+  // margin-top: -10px !important;
+  // z-index: 10;
+  // background: white;
+  // box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.4);
 
   .np-header-logo {
-    display: block;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    // display: block;
+    // // width: 120px;
+    // // height: 120px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
 
     img {
       height: 100%;
@@ -142,9 +153,11 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header {
     &.top {
       top: 16px;
     }
+
     &.middle {
       top: 23px;
     }
+
     &.bottom {
       top: 30px;
     }
@@ -157,9 +170,11 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header {
         top: 23px;
         transform: rotate(45deg);
       }
+
       &.middle {
         opacity: 0;
       }
+
       &.bottom {
         top: 23px;
         transform: rotate(-45deg);
@@ -189,7 +204,7 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     // Caché avant ouverture
     opacity: 0;
     visibility: hidden;
@@ -224,7 +239,8 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header {
       li.wp-block-navigation-item {
         margin: 0;
 
-        a, .wp-block-navigation-item__content {
+        a,
+        .wp-block-navigation-item__content {
           font-size: 1.5rem !important; // Gros texte
           font-weight: 500;
           color: $np-taupe !important;

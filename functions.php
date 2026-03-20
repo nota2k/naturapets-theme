@@ -631,6 +631,10 @@ function naturapets_register_hero_block()
 	if (file_exists($presentation_animee_path . '/block.json')) {
 		register_block_type($presentation_animee_path);
 	}
+	$mosaic_path = get_stylesheet_directory() . '/blocks/mosaic';
+	if (file_exists($mosaic_path . '/block.json')) {
+		register_block_type($mosaic_path);
+	}
 }
 add_action('init', 'naturapets_register_hero_block');
 
@@ -1192,6 +1196,102 @@ function naturapets_presentation_animee_field_group()
 	);
 }
 add_action('acf/init', 'naturapets_presentation_animee_field_group');
+
+/**
+ * Groupe de champs ACF pour le bloc Mosaïque (design Pencil : k3CR0).
+ */
+function naturapets_mosaic_field_group()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(array(
+		'key'    => 'group_naturapets_mosaic',
+		'title'  => 'Bloc Mosaïque – Champs',
+		'fields' => array(
+			array(
+				'key'           => 'field_mosaic_image_main',
+				'label'         => 'Image principale (grande)',
+				'name'          => 'mosaic_image_main',
+				'type'          => 'image',
+				'return_format' => 'array',
+				'preview_size'  => 'medium',
+				'required'      => 1,
+				'instructions'  => __('Image pleine hauteur, colonne de gauche par défaut.', 'naturapets'),
+			),
+			array(
+				'key'           => 'field_mosaic_image_secondary',
+				'label'         => 'Image secondaire (haut droite)',
+				'name'          => 'mosaic_image_secondary',
+				'type'          => 'image',
+				'return_format' => 'array',
+				'preview_size'  => 'medium',
+				'required'      => 1,
+				'instructions'  => __('Image en haut de la colonne secondaire.', 'naturapets'),
+			),
+			array(
+				'key'         => 'field_mosaic_title',
+				'label'       => 'Titre',
+				'name'        => 'mosaic_title',
+				'type'        => 'text',
+				'required'    => 1,
+				'placeholder' => 'Protégez ceux que vous aimez',
+			),
+			array(
+				'key'         => 'field_mosaic_description',
+				'label'       => 'Description',
+				'name'        => 'mosaic_description',
+				'type'        => 'textarea',
+				'rows'        => 3,
+				'placeholder' => 'Nos médaillons connectés offrent une tranquillité d\'esprit au quotidien.',
+			),
+			array(
+				'key'         => 'field_mosaic_button_label',
+				'label'       => 'Libellé du bouton',
+				'name'        => 'mosaic_button_label',
+				'type'        => 'text',
+				'placeholder' => 'Découvrir',
+			),
+			array(
+				'key'  => 'field_mosaic_button_url',
+				'label' => 'Lien du bouton',
+				'name'  => 'mosaic_button_url',
+				'type'  => 'url',
+			),
+			array(
+				'key'          => 'field_mosaic_inverted',
+				'label'        => 'Inverser l\'ordre des colonnes',
+				'name'         => 'mosaic_inverted',
+				'type'         => 'true_false',
+				'ui'           => 1,
+				'message'      => __('Colonne texte à gauche, grande image à droite', 'naturapets'),
+				'default_value' => 0,
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param'    => 'block',
+					'operator' => '==',
+					'value'    => 'naturapets/mosaic',
+				),
+			),
+		),
+	));
+}
+add_action('acf/init', 'naturapets_mosaic_field_group');
+
+/**
+ * Bouton "Ajouter au panier" → "Ajouter" dans les boucles produits (Query Loop).
+ * L'icône SVG panier est ajoutée via CSS (::before) pour correspondre au design Pencil.
+ */
+add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
+	// Ne change que dans les contextes loop/archive, pas sur la fiche produit
+	if (!is_singular('product')) {
+		return __('Ajouter', 'naturapets');
+	}
+	return $text;
+}, 10, 2);
 
 /**
  * Récupérer la palette de couleurs du thème (theme.json).

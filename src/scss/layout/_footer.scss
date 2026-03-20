@@ -4,3 +4,11 @@
 
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+
+
+footer {
+
+    .custom-logo-link {
+        filter: brightness(10);
+    }
+}

@@ -13,7 +13,6 @@
 
 // Components
 @use 'components/buttons';
-@use 'components/cards';
 @use 'components/forms';
 @use 'components/hero-section';
 @use 'components/hero-banner';
@@ -27,6 +26,7 @@
 @use 'components/faq-accordeon';
 @use 'components/points-numerotes';
 @use 'components/presentation-animee';
+@use 'components/mosaic';
 
 // Layout
 @use 'layout/header';
