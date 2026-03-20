@@ -254,17 +254,6 @@ function naturapets_enqueue_header_scroll()
 		);
 	}
 
-	$mobile_menu_file = get_stylesheet_directory() . '/assets/js/mobile-menu.js';
-	if (file_exists($mobile_menu_file)) {
-		wp_enqueue_script(
-			'naturapets-mobile-menu',
-			get_stylesheet_directory_uri() . '/assets/js/mobile-menu.js',
-			array(),
-			filemtime($mobile_menu_file),
-			true
-		);
-	}
-
 	$faq_js_file = get_stylesheet_directory() . '/assets/js/faq-accordeon.js';
 	if (file_exists($faq_js_file)) {
 		wp_enqueue_script(
@@ -305,6 +294,17 @@ function naturapets_enqueue_header_scroll()
 			get_stylesheet_directory_uri() . '/assets/js/carousel-texte.js',
 			array(),
 			filemtime($carousel_js_file),
+			true
+		);
+	}
+
+	$mobile_menu_js_file = get_stylesheet_directory() . '/assets/js/mobile-menu.js';
+	if (file_exists($mobile_menu_js_file)) {
+		wp_enqueue_script(
+			'naturapets-mobile-menu',
+			get_stylesheet_directory_uri() . '/assets/js/mobile-menu.js',
+			array(),
+			filemtime($mobile_menu_js_file),
 			true
 		);
 	}
@@ -372,25 +372,33 @@ function naturapets_customize_register_banner($wp_customize)
 add_action('customize_register', 'naturapets_customize_register_banner');
 
 /**
- * Afficher le bandeau en haut de la page si activé.
+ * Retourne le HTML du bandeau du haut (utilisé par le shortcode et le filtre render_block).
  */
-function naturapets_output_top_banner()
+function naturapets_get_top_banner_html()
 {
 	if (!get_theme_mod('np_top_banner_enabled', false)) {
-		return;
+		return '';
 	}
 
 	$text = get_theme_mod('np_top_banner_text', '');
 	if (empty(trim($text))) {
-		return;
+		return '';
 	}
-	?>
-	<div class="np-top-banner" role="complementary">
-		<p class="np-top-banner__text"><?php echo wp_kses(nl2br(esc_html($text)), array('br' => array())); ?></p>
-	</div>
-	<?php
+
+	return '<div class="np-top-banner" role="complementary"><p class="np-top-banner__text">'
+		. wp_kses(nl2br(esc_html($text)), array('br' => array()))
+		. '</p></div>';
 }
-add_action('wp_body_open', 'naturapets_output_top_banner', 1);
+
+/**
+ * Shortcode [np_top_banner] — utilisé dans parts/header.html via un bloc wp:shortcode.
+ */
+function naturapets_top_banner_shortcode()
+{
+	return naturapets_get_top_banner_html();
+}
+add_shortcode('np_top_banner', 'naturapets_top_banner_shortcode');
+
 
 /**
  * Script pour la modal QR Code sur la page Mes médaillons.

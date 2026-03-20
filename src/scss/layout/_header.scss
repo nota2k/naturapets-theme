@@ -15,14 +15,16 @@
 
 // Sticky : dans le flux normal en haut de page (ne chevauche pas le bandeau promo),
 // colle en haut du viewport dès que l'on scroll.
+// IMPORTANT : on anime `top` et non `transform` pour éviter de créer un nouveau
+// containing block pour les éléments `position: fixed` enfants (nav overlay mobile).
 body:not(.medaillon_public-template-default) .wp-site-blocks>header {
   position: sticky;
   top: 0;
   z-index: 100;
-  transition: transform 0.3s ease;
+  transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.np-header--hidden {
-    transform: translateY(-110%);
+    top: -200px; // valeur supérieure à toute hauteur de header possible
   }
 }
 
@@ -124,143 +126,3 @@ body:not(.medaillon_public-template-default) .wp-site-blocks>header {
   }
 }
 
-// ==========================================================================
-// Menu Mobile (Overlay plein écran & Burger animé)
-// ==========================================================================
-
-.np-hamburger-toggle {
-  display: none; // Desktop = caché
-  background: transparent;
-  border: none;
-  width: 48px;
-  height: 48px;
-  position: relative;
-  z-index: 100001; // Au-dessus du menu (z-index élevé)
-  cursor: pointer;
-  padding: 0;
-  margin-left: auto;
-
-  .np-hamburger-line {
-    display: block;
-    position: absolute;
-    height: 2px;
-    width: 24px;
-    background-color: $np-taupe;
-    left: 12px;
-    transition: transform 0.3s ease, top 0.3s ease, opacity 0.3s ease;
-    border-radius: 2px;
-
-    &.top {
-      top: 16px;
-    }
-
-    &.middle {
-      top: 23px;
-    }
-
-    &.bottom {
-      top: 30px;
-    }
-  }
-
-  // Animation croix
-  &.is-active {
-    .np-hamburger-line {
-      &.top {
-        top: 23px;
-        transform: rotate(45deg);
-      }
-
-      &.middle {
-        opacity: 0;
-      }
-
-      &.bottom {
-        top: 23px;
-        transform: rotate(-45deg);
-      }
-    }
-  }
-}
-
-// Media Query Mobile (~781px est le point de rupture Gutenberg natif souvent utilisé, sinon 768px)
-@media (max-width: 781px) {
-  .np-hamburger-toggle {
-    display: block;
-  }
-
-  // Override de la navigation native
-  nav.np-header-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    background-color: rgba(255, 255, 255, 0.98); // Fond blanc premium
-    backdrop-filter: blur(8px);
-    z-index: 100000;
-    display: flex !important; // Force l'affichage bloc flex
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    // Caché avant ouverture
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-
-    // Pour éviter que le toggle natif Gutenberg réapparaisse (le petit burger carré)
-    .wp-block-navigation__responsive-container-open,
-    .wp-block-navigation__responsive-container-close {
-      display: none !important;
-    }
-
-    // Retirer la modale native (si elle est quand même générée)
-    .wp-block-navigation__responsive-container {
-      position: static !important;
-      background: transparent !important;
-      width: auto !important;
-      height: auto !important;
-      display: flex !important; // S'assure que le menu n'est pas caché par le bloc parent WP
-      flex-direction: column;
-      align-items: center;
-    }
-
-    ul.wp-block-navigation__container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: $spacer * 2;
-      padding: 0;
-      margin: 0;
-
-      li.wp-block-navigation-item {
-        margin: 0;
-
-        a,
-        .wp-block-navigation-item__content {
-          font-size: 1.5rem !important; // Gros texte
-          font-weight: 500;
-          color: $np-taupe !important;
-
-          &:hover {
-            color: $np-teal !important;
-          }
-        }
-      }
-    }
-  }
-
-  // Ouverture : body a la classe np-mobile-menu-open
-  body.np-mobile-menu-open {
-    overflow: hidden; // Bloque le scroll derrière le menu
-
-    nav.np-header-nav {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-  }
-}

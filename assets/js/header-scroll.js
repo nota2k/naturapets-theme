@@ -1,58 +1,73 @@
 /**
- * Animation du header au scroll : slide vers le haut après 100px,
- * réapparition quand on scroll vers le haut ou en bas de page.
+ * Animation du header au scroll — slide vers le haut à la descente,
+ * réapparition à la remontée ou en bas de page.
+ *
+ * Implémentation : on change la propriété CSS `--header-offset` (translateY)
+ * directement sur la variable, sans ajouter de classe portant un transform,
+ * pour ne pas créer de nouveau contexte de positionnement pour les enfants
+ * `position: fixed` (ex. nav overlay du menu mobile).
  */
 (function () {
-	'use strict';
+  'use strict';
 
-	const SCROLL_THRESHOLD = 100;
-	const BOTTOM_OFFSET = 50;
+  const HIDE_AFTER   = 80;   // px scrollés avant de masquer
+  const BOTTOM_DELTA = 60;   // px avant le bas pour faire réapparaître
 
-	function init() {
-		const siteBlocks = document.querySelector('.wp-site-blocks');
-		const header = siteBlocks ? siteBlocks.querySelector('header') : null;
+  function init() {
+    const siteBlocks = document.querySelector('.wp-site-blocks');
+    const header     = siteBlocks ? siteBlocks.querySelector(':scope > header') : null;
 
-		if (!header || document.body.classList.contains('medaillon_public-template-default')) {
-			return;
-		}
+    if (!header || document.body.classList.contains('medaillon_public-template-default')) {
+      return;
+    }
 
-		let lastScrollY = window.scrollY || window.pageYOffset;
-		let ticking = false;
+    let lastY   = window.scrollY;
+    let ticking = false;
+    let hidden  = false;
 
-		function updateHeader() {
-			const scrollY = window.scrollY || window.pageYOffset;
-			const windowHeight = window.innerHeight;
-			const docHeight = document.documentElement.scrollHeight;
-			const isAtBottom = scrollY + windowHeight >= docHeight - BOTTOM_OFFSET;
-			const isScrollingUp = scrollY < lastScrollY;
-			const isAboveThreshold = scrollY <= SCROLL_THRESHOLD;
+    function setHidden(shouldHide) {
+      if (shouldHide === hidden) return;
+      hidden = shouldHide;
+      header.classList.toggle('np-header--hidden', shouldHide);
+    }
 
-			const shouldShow = isAboveThreshold || isScrollingUp || isAtBottom;
+    function update() {
+      // Ne jamais masquer le header lorsque le menu mobile est ouvert
+      if (document.body.classList.contains('np-mobile-menu-open')) {
+        setHidden(false);
+        lastY   = window.scrollY;
+        ticking = false;
+        return;
+      }
 
-			if (shouldShow) {
-				header.classList.remove('np-header--hidden');
-			} else {
-				header.classList.add('np-header--hidden');
-			}
+      const y          = window.scrollY;
+      const atTop      = y <= HIDE_AFTER;
+      const atBottom   = y + window.innerHeight >= document.documentElement.scrollHeight - BOTTOM_DELTA;
+      const scrollingUp = y < lastY;
 
-			lastScrollY = scrollY;
-			ticking = false;
-		}
+      if (atTop || atBottom || scrollingUp) {
+        setHidden(false);
+      } else {
+        setHidden(true);
+      }
 
-		function onScroll() {
-			if (!ticking) {
-				window.requestAnimationFrame(updateHeader);
-				ticking = true;
-			}
-		}
+      lastY   = y;
+      ticking = false;
+    }
 
-		window.addEventListener('scroll', onScroll, { passive: true });
-		updateHeader();
-	}
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
 
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', init);
-	} else {
-		init();
-	}
+    update();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
