@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/presentation-animee",
+	"title": "Présentation animée",
+	"description": "Bloc de présentation avec image en parallax qui se déplace du haut-droit vers le bas-gauche au scroll.",
+	"category": "theme",
+	"icon": "cover-image",
+	"keywords": ["présentation", "parallax", "image", "scroll", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

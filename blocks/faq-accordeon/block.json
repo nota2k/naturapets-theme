@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/faq-accordeon",
+	"title": "FAQ Accordéon",
+	"description": "Bloc FAQ avec accordéon : titre, sous-titre et liste de questions/réponses dépliables.",
+	"category": "theme",
+	"icon": "editor-help",
+	"keywords": ["faq", "accordéon", "questions", "réponses", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

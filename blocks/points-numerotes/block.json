@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/points-numerotes",
+	"title": "Points numérotés",
+	"description": "Bloc de points numérotés avec animation au scroll : titre, description et liste d'étapes.",
+	"category": "theme",
+	"icon": "list-view",
+	"keywords": ["points", "étapes", "numérotés", "timeline", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

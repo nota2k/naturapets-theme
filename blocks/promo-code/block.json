@@ -1,0 +1,17 @@
+{
+	"name": "naturapets/promo-code",
+	"apiVersion": 3,
+	"title": "Promo Code (NaturaPets)",
+	"description": "Bloc affichant un code promotionnel et une image avec réduction applicable.",
+	"category": "theme",
+	"icon": "tickets-alt",
+	"keywords": ["promo", "code", "réduction", "woocommerce"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}

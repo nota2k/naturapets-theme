@@ -264,6 +264,39 @@ function naturapets_enqueue_header_scroll()
 			true
 		);
 	}
+
+	$faq_js_file = get_stylesheet_directory() . '/assets/js/faq-accordeon.js';
+	if (file_exists($faq_js_file)) {
+		wp_enqueue_script(
+			'naturapets-faq-accordeon',
+			get_stylesheet_directory_uri() . '/assets/js/faq-accordeon.js',
+			array(),
+			filemtime($faq_js_file),
+			true
+		);
+	}
+
+	$points_js_file = get_stylesheet_directory() . '/assets/js/points-numerotes.js';
+	if (file_exists($points_js_file)) {
+		wp_enqueue_script(
+			'naturapets-points-numerotes',
+			get_stylesheet_directory_uri() . '/assets/js/points-numerotes.js',
+			array(),
+			filemtime($points_js_file),
+			true
+		);
+	}
+
+	$pres_js_file = get_stylesheet_directory() . '/assets/js/presentation-animee.js';
+	if (file_exists($pres_js_file)) {
+		wp_enqueue_script(
+			'naturapets-presentation-animee',
+			get_stylesheet_directory_uri() . '/assets/js/presentation-animee.js',
+			array(),
+			filemtime($pres_js_file),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'naturapets_enqueue_header_scroll');
 
@@ -581,6 +614,22 @@ function naturapets_register_hero_block()
 	$icone_path = get_stylesheet_directory() . '/blocks/icone';
 	if (file_exists($icone_path . '/block.json')) {
 		register_block_type($icone_path);
+	}
+	$promo_code_path = get_stylesheet_directory() . '/blocks/promo-code';
+	if (file_exists($promo_code_path . '/block.json')) {
+		register_block_type($promo_code_path);
+	}
+	$faq_accordeon_path = get_stylesheet_directory() . '/blocks/faq-accordeon';
+	if (file_exists($faq_accordeon_path . '/block.json')) {
+		register_block_type($faq_accordeon_path);
+	}
+	$points_numerotes_path = get_stylesheet_directory() . '/blocks/points-numerotes';
+	if (file_exists($points_numerotes_path . '/block.json')) {
+		register_block_type($points_numerotes_path);
+	}
+	$presentation_animee_path = get_stylesheet_directory() . '/blocks/presentation-animee';
+	if (file_exists($presentation_animee_path . '/block.json')) {
+		register_block_type($presentation_animee_path);
 	}
 }
 add_action('init', 'naturapets_register_hero_block');
@@ -937,6 +986,212 @@ function naturapets_testimonial_field_group()
 	);
 }
 add_action('acf/init', 'naturapets_testimonial_field_group');
+
+/**
+ * Groupe de champs ACF pour le bloc FAQ Accordéon (design Pencil).
+ */
+function naturapets_faq_accordeon_field_group()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key' => 'group_naturapets_faq_accordeon',
+			'title' => 'Bloc FAQ Accordéon – Champs',
+			'fields' => array(
+				array(
+					'key' => 'field_faq_label',
+					'label' => 'Label',
+					'name' => 'faq_label',
+					'type' => 'text',
+					'placeholder' => 'FAQ',
+					'instructions' => __('Petite étiquette affichée au-dessus du titre (ex: "FAQ").', 'naturapets'),
+				),
+				array(
+					'key' => 'field_faq_title',
+					'label' => 'Titre',
+					'name' => 'faq_title',
+					'type' => 'text',
+					'placeholder' => 'Questions fréquentes',
+				),
+				array(
+					'key' => 'field_faq_subtitle',
+					'label' => 'Sous-titre',
+					'name' => 'faq_subtitle',
+					'type' => 'text',
+					'placeholder' => 'Tout ce que vous devez savoir sur nos médaillons connectés',
+				),
+				array(
+					'key' => 'field_faq_items',
+					'label' => 'Questions / Réponses',
+					'name' => 'faq_items',
+					'type' => 'repeater',
+					'min' => 1,
+					'button_label' => __('Ajouter une question', 'naturapets'),
+					'layout' => 'block',
+					'sub_fields' => array(
+						array(
+							'key' => 'field_faq_question',
+							'label' => 'Question',
+							'name' => 'faq_question',
+							'type' => 'text',
+							'required' => 1,
+						),
+						array(
+							'key' => 'field_faq_answer',
+							'label' => 'Réponse',
+							'name' => 'faq_answer',
+							'type' => 'textarea',
+							'rows' => 4,
+							'required' => 1,
+						),
+					),
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param' => 'block',
+						'operator' => '==',
+						'value' => 'naturapets/faq-accordeon',
+					),
+				),
+			),
+		)
+	);
+}
+add_action('acf/init', 'naturapets_faq_accordeon_field_group');
+
+/**
+ * Groupe de champs ACF pour le bloc Points Numérotés (design Pencil).
+ */
+function naturapets_points_numerotes_field_group()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key' => 'group_naturapets_points_numerotes',
+			'title' => 'Bloc Points Numérotés – Champs',
+			'fields' => array(
+				array(
+					'key' => 'field_points_label',
+					'label' => 'Label',
+					'name' => 'points_label',
+					'type' => 'text',
+					'placeholder' => 'Comment ça marche',
+					'instructions' => __('Petit texte au-dessus du titre (ex: "Comment ça marche").', 'naturapets'),
+				),
+				array(
+					'key' => 'field_points_title',
+					'label' => 'Titre',
+					'name' => 'points_title',
+					'type' => 'text',
+					'placeholder' => 'Comment ça marche',
+					'required' => 1,
+				),
+				array(
+					'key' => 'field_points_description',
+					'label' => 'Description',
+					'name' => 'points_description',
+					'type' => 'text',
+					'placeholder' => 'Quatre étapes simples pour offrir un médaillon unique à votre compagnon',
+				),
+				array(
+					'key' => 'field_points_items',
+					'label' => 'Étapes',
+					'name' => 'points_items',
+					'type' => 'repeater',
+					'min' => 1,
+					'max' => 9,
+					'button_label' => __('Ajouter une étape', 'naturapets'),
+					'layout' => 'block',
+					'sub_fields' => array(
+						array(
+							'key' => 'field_points_item_title',
+							'label' => 'Titre',
+							'name' => 'points_item_title',
+							'type' => 'text',
+							'required' => 1,
+						),
+						array(
+							'key' => 'field_points_item_description',
+							'label' => 'Description',
+							'name' => 'points_item_description',
+							'type' => 'textarea',
+							'rows' => 3,
+						),
+					),
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param' => 'block',
+						'operator' => '==',
+						'value' => 'naturapets/points-numerotes',
+					),
+				),
+			),
+		)
+	);
+}
+add_action('acf/init', 'naturapets_points_numerotes_field_group');
+
+/**
+ * Groupe de champs ACF pour le bloc Présentation animée (design Pencil).
+ */
+function naturapets_presentation_animee_field_group()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key' => 'group_naturapets_presentation_animee',
+			'title' => 'Bloc Présentation animée – Champs',
+			'fields' => array(
+				array(
+					'key' => 'field_pres_title',
+					'label' => 'Titre',
+					'name' => 'pres_title',
+					'type' => 'text',
+					'required' => 1,
+					'placeholder' => 'Un moyen fiable et économique pour protéger votre animal',
+				),
+				array(
+					'key' => 'field_pres_text',
+					'label' => 'Texte descriptif',
+					'name' => 'pres_text',
+					'type' => 'textarea',
+					'rows' => 4,
+				),
+				array(
+					'key' => 'field_pres_image',
+					'label' => 'Image (parallax)',
+					'name' => 'pres_image',
+					'type' => 'image',
+					'return_format' => 'array',
+					'preview_size' => 'medium',
+					'instructions' => __('Image affichée en arrière-plan avec effet parallax. Fonctionne bien avec un PNG transparent.', 'naturapets'),
+					'required' => 1,
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param' => 'block',
+						'operator' => '==',
+						'value' => 'naturapets/presentation-animee',
+					),
+				),
+			),
+		)
+	);
+}
+add_action('acf/init', 'naturapets_presentation_animee_field_group');
 
 /**
  * Récupérer la palette de couleurs du thème (theme.json).
@@ -2671,57 +2926,6 @@ function naturapets_user_animals_section($user)
 add_action('show_user_profile', 'naturapets_user_animals_section');
 add_action('edit_user_profile', 'naturapets_user_animals_section');
 
-/**
- * ==========================================================================
- * WOOCOMMERCE : Bouton "Ajouter au panier"
- * ==========================================================================
- */
-
-/**
- * Icône panier SVG pour le bouton Ajouter au panier.
- */
-function naturapets_get_cart_icon_svg()
-{
-	return '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:6px"><path d="M2.3999 1.99268C1.84762 1.99268 1.3999 2.44039 1.3999 2.99268C1.3999 3.54496 1.84762 3.99268 2.3999 3.99268V1.99268ZM4.69244 2.99268L5.65767 2.73126C5.53961 2.29536 5.14405 1.99268 4.69244 1.99268V2.99268ZM8.41781 16.7479L7.45259 17.0093C7.58285 17.4903 8.04737 17.802 8.54185 17.7402L8.41781 16.7479ZM19.8805 15.3151L20.0045 16.3073C20.4292 16.2543 20.773 15.9368 20.8598 15.5177L19.8805 15.3151ZM21.5999 7.00462L22.5792 7.20722C22.6401 6.91271 22.5652 6.60641 22.3753 6.37319C22.1854 6.13998 21.9007 6.00462 21.5999 6.00462V7.00462ZM5.77901 7.00462L4.81378 7.26603V7.26603L5.77901 7.00462ZM2.3999 3.99268H4.69244V1.99268H2.3999V3.99268ZM8.54185 17.7402L20.0045 16.3073L19.7565 14.3228L8.29378 15.7556L8.54185 17.7402ZM20.8598 15.5177L22.5792 7.20722L20.6206 6.80201L18.9012 15.1125L20.8598 15.5177ZM3.72721 3.25409L4.81378 7.26603L6.74423 6.7432L5.65767 2.73126L3.72721 3.25409ZM4.81378 7.26603L7.45259 17.0093L9.38304 16.4865L6.74423 6.7432L4.81378 7.26603ZM21.5999 6.00462H5.77901V8.00462H21.5999V6.00462ZM10.9999 20.4999C10.9999 20.7761 10.776 20.9999 10.4999 20.9999V22.9999C11.8806 22.9999 12.9999 21.8807 12.9999 20.4999H10.9999ZM10.4999 20.9999C10.2238 20.9999 9.9999 20.7761 9.9999 20.4999H7.9999C7.9999 21.8807 9.11919 22.9999 10.4999 22.9999V20.9999ZM9.9999 20.4999C9.9999 20.2238 10.2238 19.9999 10.4999 19.9999V17.9999C9.11919 17.9999 7.9999 19.1192 7.9999 20.4999H9.9999ZM10.4999 19.9999C10.776 19.9999 10.9999 20.2238 10.9999 20.4999H12.9999C12.9999 19.1192 11.8806 17.9999 10.4999 17.9999V19.9999ZM18.9999 20.4999C18.9999 20.7761 18.776 20.9999 18.4999 20.9999V22.9999C19.8806 22.9999 20.9999 21.8807 20.9999 20.4999H18.9999ZM18.4999 20.9999C18.2238 20.9999 17.9999 20.7761 17.9999 20.4999H15.9999C15.9999 21.8807 17.1192 22.9999 18.4999 22.9999V20.9999ZM17.9999 20.4999C17.9999 20.2238 18.2238 19.9999 18.4999 19.9999V17.9999C17.1192 17.9999 15.9999 19.1192 15.9999 20.4999H17.9999ZM18.4999 19.9999C18.776 19.9999 18.9999 20.2238 18.9999 20.4999H20.9999C20.9999 19.1192 19.8806 17.9999 18.4999 17.9999V19.9999Z" fill="currentColor"/></svg>';
-}
-
-/**
- * Modifier le texte du bouton "Ajouter au panier" en "Ajouter".
- */
-function naturapets_add_to_cart_button_text($text)
-{
-	return 'Ajouter';
-}
-add_filter('woocommerce_product_add_to_cart_text', 'naturapets_add_to_cart_button_text');
-add_filter('woocommerce_product_single_add_to_cart_text', 'naturapets_add_to_cart_button_text');
-
-/**
- * Ajouter l'icône SVG avant le texte et supprimer le lien "Voir le panier".
- * Fonctionne avec les templates classiques ET le bloc Product Button (Interactivity API).
- */
-function naturapets_add_cart_icon_to_loop_button($html, $product, $args)
-{
-	$icon = naturapets_get_cart_icon_svg();
-
-	// 1. Supprimer le lien "Voir le panier" (bloc Product Button)
-	$html = preg_replace('/<span[^>]*data-wp-bind--hidden="!state\.displayViewCart"[^>]*>.*?<\/span>/s', '', $html);
-
-	// 2. Bloc Product Button : ajouter l'icône avant le span (SVG visible dans tous les états : Ajouter, 1 dans le panier, etc.)
-	$html = preg_replace(
-		'/<span ([^>]*data-wp-text\s*=\s*"state\.addToCartText"[^>]*)>/',
-		$icon . '<span $1>',
-		$html,
-		1
-	);
-
-	// 3. Template classique (lien <a>) : ajouter l'icône avant le texte
-	if (strpos($html, 'data-wp-text') === false) {
-		$html = preg_replace('/>([^<]+)<\/a>/s', '>' . $icon . '${1}</a>', $html, 1);
-	}
-
-	return $html;
-}
-add_filter('woocommerce_loop_add_to_cart_link', 'naturapets_add_cart_icon_to_loop_button', 10, 3);
 
 /**
  * ==========================================================================
@@ -3046,3 +3250,192 @@ function naturapets_product_grid_shortcode($atts)
 	return ob_get_clean();
 }
 add_shortcode('naturapets_products', 'naturapets_product_grid_shortcode');
+
+/**
+ * ==========================================================================
+ * WOOCOMMERCE : Comportement du bouton "Ajouter au panier"
+ * ==========================================================================
+ *
+ * Retire l'API d'interactivité des blocs pour forcer le comportement classique "AJAX"
+ * et affiche "Ajouté" à la place.
+ */
+
+// 1. Ré-activer le script classique d'ajout au panier d'AJAX
+add_action( 'wp_enqueue_scripts', function() {
+    wp_enqueue_script( 'wc-add-to-cart' );
+}, 99 );
+
+// 2. Nettoyer le HTML des boutons générés par le bloc WooCommerce "Product Button"
+add_filter('woocommerce_loop_add_to_cart_link', function($html, $product, $args) {
+    if (strpos($html, 'data-wp-interactive') !== false) {
+        // Supprimer les attributs data-wp-* de l'API d'interactivité
+        $html = preg_replace('/data-wp-[a-zA-Z0-9\-]+="[^"]*"/', '', $html);
+        $html = preg_replace('/data-wp-[a-zA-Z0-9\-]+=\'(?:\\\\.|[^\'])*\'/', '', $html);
+        
+        // Supprimer le span "View cart" généré par le bloc
+        $html = preg_replace('/<span\s+hidden[^>]*>.*?<\/span>/s', '', $html);
+        
+        // S'assurer que les classes d'AJAX sont présentes
+        $html = str_replace('wc-interactive', 'ajax_add_to_cart', $html);
+
+        // Injecter le texte du bouton car l'API d'interactivité laissait le span vide
+        $button_text = esc_html($product->add_to_cart_text());
+        $html = preg_replace('/<span\s*>(\s*)<\/span>/', '<span>' . $button_text . '</span>', $html);
+    }
+    return $html;
+}, 10, 3);
+
+// 3. Modifier le bouton pour afficher "Ajouté" via script JS
+add_action('wp_footer', function() {
+    ?>
+    <script>
+    jQuery(document).on('added_to_cart', function(event, fragments, cart_hash, $button) {
+        if ($button && $button.length) {
+            // Remplace le texte du bouton (avec les span enfants s'il y en a)
+            $button.find('span').text('Ajouté');
+            if ($button.find('span').length === 0) {
+                $button.text('Ajouté');
+            }
+        }
+    });
+    </script>
+    <?php
+}, 99);
+
+// 4. Cacher définitivement le lien "Voir le panier" généré par WooCommerce
+add_action('wp_head', function() {
+    echo '<style> .added_to_cart.wc_forward { display: none !important; } </style>';
+});
+
+/**
+ * ==========================================================================
+ * PATTERNS : Auto-déclaration des patterns HTML
+ * ==========================================================================
+ */
+function naturapets_register_html_patterns() {
+    // Créer une catégorie personnalisée de patterns
+    register_block_pattern_category(
+        'naturapets',
+        array( 'label' => 'Naturapets Patterns' )
+    );
+
+    $patterns_dir = get_stylesheet_directory() . '/patterns';
+    
+    if ( is_dir( $patterns_dir ) ) {
+        $files = glob( $patterns_dir . '/*.html' );
+        
+        if ( ! empty( $files ) ) {
+            foreach ( $files as $file ) {
+                $content = file_get_contents( $file );
+                $filename = basename( $file, '.html' );
+                
+                // Essayer d'extraire le nom depuis les métadonnées (le nom du groupe)
+                $title = str_replace( '-', ' ', ucfirst( $filename ) );
+                if ( preg_match( '/"metadata"\s*:\s*\{\s*"name"\s*:\s*"([^"]+)"/', $content, $matches ) ) {
+                    $title = stripslashes( $matches[1] );
+                }
+                
+                register_block_pattern(
+                    'naturapets/' . $filename,
+                    array(
+                        'title'       => $title,
+                        'content'     => $content,
+                        'categories'  => array( 'naturapets' ),
+                    )
+                );
+            }
+        }
+    }
+}
+add_action( 'init', 'naturapets_register_html_patterns' );
+
+/**
+ * ==========================================================================
+ * BLOCS ACF : Enregistrement des groupes de champs (Promo Code)
+ * ==========================================================================
+ */
+add_action('acf/init', 'naturapets_register_promo_code_block_fields');
+function naturapets_register_promo_code_block_fields() {
+    if( function_exists('acf_add_local_field_group') ):
+        acf_add_local_field_group(array(
+            'key' => 'group_promo_code_block',
+            'title' => 'Bloc Code Promo',
+            'fields' => array(
+                array(
+                    'key' => 'field_promo_image',
+                    'label' => 'Image Illustrative',
+                    'name' => 'promo_image',
+                    'type' => 'image',
+                    'instructions' => 'Image affichée sur la partie gauche.',
+                    'required' => 1,
+                    'return_format' => 'id',
+                    'preview_size' => 'medium',
+                    'library' => 'all',
+                ),
+                array(
+                    'key' => 'field_promo_percent',
+                    'label' => 'Pourcentage / Valeur',
+                    'name' => 'promo_percent',
+                    'type' => 'text',
+                    'instructions' => 'Ex : 15 (sans le %)',
+                    'required' => 1,
+                    'default_value' => '15',
+                ),
+                array(
+                    'key' => 'field_promo_title',
+                    'label' => 'Titre',
+                    'name' => 'promo_title',
+                    'type' => 'text',
+                    'default_value' => 'Votre première commande',
+                ),
+                array(
+                    'key' => 'field_promo_subtitle',
+                    'label' => 'Sous-titre',
+                    'name' => 'promo_subtitle',
+                    'type' => 'textarea',
+                    'default_value' => 'Profitez de -15% sur l\'ensemble de notre collection de médaillons personnalisés',
+                    'rows' => 3,
+                ),
+                array(
+                    'key' => 'field_promo_woo_code',
+                    'label' => 'Sélectionnez un code promo WooCommerce',
+                    'name' => 'promo_woo_code',
+                    'type' => 'post_object',
+                    'instructions' => 'Choisissez le code de réduction qui sera affiché (doit être créé dans Marketing > Codes promo).',
+                    'required' => 0,
+                    'post_type' => array(
+                        0 => 'shop_coupon',
+                    ),
+                    'allow_null' => 1,
+                    'multiple' => 0,
+                    'return_format' => 'object',
+                    'ui' => 1,
+                ),
+                array(
+                    'key' => 'field_promo_mention',
+                    'label' => 'Mention Légale',
+                    'name' => 'promo_mention',
+                    'type' => 'text',
+                    'default_value' => '* Offre valable pour toute première commande. Non cumulable.',
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'block',
+                        'operator' => '==',
+                        'value' => 'naturapets/promo-code',
+                    ),
+                ),
+            ),
+            'menu_order' => 0,
+            'position' => 'normal',
+            'style' => 'default',
+            'label_placement' => 'top',
+            'instruction_placement' => 'label',
+            'hide_on_screen' => '',
+            'active' => true,
+            'description' => '',
+        ));
+    endif;
+}

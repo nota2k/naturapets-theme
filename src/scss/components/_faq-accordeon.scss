@@ -1,0 +1,186 @@
+// ==========================================================================
+// Bloc FAQ Accordéon — design Pencil : Bloc/FAQ Accordeon
+// Fond #FAF8F5 · bordure #E8E4DF · radius 20px · padding 48px
+// ==========================================================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.np-faq {
+	// padding: 0 1rem;
+
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 40px;
+		background-color: #faf8f5;
+		border: 1px solid #e8e4df;
+		// border-radius: 20px;
+		padding: 48px;
+		// max-width: 900px;
+		margin: 0 auto;
+	}
+
+	// Label pill
+	&__label {
+		display: inline-flex;
+		align-items: center;
+		background-color: rgba(124, 144, 130, 0.125);
+		border-radius: 12px;
+		padding: 4px 12px;
+
+		span {
+			font-family: 'Inter', sans-serif;
+			font-size: 11px;
+			font-weight: 500;
+			letter-spacing: 0.5px;
+			color: #7c9082;
+			text-transform: uppercase;
+		}
+	}
+
+	// Header centré
+	&__header {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		width: 100%;
+		text-align: center;
+	}
+
+	&__title {
+		font-family: "Fraunces", serif;
+		font-size: 2.7em;
+		font-weight: 400;
+		color: var(--wp--preset--color--secondary);
+		letter-spacing: -0.5px;
+		margin: 0;
+		line-height: 1.15;
+	}
+
+	&__subtitle {
+		font-family: 'Nunito Sans', sans-serif;
+		font-size: 18px;
+		font-weight: 400;
+		color: #8a8a8a;
+		margin: 0;
+		line-height: 1.5;
+	}
+
+	// Liste des items
+	&__list {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	// Item
+	&__item {
+		border-bottom: 1px solid #e8e4df;
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	// Bouton question
+	&__question {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 20px 0;
+		background: none;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		gap: 16px;
+
+		&:focus-visible {
+			outline: 2px solid #7c9082;
+			outline-offset: 2px;
+			border-radius: 4px;
+		}
+	}
+
+	&__question-text {
+		font-family: "Fraunces", serif;
+		font-size: 30px;
+		font-weight: 500;
+		color: var(--wp--preset--color--custom-noir-bleut);
+		flex: 1;
+	}
+
+	// Icône chevron
+	&__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 20px;
+		height: 20px;
+		color: #7c9082;
+		transition: transform 0.25s ease;
+	}
+
+	// Réponse — animation slide via grid
+	&__answer {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.3s ease;
+		overflow: hidden;
+	}
+
+	&__answer-inner {
+		overflow: hidden;
+		min-height: 0;
+		padding-bottom: 0;
+		transition: padding-bottom 0.3s ease;
+
+		p {
+			font-family: "Nunito Sans", sans-serif;
+			font-size: 18px;
+			font-weight: 400;
+			color: var(--wc-secondary-text);
+			line-height: 1.6;
+			margin: 0;
+			margin-left: 15px;
+		}
+	}
+
+	// État ouvert : dépliage de la réponse + rotation du chevron
+	&__item--open {
+		.np-faq__answer {
+			grid-template-rows: 1fr;
+		}
+
+		.np-faq__answer-inner {
+			padding-bottom: 20px;
+		}
+
+		.np-faq__icon {
+			transform: rotate(180deg);
+		}
+	}
+
+	// Responsive
+	@media (max-width: 768px) {
+		padding: 0 0.5rem;
+
+		&__inner {
+			padding: 32px 24px;
+			gap: 28px;
+			border-radius: 16px;
+		}
+
+		&__title {
+			font-size: 28px;
+		}
+
+		&__subtitle {
+			font-size: 15px;
+		}
+	}
+}

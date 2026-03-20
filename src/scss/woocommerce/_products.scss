@@ -6,7 +6,7 @@
 @use '../abstracts/mixins' as *;
 
 
-.single-product{
+.single-product {
     .wp-block-column:nth-child(2) {
         position: sticky;
         top: 100px;
@@ -46,9 +46,9 @@
     }
 }
 
-.wp-block-woocommerce-product-details{
+.wp-block-woocommerce-product-details {
 
-    h3{
+    h3 {
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -68,13 +68,13 @@
         }
     }
 
-    .wp-block-accordion-panel{
-        margin-top: 0!important;
+    .wp-block-accordion-panel {
+        margin-top: 0 !important;
     }
 }
 
 .wc-block-product {
-    > div{
+    >div {
         height: 100%;
 
     }

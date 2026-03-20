@@ -1,0 +1,154 @@
+// ==========================================================================
+// Bloc Points Numérotés — design Pencil : Bloc/Points Numérotés
+// Fond #FAF8F5 · bordure #E8E4DF · numéros Fraunces vert #7C9082
+// ==========================================================================
+
+.np-points {
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		background-color: #faf8f5;
+		border: 1px solid #e8e4df;
+		padding: 56px 60px;
+		margin: 0 auto;
+	}
+
+	// Header
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding-bottom: 40px;
+	}
+
+	&__label {
+		font-family: 'Inter', sans-serif;
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 2px;
+		color: #8a8a8a;
+		text-transform: uppercase;
+	}
+
+	&__title {
+		font-family: 'Fraunces', serif;
+		font-size: 36px;
+		font-weight: 400;
+		color: #2d2d2d;
+		letter-spacing: -0.5px;
+		margin: 0;
+		line-height: 1.15;
+	}
+
+	&__desc {
+		font-family: 'Inter', sans-serif;
+		font-size: 16px;
+		font-weight: 400;
+		color: #5a5a5a;
+		line-height: 1.5;
+		margin: 0;
+		max-width: 600px;
+	}
+
+	// Séparateur header / liste
+	&__separator {
+		height: 1px;
+		background-color: #e8e4df;
+		width: 100%;
+	}
+
+	// Liste
+	&__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	// Séparateur entre items
+	&__sep {
+		height: 1px;
+		background-color: #e8e4df;
+		width: 100%;
+		display: block;
+	}
+
+	// Item
+	&__item {
+		display: flex;
+		align-items: flex-start;
+		gap: 32px;
+		padding: 32px 0;
+		width: 100%;
+
+		// État initial : invisible + décalé vers le bas
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity 1s ease var(--delay, 0ms),
+			transform 1s ease var(--delay, 0ms);
+
+		// État visible (ajouté par IntersectionObserver)
+		&.is-visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	// Numéro
+	&__num {
+		font-family: 'Fraunces', serif;
+		font-size: 64px;
+		font-weight: 300;
+		color: #7c9082;
+		letter-spacing: -2px;
+		line-height: 0.85;
+		flex-shrink: 0;
+		min-width: 72px;
+	}
+
+	// Contenu texte
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding-top: 8px;
+		flex: 1;
+	}
+
+	&__item-title {
+		font-family: 'Inter', sans-serif;
+		font-size: 18px;
+		font-weight: 600;
+		color: #2d2d2d;
+		margin: 0;
+	}
+
+	&__item-desc {
+		font-family: 'Inter', sans-serif;
+		font-size: 14px;
+		font-weight: 400;
+		color: #5a5a5a;
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	// Responsive
+	@media (max-width: 768px) {
+		&__inner {
+			padding: 40px 24px;
+		}
+
+		&__title {
+			font-size: 28px;
+		}
+
+		&__num {
+			font-size: 48px;
+			min-width: 54px;
+		}
+
+		&__item {
+			gap: 20px;
+		}
+	}
+}
