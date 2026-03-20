@@ -1,0 +1,162 @@
+// ==========================================================================
+// Carousel de texte — scroll-driven horizontal
+// La section a une hauteur étendue ; l'inner sticky intercepte le scroll
+// et JS traduit la progression verticale en translation horizontale du track.
+// ==========================================================================
+
+@use '../abstracts/variables' as *;
+
+// ── Section (hauteur totale = scroll réservé) ────────────────────────────────
+.np-carousel-texte {
+	// Hauteur : 1 viewport + N cards × 60vh (calculée en JS via --card-count)
+	height: calc(100vh + var(--card-count, 3) * 60vh);
+	position: relative;
+}
+
+// ── Sticky wrapper (occupe le viewport pendant tout le scroll) ───────────────
+.np-carousel-texte__sticky {
+	position: sticky;
+	top: 25vh; // centre le bloc 50vh dans le viewport
+	height: 50vh;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 2rem;
+	padding: 3rem 0;
+	// background-color: $np-white;
+}
+
+// ── En-tête optionnel ────────────────────────────────────────────────────────
+.np-carousel-texte__header {
+	padding: 0 clamp(1.5rem, 6vw, 6rem);
+	flex-shrink: 0;
+}
+
+.np-carousel-texte__title {
+	font-family: 'Fraunces', serif;
+	font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+	font-weight: 400;
+	color: $np-teal;
+	margin: 0 0 0.5rem;
+	line-height: 1.2;
+	border-bottom: 1px solid gray;
+	padding-bottom: 0.6em;
+	margin-bottom: 0.6em;
+}
+
+.np-carousel-texte__subtitle {
+	font-size: clamp(1rem, 1.5vw, 1.125rem);
+	color: $np-taupe;
+	margin: 0;
+}
+
+// ── Zone de défilement horizontal ───────────────────────────────────────────
+.np-carousel-texte__track-wrap {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	align-items: center;
+	overflow: hidden; // masque les cartes hors viewport
+	padding: 1rem 0;
+}
+
+.np-carousel-texte__track {
+	display: flex;
+	gap: clamp(1rem, 2vw, 1.5rem);
+	padding: 0 clamp(1.5rem, 6vw, 6rem) 0 clamp(1.5rem, 6vw, 6rem);
+	padding-right: 30vw; // espace après la dernière carte
+	will-change: transform;
+	// La translation X est appliquée via JS : transform: translateX(--tx)
+}
+
+// ── Carte ────────────────────────────────────────────────────────────────────
+.np-carousel-texte__card {
+	flex: 0 0 clamp(260px, 30vw, 550px);
+	background-color: $np-white;
+	border: 1.5px solid #E8E4DF;
+	border-radius: 20px;
+	padding: clamp(1.5rem, 3vw, 2.5rem);
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+	&:hover {
+		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+		transform: translateY(-2px);
+	}
+}
+
+.np-carousel-texte__card-label {
+	font-family: 'Nuno', sans-serif;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: $np-orange-brown;
+}
+
+.np-carousel-texte__card-title {
+	font-family: 'Fraunces', serif;
+	font-size: clamp(2.25rem, 2vw, 1.625rem);
+	font-weight: 400;
+	color: $np-teal;
+	margin: 0 0 20px 0;
+	line-height: 1.25;
+}
+
+.np-carousel-texte__card-text {
+	font-family: 'Nunito', sans-serif;
+	font-size: 0.9375rem;
+	font-weight: 400;
+	color: $np-taupe;
+	line-height: 1.6;
+	margin: 0;
+	border-left: 1px solid var(--wp--preset--color--secondary);
+	padding-left: 30px;
+	margin-left: 30px;
+	max-width: 90%;
+}
+
+// ── Barre de progression ─────────────────────────────────────────────────────
+.np-carousel-texte__progress {
+	flex-shrink: 0;
+	height: 3px;
+	background-color: #E8E4DF;
+	margin: 0 clamp(1.5rem, 6vw, 6rem);
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+.np-carousel-texte__progress-bar {
+	height: 100%;
+	width: 0%;
+	background-color: $np-teal;
+	border-radius: 2px;
+	transition: width 0.05s linear;
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+@media (max-width: 640px) {
+	.np-carousel-texte__card {
+		flex: 0 0 80vw;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.np-carousel-texte__track {
+		overflow-x: auto;
+		transform: none !important;
+	}
+
+	.np-carousel-texte {
+		height: auto;
+	}
+
+	.np-carousel-texte__sticky {
+		position: static;
+		height: auto;
+	}
+}

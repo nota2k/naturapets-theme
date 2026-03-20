@@ -297,6 +297,17 @@ function naturapets_enqueue_header_scroll()
 			true
 		);
 	}
+
+	$carousel_js_file = get_stylesheet_directory() . '/assets/js/carousel-texte.js';
+	if (file_exists($carousel_js_file)) {
+		wp_enqueue_script(
+			'naturapets-carousel-texte',
+			get_stylesheet_directory_uri() . '/assets/js/carousel-texte.js',
+			array(),
+			filemtime($carousel_js_file),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'naturapets_enqueue_header_scroll');
 
@@ -634,6 +645,10 @@ function naturapets_register_hero_block()
 	$mosaic_path = get_stylesheet_directory() . '/blocks/mosaic';
 	if (file_exists($mosaic_path . '/block.json')) {
 		register_block_type($mosaic_path);
+	}
+	$carousel_texte_path = get_stylesheet_directory() . '/blocks/carousel-texte';
+	if (file_exists($carousel_texte_path . '/block.json')) {
+		register_block_type($carousel_texte_path);
 	}
 }
 add_action('init', 'naturapets_register_hero_block');
@@ -1280,6 +1295,75 @@ function naturapets_mosaic_field_group()
 	));
 }
 add_action('acf/init', 'naturapets_mosaic_field_group');
+
+/**
+ * Groupe de champs ACF pour le bloc Carousel de texte.
+ */
+function naturapets_carousel_texte_field_group()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(array(
+		'key'      => 'group_carousel_texte',
+		'title'    => 'Carousel de texte',
+		'fields'   => array(
+			array(
+				'key'           => 'field_carousel_title',
+				'label'         => 'Titre',
+				'name'          => 'carousel_title',
+				'type'          => 'text',
+				'instructions'  => 'Titre affiché au-dessus du carousel (optionnel).',
+			),
+			array(
+				'key'           => 'field_carousel_subtitle',
+				'label'         => 'Sous-titre',
+				'name'          => 'carousel_subtitle',
+				'type'          => 'text',
+			),
+			array(
+				'key'           => 'field_carousel_items',
+				'label'         => 'Cartes',
+				'name'          => 'carousel_items',
+				'type'          => 'repeater',
+				'min'           => 1,
+				'layout'        => 'block',
+				'button_label'  => 'Ajouter une carte',
+				'sub_fields'    => array(
+					array(
+						'key'   => 'field_carousel_card_label',
+						'label' => 'Label (petit texte orange)',
+						'name'  => 'card_label',
+						'type'  => 'text',
+					),
+					array(
+						'key'   => 'field_carousel_card_title',
+						'label' => 'Titre de la carte',
+						'name'  => 'card_title',
+						'type'  => 'text',
+					),
+					array(
+						'key'   => 'field_carousel_card_text',
+						'label' => 'Texte',
+						'name'  => 'card_text',
+						'type'  => 'textarea',
+						'rows'  => 3,
+					),
+				),
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param'    => 'block',
+					'operator' => '==',
+					'value'    => 'naturapets/carousel-texte',
+				),
+			),
+		),
+	));
+}
+add_action('acf/init', 'naturapets_carousel_texte_field_group');
 
 /**
  * Bouton "Ajouter au panier" → "Ajouter" dans les boucles produits (Query Loop).

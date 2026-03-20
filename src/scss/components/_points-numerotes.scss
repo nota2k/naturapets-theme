@@ -3,11 +3,13 @@
 // Fond #FAF8F5 · bordure #E8E4DF · numéros Fraunces vert #7C9082
 // ==========================================================================
 
+@use "../abstracts/variables" as *;
+
 .np-points {
 	&__inner {
 		display: flex;
 		flex-direction: column;
-		background-color: #faf8f5;
+		background-color: $np-green-medium;
 		border: 1px solid #e8e4df;
 		padding: 56px 60px;
 		margin: 0 auto;
@@ -34,17 +36,17 @@
 		font-family: 'Fraunces', serif;
 		font-size: 36px;
 		font-weight: 400;
-		color: #2d2d2d;
+		color: $np-beige-chaud;
 		letter-spacing: -0.5px;
 		margin: 0;
 		line-height: 1.15;
 	}
 
 	&__desc {
-		font-family: 'Inter', sans-serif;
+		font-family: 'Nunito', sans-serif;
 		font-size: 16px;
 		font-weight: 400;
-		color: #5a5a5a;
+		color: $np-gray-light;
 		line-height: 1.5;
 		margin: 0;
 		max-width: 600px;
@@ -53,7 +55,7 @@
 	// Séparateur header / liste
 	&__separator {
 		height: 1px;
-		background-color: #e8e4df;
+		// background-color: #e8e4df;
 		width: 100%;
 	}
 
@@ -119,7 +121,7 @@
 		font-family: 'Inter', sans-serif;
 		font-size: 18px;
 		font-weight: 600;
-		color: #2d2d2d;
+		color: $np-beige-chaud;
 		margin: 0;
 	}
 
@@ -127,7 +129,7 @@
 		font-family: 'Inter', sans-serif;
 		font-size: 14px;
 		font-weight: 400;
-		color: #5a5a5a;
+		color: $np-gray-light;
 		line-height: 1.6;
 		margin: 0;
 	}

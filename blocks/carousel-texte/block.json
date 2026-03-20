@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/carousel-texte",
+	"title": "Carousel de texte",
+	"description": "Carousel horizontal de cartes texte piloté par le scroll vertical de la page.",
+	"category": "theme",
+	"icon": "slides",
+	"keywords": ["carousel", "slider", "texte", "cartes", "scroll", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["wide", "full"]
+	}
+}
