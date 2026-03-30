@@ -1,0 +1,21 @@
+{
+    "name": "naturapets/theme-tests",
+    "description": "Tests unitaires et de sécurité pour le thème NaturaPets",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "brain/monkey": "^2.6",
+        "mockery/mockery": "^1.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite unit",
+        "test:security": "phpunit --testsuite security",
+        "test:functional": "phpunit --testsuite functional"
+    }
+}
