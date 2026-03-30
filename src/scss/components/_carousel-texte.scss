@@ -8,16 +8,16 @@
 
 // ── Section (hauteur totale = scroll réservé) ────────────────────────────────
 .np-carousel-texte {
-	// Hauteur : 1 viewport + N cards × 60vh (calculée en JS via --card-count)
-	height: calc(100vh + var(--card-count, 3) * 60vh);
+	// Hauteur : 1 viewport + N cards × 80vh (calculée en JS via --card-count)
+	height: calc(100vh + var(--card-count, 3) * 80vh);
 	position: relative;
 }
 
 // ── Sticky wrapper (occupe le viewport pendant tout le scroll) ───────────────
 .np-carousel-texte__sticky {
 	position: sticky;
-	top: 25vh; // centre le bloc 50vh dans le viewport
-	height: 50vh;
+	top: 10vh;
+	min-height: 40vh;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;

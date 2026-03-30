@@ -11,39 +11,40 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   function initCarousel(section) {
-    const sticky  = section.querySelector('.np-carousel-texte__sticky');
-    const track   = section.querySelector('.np-carousel-texte__track');
-    const bar     = section.querySelector('.np-carousel-texte__progress-bar');
+    const sticky = section.querySelector('.np-carousel-texte__sticky');
+    const trackWrap = section.querySelector('.np-carousel-texte__track-wrap');
+    const track = section.querySelector('.np-carousel-texte__track');
+    const bar = section.querySelector('.np-carousel-texte__progress-bar');
 
-    if (!sticky || !track) return;
+    if (!sticky || !track || !trackWrap) return;
 
     let currentX = 0;
-    let targetX  = 0;
-    let rafId    = null;
+    let targetX = 0;
+    let rafId = null;
 
     function getMaxScroll() {
       // S'arrête quand le centre de la dernière carte est au centre du sticky.
       // Cela laisse le scroll général reprendre dès que la card est centrée.
-      const cards    = track.querySelectorAll('.np-carousel-texte__card');
-      const wrapW    = sticky.clientWidth;
+      const cards = track.querySelectorAll('.np-carousel-texte__card');
+      const wrapW = sticky.clientWidth;
       if (!cards.length) return 0;
-      const last     = cards[cards.length - 1];
-      const center   = last.offsetLeft + last.offsetWidth / 2;
+      const last = cards[cards.length - 1];
+      const center = last.offsetLeft + last.offsetWidth / 2;
       return Math.max(0, center - wrapW / 2);
     }
 
     function getProgress() {
-      const rect       = section.getBoundingClientRect();
-      const sectionH   = section.offsetHeight;
-      const viewportH  = window.innerHeight;
-      const scrolled   = -rect.top;
+      const rect = section.getBoundingClientRect();
+      const sectionH = section.offsetHeight;
+      const viewportH = window.innerHeight;
+      const scrolled = -rect.top;
       const scrollable = sectionH - viewportH;
       return Math.min(1, Math.max(0, scrolled / scrollable));
     }
 
     function tick() {
       const maxScroll = getMaxScroll();
-      const progress  = getProgress();
+      const progress = getProgress();
       targetX = -(Math.min(progress, 1) * maxScroll);
 
       // Lerp pour fluidité
@@ -58,6 +59,20 @@
         const animProgress = maxScroll > 0 ? Math.min(1, Math.abs(currentX) / maxScroll) : 1;
         bar.style.width = `${animProgress * 100}%`;
       }
+
+      // Opacité : fondu des cartes selon leur distance aux bords du conteneur
+      const wrapRect = trackWrap.getBoundingClientRect();
+      const fadeZone = 300; // px avant le bord où le fondu commence
+      track.querySelectorAll('.np-carousel-texte__card').forEach((card) => {
+        const cardRect = card.getBoundingClientRect();
+        // Distance depuis le bord gauche du wrap (combien la carte est "entrée" par la gauche)
+        const distLeft = cardRect.right - wrapRect.left;
+        // Distance depuis le bord droit du wrap (combien la carte est "entrée" par la droite)
+        const distRight = wrapRect.right - cardRect.left;
+        const opacityLeft = distLeft <= 0 ? 0 : Math.min(1, distLeft / fadeZone);
+        const opacityRight = distRight <= 0 ? 0 : Math.min(1, distRight / fadeZone);
+        card.style.opacity = Math.min(opacityLeft, opacityRight);
+      });
 
       rafId = requestAnimationFrame(tick);
     }

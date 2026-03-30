@@ -963,6 +963,97 @@ function naturapets_found_animal_field_group()
 add_action('acf/init', 'naturapets_found_animal_field_group');
 
 /**
+ * Choix du type d'animal (valeur stockée => libellé).
+ *
+ * @return array<string, string>
+ */
+function naturapets_get_type_animal_choices()
+{
+	return array(
+		'chien' => 'Chien',
+		'chat' => 'Chat',
+		'cheval' => 'Cheval',
+		'furet' => 'Furet',
+	);
+}
+
+/**
+ * Libellé affichable pour type_animal (liste déroulante ou ancienne saisie libre).
+ *
+ * @param mixed $value Valeur ACF type_animal.
+ */
+function naturapets_get_type_animal_label($value)
+{
+	if ($value === '' || $value === null) {
+		return '';
+	}
+	$value = is_string($value) ? strtolower(trim($value)) : '';
+	$choices = naturapets_get_type_animal_choices();
+	if (isset($choices[$value])) {
+		return $choices[$value];
+	}
+	foreach ($choices as $slug => $label) {
+		if (strcasecmp((string) $value, $slug) === 0 || strcasecmp((string) $value, $label) === 0) {
+			return $label;
+		}
+	}
+	return is_string($value) ? $value : '';
+}
+
+/**
+ * Champs ACF locaux pour le CPT animal (type, race, âge).
+ * Si un groupe ACF existant définit déjà ces noms de champs, retirer le doublon dans l’admin ACF.
+ */
+function naturapets_animal_acf_field_group()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key' => 'group_naturapets_animal_medaillon',
+			'title' => 'Animal – Médaillon',
+			'fields' => array(
+				array(
+					'key' => 'field_naturapets_animal_type_animal',
+					'label' => 'Type d\'animal',
+					'name' => 'type_animal',
+					'type' => 'select',
+					'choices' => naturapets_get_type_animal_choices(),
+					'allow_null' => 1,
+					'return_format' => 'value',
+				),
+				array(
+					'key' => 'field_naturapets_animal_race',
+					'label' => 'Race',
+					'name' => 'race',
+					'type' => 'text',
+				),
+				array(
+					'key' => 'field_naturapets_animal_age',
+					'label' => 'Âge',
+					'name' => 'age',
+					'type' => 'text',
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param' => 'post_type',
+						'operator' => '==',
+						'value' => 'animal',
+					),
+				),
+			),
+			'position' => 'acf_after_title',
+			'style' => 'default',
+		)
+	);
+}
+add_action('acf/init', 'naturapets_animal_acf_field_group');
+
+/**
  * Groupe de champs ACF pour le bloc Témoignage (design Figma 3-56).
  */
 function naturapets_testimonial_field_group()
@@ -1992,7 +2083,7 @@ function naturapets_medaillon_public_info_metabox_content($post)
 			</tr>
 			<tr>
 				<th>Type</th>
-				<td><?php echo $type_animal ? esc_html($type_animal) : '<em>—</em>'; ?></td>
+				<td><?php echo $type_animal ? esc_html(naturapets_get_type_animal_label($type_animal)) : '<em>—</em>'; ?></td>
 			</tr>
 			<tr>
 				<th>Race</th>
@@ -2384,6 +2475,20 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 	if (isset($_POST['naturapets_save_animal']) && wp_verify_nonce($_POST['_wpnonce'], 'save_animal_' . $animal_id)) {
 		// Champs ACF
 		update_field('nom', sanitize_text_field($_POST['nom']), $animal_id);
+
+		$allowed_types = array_keys(naturapets_get_type_animal_choices());
+		$type_post = isset($_POST['type_animal']) ? sanitize_text_field(wp_unslash($_POST['type_animal'])) : '';
+		$prev_type = get_field('type_animal', $animal_id);
+		if ($type_post === '') {
+			update_field('type_animal', '', $animal_id);
+		} elseif (in_array($type_post, $allowed_types, true)) {
+			update_field('type_animal', $type_post, $animal_id);
+		} elseif ($prev_type !== '' && $type_post === $prev_type && !in_array((string) $prev_type, $allowed_types, true)) {
+			update_field('type_animal', $type_post, $animal_id);
+		}
+		update_field('race', sanitize_text_field($_POST['race'] ?? ''), $animal_id);
+		update_field('age', sanitize_text_field($_POST['age'] ?? ''), $animal_id);
+
 		update_field('informations_importantes', sanitize_textarea_field($_POST['informations_importantes']), $animal_id);
 		update_field('allergies', sanitize_textarea_field($_POST['allergies']), $animal_id);
 		update_field('telephone', sanitize_text_field($_POST['telephone']), $animal_id);
@@ -2425,6 +2530,9 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 
 	// Récupérer les données ACF
 	$nom = get_field('nom', $animal_id);
+	$type_animal = get_field('type_animal', $animal_id);
+	$race = get_field('race', $animal_id);
+	$age = get_field('age', $animal_id);
 	$photo = get_field('photo_de_lanimal', $animal_id);
 	$informations = get_field('informations_importantes', $animal_id);
 	$allergies = get_field('allergies', $animal_id);
@@ -2475,7 +2583,35 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 				value="<?php echo esc_attr($nom); ?>" required />
 		</p>
 
+		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+			<label for="type_animal">Type</label>
+			<select name="type_animal" id="type_animal" class="woocommerce-Input woocommerce-Input--select input-select">
+				<option value=""><?php esc_html_e('— Sélectionner —', 'naturapets'); ?></option>
+				<?php
+				$type_choices = naturapets_get_type_animal_choices();
+				if ($type_animal && !isset($type_choices[$type_animal])) :
+					?>
+					<option value="<?php echo esc_attr($type_animal); ?>" selected><?php echo esc_html($type_animal); ?></option>
+				<?php endif; ?>
+				<?php foreach ($type_choices as $val => $label) : ?>
+					<option value="<?php echo esc_attr($val); ?>" <?php selected($type_animal, $val); ?>>
+						<?php echo esc_html($label); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</p>
 
+		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+			<label for="race">Race</label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="race" id="race"
+				value="<?php echo esc_attr($race); ?>" />
+		</p>
+
+		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+			<label for="age">Âge</label>
+			<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="age" id="age"
+				value="<?php echo esc_attr($age); ?>" placeholder="<?php echo esc_attr__('ex. 3 ans', 'naturapets'); ?>" />
+		</p>
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="informations_importantes">Informations importantes</label>
@@ -3296,6 +3432,9 @@ function naturapets_display_public_animal_page($animal)
 {
 	// Récupérer les champs ACF
 	$nom = get_field('nom', $animal->ID);
+	$type_animal = get_field('type_animal', $animal->ID);
+	$race = get_field('race', $animal->ID);
+	$age = get_field('age', $animal->ID);
 	$photo = get_field('photo_de_lanimal', $animal->ID);
 	$informations = get_field('informations_importantes', $animal->ID);
 	$allergies = get_field('allergies', $animal->ID);
@@ -3324,6 +3463,32 @@ function naturapets_display_public_animal_page($animal)
 			</h1>
 
 			<table style="width: 100%; border-collapse: collapse;">
+				<?php if ($type_animal): ?>
+					<tr>
+						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; width: 40%; vertical-align: top;">
+							Type</th>
+						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo esc_html(naturapets_get_type_animal_label($type_animal)); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
+
+				<?php if ($race): ?>
+					<tr>
+						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee; vertical-align: top;">
+							Race</th>
+						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo nl2br(esc_html($race)); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
+
+				<?php if ($age): ?>
+					<tr>
+						<th style="text-align: left; padding: 12px; border-bottom: 1px solid #eee;">Âge</th>
+						<td style="padding: 12px; border-bottom: 1px solid #eee;"><?php echo esc_html($age); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
+
 				<?php if ($informations): ?>
 					<tr>
 						<th
@@ -3379,7 +3544,7 @@ function naturapets_display_public_animal_page($animal)
 				<?php endif; ?>
 			</table>
 
-			<?php if (!$nom && !$informations && !$allergies): ?>
+			<?php if (!$nom && !$type_animal && !$race && !$age && !$informations && !$allergies): ?>
 				<p style="text-align: center; color: #666; margin-top: 20px;">
 					<em>Les informations de ce médaillon n'ont pas encore été renseignées.</em>
 				</p>

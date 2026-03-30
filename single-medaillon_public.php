@@ -24,6 +24,9 @@ if (!$animal || $animal->post_type !== 'animal') {
 
 // Récupérer chaque donnée séparément
 $nom                = get_field('nom', $animal->ID);
+$type_animal        = get_field('type_animal', $animal->ID);
+$race               = get_field('race', $animal->ID);
+$age                = get_field('age', $animal->ID);
 $photo              = get_field('photo_de_lanimal', $animal->ID);
 $informations       = get_field('informations_importantes', $animal->ID);
 $allergies          = get_field('allergies', $animal->ID);
@@ -49,6 +52,27 @@ get_header();
 		</h1>
 
 		<table class="medaillon-public__table">
+			<?php if ($type_animal) : ?>
+				<tr>
+					<th class="medaillon-public__th">Type</th>
+					<td class="medaillon-public__td"><?php echo esc_html(naturapets_get_type_animal_label($type_animal)); ?></td>
+				</tr>
+			<?php endif; ?>
+
+			<?php if ($race) : ?>
+				<tr>
+					<th class="medaillon-public__th">Race</th>
+					<td class="medaillon-public__td"><?php echo nl2br(esc_html($race)); ?></td>
+				</tr>
+			<?php endif; ?>
+
+			<?php if ($age) : ?>
+				<tr>
+					<th class="medaillon-public__th">Âge</th>
+					<td class="medaillon-public__td"><?php echo esc_html($age); ?></td>
+				</tr>
+			<?php endif; ?>
+
 			<?php if ($informations) : ?>
 				<tr>
 					<th class="medaillon-public__th">Informations importantes</th>
@@ -98,7 +122,7 @@ get_header();
 			<?php endif; ?>
 		</table>
 
-		<?php if (!$nom && !$informations && !$allergies) : ?>
+		<?php if (!$nom && !$type_animal && !$race && !$age && !$informations && !$allergies) : ?>
 			<p class="medaillon-public__empty">
 				<em>Les informations de ce médaillon n'ont pas encore été renseignées.</em>
 			</p>
