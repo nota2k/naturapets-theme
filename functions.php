@@ -2616,13 +2616,13 @@ function naturapets_display_animal_form($animal_id, $customer_id)
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="informations_importantes">Informations importantes</label>
 			<textarea class="woocommerce-Input woocommerce-Input--textarea input-text" name="informations_importantes"
-				id="informations_importantes" rows="4"><?php echo esc_textarea($informations); ?></textarea>
+				id="informations_importantes" rows="4"><?php echo esc_textarea((string) ($informations ?? '')); ?></textarea>
 		</p>
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 			<label for="allergies">Allergies</label>
 			<textarea class="woocommerce-Input woocommerce-Input--textarea input-text" name="allergies" id="allergies"
-				rows="3"><?php echo esc_textarea($allergies); ?></textarea>
+				rows="3"><?php echo esc_textarea((string) ($allergies ?? '')); ?></textarea>
 		</p>
 
 		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
