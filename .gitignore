@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+vendor/
 
 # Build output (optionnel - décommenter si vous ne voulez pas versionner le CSS compilé)
 # assets/css/
