@@ -1627,6 +1627,129 @@ add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
 }, 10, 2);
 
 /**
+ * ID de pièce jointe de la première image de galerie produit (hors image à la une).
+ *
+ * @param int $product_id ID du produit WooCommerce.
+ * @return int ID attachment ou 0.
+ */
+function naturapets_get_product_first_gallery_attachment_id($product_id)
+{
+	$product_id = (int) $product_id;
+	if ($product_id < 1 || !function_exists('wc_get_product')) {
+		return 0;
+	}
+	$product = wc_get_product($product_id);
+	if (!$product) {
+		return 0;
+	}
+	$featured = (int) $product->get_image_id();
+	foreach ($product->get_gallery_image_ids() as $gid) {
+		$gid = (int) $gid;
+		if ($gid < 1 || $gid === $featured) {
+			continue;
+		}
+		if (wp_get_attachment_image_url($gid, 'woocommerce_thumbnail')) {
+			return $gid;
+		}
+	}
+	return 0;
+}
+
+/**
+ * Survol : afficher la première image de galerie sur l’image à la une (cartes, grilles, etc.).
+ * Désactivé sur la fiche produit pour le produit principal (même ID que la page).
+ *
+ * @param string         $block_content HTML rendu du bloc.
+ * @param array          $parsed_block  Bloc parsé.
+ * @param WP_Block|null  $instance      Instance (WP 5.9+), pour le contexte postId / postType.
+ * @return string
+ */
+function naturapets_wrap_product_featured_image_gallery_hover($block_content, $parsed_block, $instance = null)
+{
+	if (empty($parsed_block['blockName']) || 'core/post-featured-image' !== $parsed_block['blockName']) {
+		return $block_content;
+	}
+	if (!$instance instanceof WP_Block) {
+		return $block_content;
+	}
+	$post_id = isset($instance->context['postId']) ? (int) $instance->context['postId'] : 0;
+	if ($post_id < 1) {
+		return $block_content;
+	}
+	$post_type = isset($instance->context['postType']) ? (string) $instance->context['postType'] : '';
+	if ('product' !== $post_type) {
+		$post_type = get_post_type($post_id);
+	}
+	if ('product' !== $post_type) {
+		return $block_content;
+	}
+	if (function_exists('is_product') && is_product()) {
+		$main_id = (int) get_queried_object_id();
+		if ($main_id > 0 && $post_id === $main_id) {
+			return $block_content;
+		}
+	}
+	$gallery_id = naturapets_get_product_first_gallery_attachment_id($post_id);
+	if ($gallery_id < 1 || '' === trim($block_content)) {
+		return $block_content;
+	}
+
+	$feat = array(
+		'class' => '',
+		'style' => '',
+	);
+	if (class_exists('WP_HTML_Tag_Processor')) {
+		$proc = new WP_HTML_Tag_Processor($block_content);
+		if ($proc->next_tag(array('tag_name' => 'IMG'))) {
+			foreach (array('class', 'style') as $attr_name) {
+				$val = $proc->get_attribute($attr_name);
+				if (is_string($val) && '' !== $val) {
+					$feat[$attr_name] = $val;
+				}
+			}
+		}
+	}
+
+	// Reprendre les classes « visuelles » de l’à la une ; laisser wp_get_attachment_image réinjecter attachment-* / size-*.
+	$merged_class = trim((string) $feat['class']);
+	$merged_class = preg_replace('/\battachment-\S+/', '', $merged_class);
+	$merged_class = preg_replace('/\bsize-\S+/', '', $merged_class);
+	$merged_class = preg_replace('/\bwp-image-\d+\b/', 'wp-image-' . $gallery_id, $merged_class);
+	$merged_class = trim(preg_replace('/\s+/', ' ', $merged_class) . ' np-product-thumb-hover__gallery');
+
+	$img_attrs = array(
+		'class' => $merged_class,
+		'alt' => '',
+		'loading' => 'lazy',
+		'decoding' => 'async',
+		'tabindex' => '-1',
+		'aria-hidden' => 'true',
+	);
+	if ('' !== $feat['style']) {
+		$img_attrs['style'] = $feat['style'];
+	}
+
+	$gallery_img = wp_get_attachment_image($gallery_id, 'woocommerce_thumbnail', false, $img_attrs);
+	if ('' === $gallery_img) {
+		return $block_content;
+	}
+
+	$inner = preg_replace('/<img\b[^>]*>/i', '$0' . $gallery_img, $block_content, 1);
+	if (null === $inner || $inner === $block_content) {
+		return $block_content;
+	}
+
+	$attrs = $instance->attributes;
+	$scale = isset($attrs['scale']) && is_string($attrs['scale']) ? $attrs['scale'] : 'cover';
+	$classes = 'np-product-thumb-hover';
+	if ('contain' === $scale) {
+		$classes .= ' np-product-thumb-hover--contain';
+	}
+	return '<div class="' . esc_attr($classes) . '">' . $inner . '</div>';
+}
+add_filter('render_block', 'naturapets_wrap_product_featured_image_gallery_hover', 10, 3);
+
+/**
  * Récupérer la palette de couleurs du thème (theme.json).
  * Retourne un tableau hex => nom pour les choix ACF (affichage + valeur stockée = hex).
  */
