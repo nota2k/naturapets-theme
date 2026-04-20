@@ -765,6 +765,8 @@ input, select, textarea {
   background-color: var(--wp--preset--color--vert-flash);
   padding: 0.5rem;
   text-align: center;
+  height: 20px;
+  box-sizing: content-box;
 }
 .np-top-banner__text {
   margin: 0;
@@ -774,7 +776,88 @@ input, select, textarea {
   margin-left: auto;
   margin-right: auto;
 }
+.np-top-banner--rotating .np-top-banner__viewport {
+  position: relative;
+  height: 20px;
+  overflow: hidden;
+  max-width: var(--wp--style--global--wide-size, 1200px);
+  margin-left: auto;
+  margin-right: auto;
+}
+.np-top-banner--rotating .np-top-banner__track {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+.np-top-banner--rotating .np-top-banner__line {
+  flex: 0 0 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 0.75rem;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--bold);
+  text-align: center;
+  box-sizing: border-box;
+}
+.np-top-banner--count-2 .np-top-banner__track {
+  animation: np-tb-step-2 12s ease-in-out infinite;
+}
+.np-top-banner--count-3 .np-top-banner__track {
+  animation: np-tb-step-3 18s ease-in-out infinite;
+}
 
+@keyframes np-tb-step-2 {
+  0%, 32% {
+    transform: translateY(0);
+  }
+  38%, 70% {
+    transform: translateY(-25%);
+  }
+  76%, 100% {
+    transform: translateY(-50%);
+  }
+}
+@keyframes np-tb-step-3 {
+  0%, 20% {
+    transform: translateY(0);
+  }
+  24%, 44% {
+    transform: translateY(-16.6666666667%);
+  }
+  48%, 68% {
+    transform: translateY(-33.3333333333%);
+  }
+  72%, 100% {
+    transform: translateY(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .np-top-banner--rotating .np-top-banner__track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .np-top-banner--count-2 .np-top-banner__line:nth-child(n+3),
+  .np-top-banner--count-3 .np-top-banner__line:nth-child(n+4) {
+    display: none;
+  }
+  .np-top-banner--rotating .np-top-banner__viewport {
+    height: auto;
+    overflow: visible;
+  }
+  .np-top-banner--rotating .np-top-banner__line {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    padding: 0.2rem 0.75rem;
+  }
+  .np-top-banner--rotating .np-top-banner__track {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}
 .np-promo-code-block {
   margin: 40px 0;
 }

@@ -1,15 +1,13 @@
 // ==========================================================================
-// Bandeau du haut (option thème Customizer)
+// Bandeau du haut (Customizer legacy + bloc messages rotatifs)
 // ==========================================================================
-
-@use '../abstracts/variables' as *;
 
 .np-top-banner {
   background-color: var(--wp--preset--color--vert-flash);
-  // color: var(--wp--preset--color--base);
   padding: 0.5rem;
   text-align: center;
-  
+  height: 20px;
+  box-sizing: content-box;
 
   &__text {
     margin: 0;
@@ -18,5 +16,117 @@
     max-width: var(--wp--style--global--wide-size, 1200px);
     margin-left: auto;
     margin-right: auto;
+  }
+
+  // --- Défilement vertical (2 ou 3 phrases), boucle via piste dupliquée ---
+  $np-tb-line-height: 20px;
+
+  &--rotating &__viewport {
+    position: relative;
+    height: $np-tb-line-height;
+    overflow: hidden;
+    max-width: var(--wp--style--global--wide-size, 1200px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &--rotating &__track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+  }
+
+  &--rotating &__line {
+    flex: 0 0 $np-tb-line-height;
+    height: $np-tb-line-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 0.75rem;
+    font-size: var(--wp--preset--font-size--x-small);
+    font-weight: var(--wp--custom--font-weight--bold);
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  // Piste dupliquée : -50% = même rendu qu’au départ. Pauses + légers glissements entre phrases.
+  &--count-2 &__track {
+    animation: np-tb-step-2 12s ease-in-out infinite;
+  }
+
+  &--count-3 &__track {
+    animation: np-tb-step-3 18s ease-in-out infinite;
+  }
+}
+
+// 2 phrases → 4 lignes sur la piste : pas de -25% / -50% (hauteur piste).
+@keyframes np-tb-step-2 {
+  0%,
+  32% {
+    transform: translateY(0);
+  }
+
+  38%,
+  70% {
+    transform: translateY(-25%);
+  }
+
+  76%,
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+// 3 phrases → 6 lignes : pas de -16.666% / -33.333% / -50%.
+@keyframes np-tb-step-3 {
+  0%,
+  20% {
+    transform: translateY(0);
+  }
+
+  24%,
+  44% {
+    transform: translateY(calc(-100% / 6));
+  }
+
+  48%,
+  68% {
+    transform: translateY(calc(-100% / 6 * 2));
+  }
+
+  72%,
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .np-top-banner--rotating .np-top-banner__track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  // Masquer la moitié dupliquée (2ᵉ série de phrases)
+  .np-top-banner--count-2 .np-top-banner__line:nth-child(n + 3),
+  .np-top-banner--count-3 .np-top-banner__line:nth-child(n + 4) {
+    display: none;
+  }
+
+  .np-top-banner--rotating .np-top-banner__viewport {
+    height: auto;
+    overflow: visible;
+  }
+
+  .np-top-banner--rotating .np-top-banner__line {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    padding: 0.2rem 0.75rem;
+  }
+
+  .np-top-banner--rotating .np-top-banner__track {
+    flex-direction: column;
+    gap: 0.35rem;
   }
 }

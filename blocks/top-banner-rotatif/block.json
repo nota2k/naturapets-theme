@@ -1,0 +1,16 @@
+{
+	"name": "naturapets/top-banner-rotatif",
+	"title": "Bandeau du haut (messages rotatifs)",
+	"description": "Jusqu'à trois messages qui défilent automatiquement en haut de page.",
+	"category": "theme",
+	"icon": "megaphone",
+	"keywords": ["bandeau", "bannière", "annonces", "header", "naturapets"],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"anchor": true,
+		"align": ["full", "wide"]
+	}
+}

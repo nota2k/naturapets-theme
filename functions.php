@@ -391,7 +391,7 @@ function naturapets_get_top_banner_html()
 }
 
 /**
- * Shortcode [np_top_banner] — utilisé dans parts/header.html via un bloc wp:shortcode.
+ * Shortcode [np_top_banner] — conservé pour les anciennes compositions (Customizer).
  */
 function naturapets_top_banner_shortcode()
 {
@@ -803,6 +803,10 @@ function naturapets_register_hero_block()
 	$carousel_texte_path = get_stylesheet_directory() . '/blocks/carousel-texte';
 	if (file_exists($carousel_texte_path . '/block.json')) {
 		register_block_type($carousel_texte_path);
+	}
+	$top_banner_rotatif_path = get_stylesheet_directory() . '/blocks/top-banner-rotatif';
+	if (file_exists($top_banner_rotatif_path . '/block.json')) {
+		register_block_type($top_banner_rotatif_path);
 	}
 }
 add_action('init', 'naturapets_register_hero_block');
@@ -3987,4 +3991,65 @@ function naturapets_register_promo_code_block_fields()
 			'description' => '',
 		));
 	endif;
+}
+
+/**
+ * ==========================================================================
+ * BLOCS ACF : Bandeau du haut (messages rotatifs)
+ * ==========================================================================
+ */
+add_action('acf/init', 'naturapets_register_top_banner_rotatif_block_fields');
+function naturapets_register_top_banner_rotatif_block_fields()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+	acf_add_local_field_group(array(
+		'key' => 'group_np_top_banner_rotatif',
+		'title' => 'Bloc Bandeau du haut (rotatif)',
+		'fields' => array(
+			array(
+				'key' => 'field_np_tb_phrase_1',
+				'label' => 'Phrase 1',
+				'name' => 'phrase_1',
+				'type' => 'text',
+				'instructions' => __('Premier message affiché dans le bandeau.', 'naturapets'),
+				'required' => 0,
+				'maxlength' => 160,
+			),
+			array(
+				'key' => 'field_np_tb_phrase_2',
+				'label' => 'Phrase 2',
+				'name' => 'phrase_2',
+				'type' => 'text',
+				'instructions' => __('Deuxième message (optionnel). Si renseigné, les messages défilent automatiquement.', 'naturapets'),
+				'required' => 0,
+				'maxlength' => 160,
+			),
+			array(
+				'key' => 'field_np_tb_phrase_3',
+				'label' => 'Phrase 3',
+				'name' => 'phrase_3',
+				'type' => 'text',
+				'instructions' => __('Troisième message (optionnel).', 'naturapets'),
+				'required' => 0,
+				'maxlength' => 160,
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param' => 'block',
+					'operator' => '==',
+					'value' => 'naturapets/top-banner-rotatif',
+				),
+			),
+		),
+		'menu_order' => 0,
+		'position' => 'normal',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'active' => true,
+	));
 }
