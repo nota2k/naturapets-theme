@@ -270,7 +270,7 @@ input, select, textarea {
 .np-hero-banner__title {
   font-family: inherit;
   font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 700;
+  font-weight: var(--wp--custom--font-weight--bold);
   line-height: 1.2;
   color: #4a3728;
   margin: 0 0 1rem;
@@ -323,7 +323,7 @@ input, select, textarea {
 
 .np-hero-banner__slogan {
   font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 400;
+  font-weight: var(--wp--custom--font-weight--regular);
   line-height: 1.4;
   color: #6b635b;
   margin: 0 0 2rem;
@@ -339,11 +339,11 @@ input, select, textarea {
   padding: 1rem 2rem;
   background-color: #4a3728;
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   text-align: center;
   max-width: 300px;
   width: 100%;
-  font-weight: 400;
+  font-weight: var(--wp--custom--font-weight--regular);
   text-decoration: none;
   border-radius: 0.5rem;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -488,7 +488,7 @@ input, select, textarea {
 }
 
 .np-split-cta__text {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   line-height: 1.6;
   color: #000;
   margin: 0 0 1.75rem;
@@ -500,8 +500,8 @@ input, select, textarea {
   padding: 0.875rem 1.75rem;
   background-color: #715b3a;
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   text-decoration: none;
   border-radius: 2rem;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -533,7 +533,7 @@ input, select, textarea {
 
 .np-found-animal__label {
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-  font-weight: 600;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   color: var(--wp--preset--color--gris-moyen);
   margin: 0;
   flex-shrink: 0;
@@ -545,8 +545,8 @@ input, select, textarea {
   min-width: 180px;
   height: 2.75rem;
   padding: 0 1.25rem;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   color: var(--wp--preset--color--gris-moyen);
   background-color: var(--wp--preset--color--base);
   border: none;
@@ -566,8 +566,8 @@ input, select, textarea {
   flex-shrink: 0;
   height: 2.75rem;
   padding: 0 1.5rem;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   color: var(--wp--preset--color--base);
   background-color: var(--wp--preset--color--gris-moyen);
   border: none;
@@ -768,8 +768,8 @@ input, select, textarea {
 }
 .np-top-banner__text {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--bold);
   max-width: var(--wp--style--global--wide-size, 1200px);
   margin-left: auto;
   margin-right: auto;
@@ -1065,7 +1065,7 @@ input, select, textarea {
 .np-points__inner {
   display: flex;
   flex-direction: column;
-  background-color: #3d6b4f;
+  background-color: var(--wp--preset--color--secondary);
   border: 1px solid #e8e4df;
   padding: 56px 60px;
   margin: 0 auto;
@@ -1580,8 +1580,8 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header.np-header-
   display: flex;
   flex-direction: column;
   line-height: 1.2;
-  font-weight: 700;
-  font-size: 1.125rem;
+  font-weight: var(--wp--custom--font-weight--bold);
+  font-size: var(--wp--preset--font-size--medium);
 }
 .np-brand-text .np-brand-natura,
 .np-brand-text .np-brand-pets {
@@ -1605,8 +1605,8 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header.np-header-
 .np-header-nav .wp-block-navigation-item__content {
   color: #5c5346 !important;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
+  font-size: var(--wp--preset--font-size--medium);
   transition: color 0.2s ease;
 }
 .np-header-nav a:hover,
@@ -1643,13 +1643,13 @@ body {
 
 .np-contact__title {
   font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #405C4D;
   margin: 0 0 0.5rem;
 }
 
 .np-contact__subtitle {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #405C4D;
   margin: 0;
   opacity: 0.9;
@@ -1677,8 +1677,8 @@ body {
 }
 
 .np-contact__section-title {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #405C4D;
   margin: 0 0 1rem;
 }
@@ -1713,13 +1713,13 @@ body {
 
 .np-contact__item-content strong {
   display: block;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #405C4D;
   margin-bottom: 0.25rem;
 }
 .np-contact__item-content p {
   margin: 0 0 0.25rem;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #405C4D;
 }
 
@@ -1745,7 +1745,7 @@ body {
 }
 .np-contact__schedule-row dt, .np-contact__schedule-row dd {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #405C4D;
 }
 
@@ -1764,7 +1764,7 @@ body {
   padding: 0.6em 1em;
   border: 1px solid #e8e6e4;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   background: rgba(232, 230, 228, 0.3);
 }
 .np-contact__form-card .wpcf7-form-control:not([type=submit]):focus {
@@ -1782,8 +1782,8 @@ body {
   padding: 0.6em 1.25em;
   background-color: #6B8E7C;
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   border: none;
   border-radius: 1rem;
   cursor: pointer;
@@ -1802,14 +1802,14 @@ body {
 }
 
 .np-contact__urgent-title {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: var(--wp--preset--color--base);
   margin: 0 0 0.75rem;
 }
 
 .np-contact__urgent-desc {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   margin: 0 0 1.25rem;
   line-height: 1.5;
   opacity: 0.95;
@@ -1822,8 +1822,8 @@ body {
   padding: 0.5em 1.25em;
   background: rgb(149.7831325301, 175.7168674699, 162.3795180723);
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: none;
   border-radius: 1rem;
   transition: background 0.2s ease;
@@ -1847,7 +1847,7 @@ body {
   gap: 0.5em;
   color: #405C4D;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   transition: color 0.2s ease;
 }
 .np-contact__faq-list a:hover {
@@ -1985,8 +1985,8 @@ body {
 }
 
 .block-product__subtitle {
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #5c5346;
   line-height: 1 !important;
   margin-bottom: 1rem !important;
@@ -2001,7 +2001,7 @@ body {
 }
 
 .wc-block-cart-item__product .wc-block-cart-item__wrap .wc-block-components-product-name {
-  font-weight: 700 !important;
+  font-weight: var(--wp--custom--font-weight--bold) !important;
   margin-bottom: 0 !important;
 }
 
@@ -2016,7 +2016,7 @@ body {
 }
 
 .woocommerce-myaccount-wrapper {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   height: 100%;
   min-height: 64vh;
 }
@@ -2039,9 +2039,9 @@ body {
   padding-bottom: 1.25em;
 }
 .woocommerce-myaccount-wrapper .myaccount-header__title {
-  font-size: 3.5rem;
+  font-size: var(--wp--preset--font-size--max-60);
   line-height: 1.2em;
-  font-weight: 400;
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #4F6B4C;
   margin: 0;
 }
@@ -2049,9 +2049,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-  font-weight: 500;
+  font-weight: var(--wp--custom--font-weight--medium);
   color: var(--wp--preset--color--base);
   border-radius: 100px;
   padding: 0.5em 1em;
@@ -2067,7 +2067,7 @@ body {
   color: var(--wp--preset--color--base);
 }
 .woocommerce-myaccount-wrapper .myaccount-header__subtitle {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
   margin: 0;
   opacity: 0.9;
@@ -2103,8 +2103,8 @@ body {
   padding: 0.5em 1.25em;
   border-radius: 40px;
   color: #5c5346;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #4F6B4C;
@@ -2116,7 +2116,7 @@ body {
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-navigation.myaccount-tabs .myaccount-tabs__item.is-active .myaccount-tabs__link {
   background-color: var(--wp--preset--color--vert-eau);
-  font-weight: 700;
+  font-weight: var(--wp--custom--font-weight--bold);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-content {
@@ -2142,13 +2142,13 @@ body {
 .woocommerce-myaccount-wrapper .header-dashboard h2 {
   margin: 0;
   padding: 1rem 0 0;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--medium);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
 }
 .woocommerce-myaccount-wrapper .profile-summary__welcome {
   margin: 0 0 2rem;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
 }
 .woocommerce-myaccount-wrapper .profile-summary__welcome a {
@@ -2172,13 +2172,13 @@ body {
   margin-bottom: 1.5rem;
 }
 .profile-summary__title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--medium);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0 0 0.25em;
 }
 .profile-summary__subtitle {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
   margin: 0;
   width: 100%;
@@ -2191,8 +2191,8 @@ body {
   padding: 0.5em 1.25em;
   background-color: #8CD28A;
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: none;
   border-radius: 1rem;
   border: none;
@@ -2216,8 +2216,8 @@ body {
   padding: 0.5em 1.25em;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   border: none;
   border-radius: 1rem;
   cursor: pointer;
@@ -2248,13 +2248,13 @@ body {
 }
 .profile-summary__row dt {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--wp--custom--font-weight--medium);
   color: #5c5346;
   margin: 0;
 }
 .profile-summary__row dd {
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #4F6B4C;
   margin: 0;
   line-height: 1.5;
@@ -2284,13 +2284,13 @@ body {
   margin-bottom: 1.5rem;
 }
 .myaccount-animals__title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--medium);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0 0 0.25em;
 }
 .myaccount-animals__subtitle {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
   margin: 0;
   width: 100%;
@@ -2302,8 +2302,8 @@ body {
   padding: 0.5em 1.25em;
   background-color: #8CD28A;
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: none;
   border-radius: 1rem;
   border: none;
@@ -2341,14 +2341,14 @@ body {
   gap: 0.5rem;
 }
 .animal-card__name {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0;
 }
 .animal-card__badge {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   padding: 0.25em 0.6em;
   border-radius: 0.25rem;
   flex-shrink: 0;
@@ -2375,13 +2375,13 @@ body {
   gap: 1rem;
 }
 .animal-card__row dt {
-  font-weight: 400;
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #5c5346;
   margin: 0;
 }
 .animal-card__row dd {
   margin: 0;
-  font-weight: 500;
+  font-weight: var(--wp--custom--font-weight--medium);
   color: #4F6B4C;
   text-align: right;
 }
@@ -2397,7 +2397,7 @@ body {
   gap: 0.35em;
   padding: 0.4em 0.9em;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--wp--custom--font-weight--medium);
   text-decoration: none;
   border-radius: 0.5rem;
   border: 1px solid #e8e6e4;
@@ -2468,8 +2468,8 @@ body {
   color: #4F6B4C;
 }
 .animal-qr-modal__title {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0 0 1rem;
 }
@@ -2529,13 +2529,13 @@ body {
   color: #4F6B4C;
 }
 .np-delete-account-modal__title {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0 0 1rem;
 }
 .np-delete-account-modal__text {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
   line-height: 1.5;
   margin: 0 0 1.5rem;
@@ -2552,8 +2552,8 @@ body {
   padding: 0.5em 1.25em;
   background: rgba(92, 83, 70, 0.2);
   color: #5c5346;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   border: none;
   border-radius: 1rem;
   cursor: pointer;
@@ -2567,8 +2567,8 @@ body {
   padding: 0.5em 1.25em;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
   color: var(--wp--preset--color--base);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   border: none;
   border-radius: 1rem;
   cursor: pointer;
@@ -2580,26 +2580,26 @@ body {
 }
 
 .woocommerce-Addresses h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: var(--wp--preset--font-size--medium);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   color: #5c5346;
   margin-bottom: 1rem;
 }
 .woocommerce-Addresses a {
   text-decoration: underline;
   color: #5c5346;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
 }
 
 .woocommerce-form-login__register-link {
   margin: 1rem 0 0;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
 }
 .woocommerce-form-login__register-link a {
   color: #2d6a6a;
-  font-weight: 600;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: underline;
 }
 .woocommerce-form-login__register-link a:hover {
@@ -2614,7 +2614,7 @@ body {
   margin-bottom: 1rem;
 }
 .woocommerce-Addresses-ship-to-billing .woocommerce-form__label {
-  font-weight: 400;
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #5c5346;
   cursor: pointer;
 }
@@ -2625,7 +2625,7 @@ body {
   padding: 0.5em 1.25em;
   background-color: #8CD28A;
   color: var(--wp--preset--color--base);
-  font-weight: 600;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   border: none;
   border-radius: 1rem;
   cursor: pointer;
@@ -2640,7 +2640,7 @@ body {
   margin-bottom: 1.5rem;
 }
 .woocommerce-form-row--ship-to-billing .woocommerce-form__label {
-  font-weight: 400;
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #5c5346;
   cursor: pointer;
 }
@@ -2649,8 +2649,8 @@ body {
 }
 
 .woocommerce-EditAccountForm label {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #5c5346;
   line-height: 1 !important;
 }
@@ -2667,7 +2667,7 @@ body {
   color: var(--wp--preset--color--base);
   padding: 10px 20px;
   margin-top: 1em !important;
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   border-radius: 100px;
   border: none;
   cursor: pointer;
@@ -2680,13 +2680,13 @@ body {
   margin-bottom: 1.5rem;
 }
 .orders-history__title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--medium);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0 0 0.25em;
 }
 .orders-history__subtitle {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
   margin: 0;
   opacity: 0.9;
@@ -2724,8 +2724,8 @@ body {
   gap: 0.25rem;
 }
 .order-card__id {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
   margin: 0;
 }
@@ -2735,7 +2735,7 @@ body {
 }
 .order-card__badge {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   padding: 0.25em 0.6em;
   border-radius: 0.25rem;
   flex-shrink: 0;
@@ -2763,7 +2763,7 @@ body {
   color: #5c5346;
 }
 .order-card__items {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   color: #5c5346;
   margin: 0;
   line-height: 1.5;
@@ -2776,8 +2776,8 @@ body {
   margin-top: 0.5rem;
 }
 .order-card__total {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: #4F6B4C;
 }
 .order-card__btn {
@@ -2785,7 +2785,7 @@ body {
   align-items: center;
   padding: 0.4em 0.9em;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--wp--custom--font-weight--medium);
   text-decoration: none;
   border-radius: 0.5rem;
   border: 1px solid #e8e6e4;
@@ -2809,7 +2809,7 @@ body {
   cursor: pointer;
 }
 .woocommerce-MyAccount-orders thead {
-  font-size: 1rem;
+  font-size: var(--wp--preset--font-size--x-small);
   background-color: var(--wp--preset--color--olive);
 }
 .woocommerce-MyAccount-orders thead th {
@@ -2847,8 +2847,8 @@ body {
 }
 .edit-account-form-medaillon .row-animal-photo input[type=file] {
   margin-top: 10px !important;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   color: #5c5346;
   line-height: 1 !important;
   padding: 10px 20px;

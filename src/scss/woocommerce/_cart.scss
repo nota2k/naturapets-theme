@@ -6,8 +6,8 @@
 @use '../abstracts/mixins' as *;
 
 .block-product__subtitle{
-    font-size: $font-size-base;
-    font-weight: $font-weight-normal;
+    font-size: var(--wp--preset--font-size--x-small);
+    font-weight: var(--wp--custom--font-weight--regular);
     color: $np-taupe;
     line-height: 1!important;
     margin-bottom: 1rem!important;
@@ -28,7 +28,7 @@
 .wc-block-cart-item__product{
     .wc-block-cart-item__wrap{
         .wc-block-components-product-name{
-            font-weight: $font-weight-bold!important;
+            font-weight: var(--wp--custom--font-weight--bold)!important;
             margin-bottom: 0!important;
         }
     }

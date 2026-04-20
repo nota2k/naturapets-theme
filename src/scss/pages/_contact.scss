@@ -24,13 +24,13 @@ $np-contact-green-light: #6B8E7C;
 
 .np-contact__title {
   font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: $font-weight-bold;
+  font-weight: var(--wp--custom--font-weight--bold);
   color: $np-contact-green;
   margin: 0 0 0.5rem;
 }
 
 .np-contact__subtitle {
-  font-size: $font-size-base;
+  font-size: var(--wp--preset--font-size--x-small);
   color: $np-contact-green;
   margin: 0;
   opacity: 0.9;
@@ -57,8 +57,8 @@ $np-contact-green-light: #6B8E7C;
 }
 
 .np-contact__section-title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: $np-contact-green;
   margin: 0 0 1rem;
 }
@@ -95,13 +95,13 @@ $np-contact-green-light: #6B8E7C;
 .np-contact__item-content {
   strong {
     display: block;
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     color: $np-contact-green;
     margin-bottom: 0.25rem;
   }
   p {
     margin: 0 0 0.25rem;
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     color: $np-contact-green;
   }
 }
@@ -130,7 +130,7 @@ $np-contact-green-light: #6B8E7C;
 
   dt, dd {
     margin: 0;
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     color: $np-contact-green;
   }
 }
@@ -152,7 +152,7 @@ $np-contact-green-light: #6B8E7C;
     padding: 0.6em 1em;
     border: 1px solid $np-gray-light;
     border-radius: $border-radius-lg;
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     background: rgba($np-gray-light, 0.3);
 
     &:focus {
@@ -173,8 +173,8 @@ $np-contact-green-light: #6B8E7C;
     padding: 0.6em 1.25em;
     background-color: $np-contact-green-light;
     color: var(--wp--preset--color--base);
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
+    font-size: var(--wp--preset--font-size--x-small);
+    font-weight: var(--wp--custom--font-weight--semi-bold);
     border: none;
     border-radius: $border-radius-xl;
     cursor: pointer;
@@ -196,14 +196,14 @@ $np-contact-green-light: #6B8E7C;
 }
 
 .np-contact__urgent-title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--bold);
   color: var(--wp--preset--color--base);
   margin: 0 0 0.75rem;
 }
 
 .np-contact__urgent-desc {
-  font-size: $font-size-base;
+  font-size: var(--wp--preset--font-size--x-small);
   margin: 0 0 1.25rem;
   line-height: 1.5;
   opacity: 0.95;
@@ -216,8 +216,8 @@ $np-contact-green-light: #6B8E7C;
   padding: 0.5em 1.25em;
   background: color.adjust($np-contact-green-light, $lightness: 15%);
   color: var(--wp--preset--color--base);
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: none;
   border-radius: $border-radius-xl;
   transition: background 0.2s ease;
@@ -244,7 +244,7 @@ $np-contact-green-light: #6B8E7C;
     gap: 0.5em;
     color: $np-contact-green;
     text-decoration: none;
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     transition: color 0.2s ease;
 
     &:hover {

@@ -9,7 +9,7 @@
 	&__inner {
 		display: flex;
 		flex-direction: column;
-		background-color: $np-green-medium;
+		background-color: var(--wp--preset--color--secondary);
 		border: 1px solid #e8e4df;
 		padding: 56px 60px;
 		margin: 0 auto;

@@ -127,7 +127,7 @@ $np-split-cta-btn: #715b3a;
 }
 
 .np-split-cta__text {
-  font-size: $font-size-base;
+  font-size: var(--wp--preset--font-size--x-small);
   line-height: $line-height-base;
   color: #000;
   margin: 0 0 1.75rem;
@@ -139,8 +139,8 @@ $np-split-cta-btn: #715b3a;
   padding: 0.875rem 1.75rem;
   background-color: $np-split-cta-btn;
   color: var(--wp--preset--color--base);
-  font-size: $font-size-base;
-  font-weight: $font-weight-normal;
+  font-size: var(--wp--preset--font-size--x-small);
+  font-weight: var(--wp--custom--font-weight--regular);
   text-decoration: none;
   border-radius: 2rem;
   transition: background-color 0.2s ease, color 0.2s ease;

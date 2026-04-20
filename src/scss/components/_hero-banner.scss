@@ -81,7 +81,7 @@
 .np-hero-banner__title {
   font-family: inherit;
   font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: $font-weight-bold;
+  font-weight: var(--wp--custom--font-weight--bold);
   line-height: $line-height-heading;
   color: $np-brown-dark;
   margin: 0 0 $spacer;
@@ -110,7 +110,7 @@
 
 .np-hero-banner__slogan {
   font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: $font-weight-normal;
+  font-weight: var(--wp--custom--font-weight--regular);
   line-height: 1.4;
   color: $np-brown-light;
   margin: 0 0 $spacer * 2;
@@ -126,11 +126,11 @@
   padding: $spacer $spacer * 2;
   background-color: $np-brown-dark;
   color: var(--wp--preset--color--base);
-  font-size: $font-size-base;
+  font-size: var(--wp--preset--font-size--x-small);
   text-align: center;
   max-width: 300px;
   width: 100%;
-  font-weight: $font-weight-normal;
+  font-weight: var(--wp--custom--font-weight--regular);
   text-decoration: none;
   border-radius: $border-radius-lg;
   transition: background-color 0.2s ease, color 0.2s ease;

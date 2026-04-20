@@ -8,7 +8,7 @@ $np-green-light: #8CD28A;
 $np-green-badge: #E0FFE0;
 
 .woocommerce-myaccount-wrapper {
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     height: 100%;
     min-height: 64vh;
 
@@ -34,9 +34,9 @@ $np-green-badge: #E0FFE0;
         }
 
         &__title {
-            font-size: $font-size-xxl;
+            font-size: var(--wp--preset--font-size--max-60);
             line-height: 1.2em;
-            font-weight: $font-weight-normal;
+            font-weight: var(--wp--custom--font-weight--regular);
             color: $np-green-dark;
             margin: 0;
         }
@@ -45,9 +45,9 @@ $np-green-badge: #E0FFE0;
             display: inline-flex;
             align-items: center;
             gap: 0.5em;
-            font-size: $font-size-base;
+            font-size: var(--wp--preset--font-size--x-small);
             background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-            font-weight: $font-weight-medium;
+            font-weight: var(--wp--custom--font-weight--medium);
             color: var(--wp--preset--color--base);
             border-radius: 100px;
             padding: 0.5em 1em;
@@ -66,7 +66,7 @@ $np-green-badge: #E0FFE0;
         }
 
         &__subtitle {
-            font-size: $font-size-base;
+            font-size: var(--wp--preset--font-size--x-small);
             color: $np-taupe;
             margin: 0;
             opacity: 0.9;
@@ -107,8 +107,8 @@ $np-green-badge: #E0FFE0;
                 padding: 0.5em 1.25em;
                 border-radius: 40px;
                 color: $np-taupe;
-                font-size: $font-size-base;
-                font-weight: $font-weight-semibold;
+                font-size: var(--wp--preset--font-size--x-small);
+                font-weight: var(--wp--custom--font-weight--semi-bold);
                 text-decoration: none;
                 background-color: #fff;
                 border: 1px solid $np-green-dark;
@@ -123,7 +123,7 @@ $np-green-badge: #E0FFE0;
             .myaccount-tabs__item.is-active .myaccount-tabs__link {
                 background-color: var(--wp--preset--color--vert-eau);
                 // color: var(--wp--preset--color--base);
-                font-weight: $font-weight-bold;
+                font-weight: var(--wp--custom--font-weight--bold);
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             }
         }
@@ -154,15 +154,15 @@ $np-green-badge: #E0FFE0;
         h2 {
             margin: 0;
             padding: 1rem 0 0;
-            font-size: $font-size-xl;
-            font-weight: $font-weight-bold;
+            font-size: var(--wp--preset--font-size--medium);
+            font-weight: var(--wp--custom--font-weight--bold);
             color: $np-green-dark;
         }
     }
 
     .profile-summary__welcome {
         margin: 0 0 2rem;
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         color: $np-taupe;
 
         a {
@@ -192,14 +192,14 @@ $np-green-badge: #E0FFE0;
     }
 
     &__title {
-        font-size: $font-size-xl;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--medium);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
 
     &__subtitle {
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         color: $np-taupe;
         margin: 0;
         width: 100%;
@@ -213,8 +213,8 @@ $np-green-badge: #E0FFE0;
         padding: 0.5em 1.25em;
         background-color: $np-green-light;
         color: var(--wp--preset--color--base);
-        font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         text-decoration: none;
         border-radius: $border-radius-xl;
         border: none;
@@ -242,8 +242,8 @@ $np-green-badge: #E0FFE0;
         padding: 0.5em 1.25em;
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
         color: var(--wp--preset--color--base);
-        font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         border: none;
         border-radius: $border-radius-xl;
         cursor: pointer;
@@ -278,14 +278,14 @@ $np-green-badge: #E0FFE0;
 
         dt {
             font-size: $font-size-sm;
-            font-weight: $font-weight-medium;
+            font-weight: var(--wp--custom--font-weight--medium);
             color: $np-taupe;
             margin: 0;
         }
 
         dd {
-            font-size: $font-size-base;
-            font-weight: $font-weight-normal;
+            font-size: var(--wp--preset--font-size--x-small);
+            font-weight: var(--wp--custom--font-weight--regular);
             color: $np-green-dark;
             margin: 0;
             line-height: 1.5;
@@ -322,14 +322,14 @@ $np-green-badge: #E0FFE0;
     }
 
     &__title {
-        font-size: $font-size-xl;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--medium);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
 
     &__subtitle {
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         color: $np-taupe;
         margin: 0;
         width: 100%;
@@ -342,8 +342,8 @@ $np-green-badge: #E0FFE0;
         padding: 0.5em 1.25em;
         background-color: $np-green-light;
         color: var(--wp--preset--color--base);
-        font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         text-decoration: none;
         border-radius: $border-radius-xl;
         border: none;
@@ -387,15 +387,15 @@ $np-green-badge: #E0FFE0;
     }
 
     &__name {
-        font-size: $font-size-lg;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--small);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0;
     }
 
     &__badge {
         font-size: $font-size-sm;
-        font-weight: $font-weight-semibold;
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         padding: 0.25em 0.6em;
         border-radius: $border-radius-sm;
         flex-shrink: 0;
@@ -426,14 +426,14 @@ $np-green-badge: #E0FFE0;
         gap: 1rem;
 
         dt {
-            font-weight: $font-weight-normal;
+            font-weight: var(--wp--custom--font-weight--regular);
             color: $np-taupe;
             margin: 0;
         }
 
         dd {
             margin: 0;
-            font-weight: $font-weight-medium;
+            font-weight: var(--wp--custom--font-weight--medium);
             color: $np-green-dark;
             text-align: right;
         }
@@ -452,7 +452,7 @@ $np-green-badge: #E0FFE0;
         gap: 0.35em;
         padding: 0.4em 0.9em;
         font-size: $font-size-sm;
-        font-weight: $font-weight-medium;
+        font-weight: var(--wp--custom--font-weight--medium);
         text-decoration: none;
         border-radius: $border-radius-lg;
         border: 1px solid $np-gray-light;
@@ -534,8 +534,8 @@ $np-green-badge: #E0FFE0;
     }
 
     &__title {
-        font-size: $font-size-lg;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--small);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 1rem;
     }
@@ -604,14 +604,14 @@ $np-green-badge: #E0FFE0;
     }
 
     &__title {
-        font-size: $font-size-lg;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--small);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 1rem;
     }
 
     &__text {
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         color: $np-taupe;
         line-height: 1.5;
         margin: 0 0 1.5rem;
@@ -631,8 +631,8 @@ $np-green-badge: #E0FFE0;
         padding: 0.5em 1.25em;
         background: rgba($np-taupe, 0.2);
         color: $np-taupe;
-        font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         border: none;
         border-radius: $border-radius-xl;
         cursor: pointer;
@@ -648,8 +648,8 @@ $np-green-badge: #E0FFE0;
         padding: 0.5em 1.25em;
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
         color: var(--wp--preset--color--base);
-        font-size: $font-size-base;
-        font-weight: $font-weight-semibold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         border: none;
         border-radius: $border-radius-xl;
         cursor: pointer;
@@ -664,8 +664,8 @@ $np-green-badge: #E0FFE0;
 
 .woocommerce-Addresses {
     h2 {
-        font-size: $font-size-xl;
-        font-weight: $font-weight-semibold;
+        font-size: var(--wp--preset--font-size--medium);
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         color: $np-taupe;
         margin-bottom: 1rem;
     }
@@ -673,20 +673,20 @@ $np-green-badge: #E0FFE0;
     a {
         text-decoration: underline;
         color: $np-taupe;
-        font-size: $font-size-base;
-        font-weight: $font-weight-normal;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--regular);
     }
 }
 
 // Lien création de compte sous le formulaire de connexion
 .woocommerce-form-login__register-link {
     margin: 1rem 0 0;
-    font-size: $font-size-base;
+    font-size: var(--wp--preset--font-size--x-small);
     color: $np-taupe;
 
     a {
         color: $np-teal;
-        font-weight: $font-weight-semibold;
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         text-decoration: underline;
 
         &:hover {
@@ -705,7 +705,7 @@ $np-green-badge: #E0FFE0;
     }
 
     .woocommerce-form__label {
-        font-weight: $font-weight-normal;
+        font-weight: var(--wp--custom--font-weight--regular);
         color: $np-taupe;
         cursor: pointer;
     }
@@ -718,7 +718,7 @@ $np-green-badge: #E0FFE0;
         padding: 0.5em 1.25em;
         background-color: $np-green-light;
         color: var(--wp--preset--color--base);
-        font-weight: $font-weight-semibold;
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         border: none;
         border-radius: $border-radius-xl;
         cursor: pointer;
@@ -736,7 +736,7 @@ $np-green-badge: #E0FFE0;
     margin-bottom: 1.5rem;
 
     .woocommerce-form__label {
-        font-weight: $font-weight-normal;
+        font-weight: var(--wp--custom--font-weight--regular);
         color: $np-taupe;
         cursor: pointer;
     }
@@ -748,8 +748,8 @@ $np-green-badge: #E0FFE0;
 
 .woocommerce-EditAccountForm {
     label {
-        font-size: $font-size-base;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-taupe;
         line-height: 1 !important;
     }
@@ -768,7 +768,7 @@ $np-green-badge: #E0FFE0;
         color: var(--wp--preset--color--base);
         padding: 10px 20px;
         margin-top: 1em !important;
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         border-radius: 100px;
         border: none;
         cursor: pointer;
@@ -784,14 +784,14 @@ $np-green-badge: #E0FFE0;
     }
 
     &__title {
-        font-size: $font-size-xl;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--medium);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
 
     &__subtitle {
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         color: $np-taupe;
         margin: 0;
         opacity: 0.9;
@@ -834,8 +834,8 @@ $np-green-badge: #E0FFE0;
     }
 
     &__id {
-        font-size: $font-size-lg;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--small);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0;
     }
@@ -847,7 +847,7 @@ $np-green-badge: #E0FFE0;
 
     &__badge {
         font-size: $font-size-sm;
-        font-weight: $font-weight-semibold;
+        font-weight: var(--wp--custom--font-weight--semi-bold);
         padding: 0.25em 0.6em;
         border-radius: $border-radius-sm;
         flex-shrink: 0;
@@ -883,7 +883,7 @@ $np-green-badge: #E0FFE0;
     }
 
     &__items {
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         color: $np-taupe;
         margin: 0;
         line-height: 1.5;
@@ -898,8 +898,8 @@ $np-green-badge: #E0FFE0;
     }
 
     &__total {
-        font-size: $font-size-base;
-        font-weight: $font-weight-bold;
+        font-size: var(--wp--preset--font-size--x-small);
+        font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
     }
 
@@ -908,7 +908,7 @@ $np-green-badge: #E0FFE0;
         align-items: center;
         padding: 0.4em 0.9em;
         font-size: $font-size-sm;
-        font-weight: $font-weight-medium;
+        font-weight: var(--wp--custom--font-weight--medium);
         text-decoration: none;
         border-radius: $border-radius-lg;
         border: 1px solid $np-gray-light;
@@ -936,7 +936,7 @@ $np-green-badge: #E0FFE0;
     }
 
     thead {
-        font-size: $font-size-base;
+        font-size: var(--wp--preset--font-size--x-small);
         background-color: var(--wp--preset--color--olive);
 
         th {
@@ -986,8 +986,8 @@ $np-green-badge: #E0FFE0;
 
         input[type="file"] {
             margin-top: 10px !important;
-            font-size: $font-size-base;
-            font-weight: $font-weight-normal;
+            font-size: var(--wp--preset--font-size--x-small);
+            font-weight: var(--wp--custom--font-weight--regular);
             color: $np-taupe;
             line-height: 1 !important;
             padding: 10px 20px;
