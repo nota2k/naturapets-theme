@@ -3,7 +3,7 @@
         'name' => 'naturapets/theme-tests',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7aa12eb177f33336879f3826118cfa84cb33a657',
+        'reference' => '26597c4972ef6556d0c01c3df9a4b44a709703d2',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -85,7 +85,7 @@
         'naturapets/theme-tests' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7aa12eb177f33336879f3826118cfa84cb33a657',
+            'reference' => '26597c4972ef6556d0c01c3df9a4b44a709703d2',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
