@@ -24,7 +24,7 @@
 	justify-content: center;
 	gap: 2rem;
 	padding: 3rem 0;
-	// background-color: $np-white;
+	// background-color: var(--wp--preset--color--base);
 }
 
 // ── En-tête optionnel ────────────────────────────────────────────────────────
@@ -73,7 +73,7 @@
 // ── Carte ────────────────────────────────────────────────────────────────────
 .np-carousel-texte__card {
 	flex: 0 0 clamp(260px, 30vw, 550px);
-	background-color: $np-white;
+	background-color: var(--wp--preset--color--base);
 	border: 1.5px solid #E8E4DF;
 	border-radius: 20px;
 	padding: clamp(1.5rem, 3vw, 2.5rem);
@@ -114,7 +114,7 @@
 	color: $np-taupe;
 	line-height: 1.6;
 	margin: 0;
-	border-left: 1px solid var(--wp--preset--color--secondary);
+	border-left: 1px solid var(--wp--preset--color--bleu-noir);
 	padding-left: 30px;
 	margin-left: 30px;
 	max-width: 90%;

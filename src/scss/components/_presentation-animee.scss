@@ -7,7 +7,7 @@
 	&__inner {
 		position: relative;
 		overflow: hidden;
-		background-color: #ffffff;
+		background-color: var(--wp--preset--color--base);
 		min-height: 60vh;
 		display: flex;
 		max-width: inherit;

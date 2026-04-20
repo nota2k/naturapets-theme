@@ -30,8 +30,6 @@ $spacers: (
 );
 
 $padding-large: clamp(2em, 4vw, 4em);
-$padding-medium: clamp(1em, 2vw, 2em);
-$padding-small: clamp(0.5em, 1vw, 1em);
 
 // Breakpoints
 $breakpoint-xs: 0;
@@ -54,7 +52,6 @@ $breakpoints: (
 $np-teal: #2d6a6a; // Vert d'eau foncé (Natura, tête logo)
 $np-orange-brown: #b85c38; // Orange-marron (Pets, corps logo)
 $np-taupe: #5c5346; // Gris-marron pour la navigation
-$np-white: #ffffff;
 // Bannière hero (Figma node 1-101)
 $np-brown-dark: #4a3728; // Titre et fond bouton
 $np-brown-light: #6b635b; // Slogan

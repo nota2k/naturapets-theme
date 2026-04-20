@@ -27,7 +27,7 @@
     .wc-block-components-quantity-selector__button {
         border: 1px solid $np-brown-light;
         background-color: $np-brown-light;
-        color: $np-white;
+        color: var(--wp--preset--color--base);
         width: 40px;
         aspect-ratio: 1 / 1;
         border-radius: 100%;

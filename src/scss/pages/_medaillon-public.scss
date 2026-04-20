@@ -18,7 +18,7 @@ $medaillon-text-footer: #999;
 }
 
 .medaillon-public__card {
-	background: $np-white;
+	background: var(--wp--preset--color--base);
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 	padding: 30px;

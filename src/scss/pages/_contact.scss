@@ -7,7 +7,6 @@
 
 $np-contact-green: #405C4D;
 $np-contact-green-light: #6B8E7C;
-$np-contact-bg: #F8F6F1;
 
 .np-contact-page {
   min-height: 60vh;
@@ -82,7 +81,7 @@ $np-contact-bg: #F8F6F1;
   height: 60px;
   border-radius: 50%;
   background-color: $np-contact-green;
-  color: $np-white;
+  color: var(--wp--preset--color--base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +137,7 @@ $np-contact-bg: #F8F6F1;
 
 // Carte formulaire
 .np-contact__form-card {
-  background: $np-white;
+  background: var(--wp--preset--color--base);
   border-radius: $border-radius-xl;
   padding: 2rem;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
@@ -173,7 +172,7 @@ $np-contact-bg: #F8F6F1;
     gap: 0.5em;
     padding: 0.6em 1.25em;
     background-color: $np-contact-green-light;
-    color: $np-white;
+    color: var(--wp--preset--color--base);
     font-size: $font-size-base;
     font-weight: $font-weight-semibold;
     border: none;
@@ -183,7 +182,7 @@ $np-contact-bg: #F8F6F1;
 
     &:hover {
       background: color.adjust($np-contact-green-light, $lightness: -8%);
-      color: $np-white;
+      color: var(--wp--preset--color--base);
     }
   }
 }
@@ -193,13 +192,13 @@ $np-contact-bg: #F8F6F1;
   background-color: $np-contact-green-light;
   border-radius: $border-radius-xl;
   padding: 2rem;
-  color: $np-white;
+  color: var(--wp--preset--color--base);
 }
 
 .np-contact__urgent-title {
   font-size: $font-size-lg;
   font-weight: $font-weight-bold;
-  color: $np-white;
+  color: var(--wp--preset--color--base);
   margin: 0 0 0.75rem;
 }
 
@@ -216,7 +215,7 @@ $np-contact-bg: #F8F6F1;
   gap: 0.5em;
   padding: 0.5em 1.25em;
   background: color.adjust($np-contact-green-light, $lightness: 15%);
-  color: $np-white;
+  color: var(--wp--preset--color--base);
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   text-decoration: none;
@@ -225,7 +224,7 @@ $np-contact-bg: #F8F6F1;
 
   &:hover {
     background: color.adjust($np-contact-green-light, $lightness: 8%);
-    color: $np-white;
+    color: var(--wp--preset--color--base);
   }
 }
 

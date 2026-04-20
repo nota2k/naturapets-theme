@@ -30,7 +30,7 @@ body:not(.medaillon_public-template-default) .wp-site-blocks>header {
 
 // En-tête principal
 .np-header {
-  background-color: $np-white;
+  background-color: var(--wp--preset--color--base);
 
   .np-header-inner {
     display: flex;

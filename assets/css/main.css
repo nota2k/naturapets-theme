@@ -71,7 +71,7 @@ body {
 input, select, textarea {
   border: 1px solid #e8e6e4 !important;
   border-radius: 5px !important;
-  color: var(--wp--preset--color--contrast);
+  color: var(--wp--preset--color--bleu-noir);
   font-family: var(--wp--preset--font-family--primary);
   font-size: var(--wp--preset--font-size--medium);
   font-weight: var(--wp--custom--font-weight--light);
@@ -91,7 +91,7 @@ input, select, textarea {
   font-size: 1rem;
   border-radius: 100px;
   padding: 0.5em 1.2rem !important;
-  background-color: #ffffff;
+  background-color: var(--wp--preset--color--base);
   color: #2d6a6a;
   border: none;
   cursor: pointer;
@@ -99,14 +99,14 @@ input, select, textarea {
 }
 .mailpoet-wrapper .mailpoet-input input:hover {
   background-color: #2d6a6a;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .mailpoet-wrapper .mailpoet_submit {
   font-size: 1rem;
   border-radius: 100px;
   padding: 0.5rem 1rem;
   background-color: rgb(168, 213, 160);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   cursor: pointer;
   border: none;
   transition: background-color 0.2s ease;
@@ -338,7 +338,7 @@ input, select, textarea {
   display: inline-block;
   padding: 1rem 2rem;
   background-color: #4a3728;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   text-align: center;
   max-width: 300px;
@@ -350,7 +350,7 @@ input, select, textarea {
 }
 .np-hero-banner__cta:hover {
   background-color: rgb(54.1368421053, 40.2368421053, 29.2631578947);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 
 .np-hero-banner__cta.has-x-small-font-size {
@@ -381,7 +381,7 @@ input, select, textarea {
   margin-right: auto;
   min-height: min(85vh, 720px);
   overflow: hidden;
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
 }
 @media (max-width: 767px) {
   .np-split-cta {
@@ -463,7 +463,7 @@ input, select, textarea {
   font-weight: 800;
   font-style: italic;
   line-height: 1;
-  color: rgb(35, 46, 64);
+  color: var(--wp--preset--color--bleu-noir);
   text-transform: uppercase;
   margin: 0 0 1.25rem -18%;
   padding-right: 0.2em;
@@ -475,7 +475,7 @@ input, select, textarea {
   font-size: clamp(2rem, 4.7vw, 5.5rem);
   width: 100%;
   height: 100%;
-  color: #6cfa90;
+  color: var(--wp--preset--color--vert-flash);
   z-index: -1;
   left: -3px;
   top: -3px;
@@ -499,7 +499,7 @@ input, select, textarea {
   display: inline-block;
   padding: 0.875rem 1.75rem;
   background-color: #715b3a;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 400;
   text-decoration: none;
@@ -508,13 +508,13 @@ input, select, textarea {
 }
 .np-split-cta__cta:hover {
   background-color: rgb(86.0385964912, 69.2877192982, 44.1614035088);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 
 .np-found-animal {
   width: 100%;
   max-width: 100%;
-  background-color: #c5e3c6;
+  background-color: var(--wp--preset--color--vert-eau);
   padding: clamp(1rem, 3vw, 3.5rem) clamp(1.25rem, 4vw, 2.5rem);
 }
 
@@ -534,7 +534,7 @@ input, select, textarea {
 .np-found-animal__label {
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   font-weight: 600;
-  color: #4a4a4a;
+  color: var(--wp--preset--color--gris-moyen);
   margin: 0;
   flex-shrink: 0;
   cursor: default;
@@ -547,8 +547,8 @@ input, select, textarea {
   padding: 0 1.25rem;
   font-size: 1rem;
   font-weight: 400;
-  color: #4a4a4a;
-  background-color: #ffffff;
+  color: var(--wp--preset--color--gris-moyen);
+  background-color: var(--wp--preset--color--base);
   border: none;
   border-radius: 50rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
@@ -558,7 +558,7 @@ input, select, textarea {
   color: #9e9e9e;
 }
 .np-found-animal__input:focus {
-  outline: 2px solid #4a4a4a;
+  outline: 2px solid var(--wp--preset--color--gris-moyen);
   outline-offset: 2px;
 }
 
@@ -568,19 +568,19 @@ input, select, textarea {
   padding: 0 1.5rem;
   font-size: 1rem;
   font-weight: 400;
-  color: #ffffff;
-  background-color: #4a4a4a;
+  color: var(--wp--preset--color--base);
+  background-color: var(--wp--preset--color--gris-moyen);
   border: none;
   border-radius: 50rem;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .np-found-animal__btn:hover {
-  background-color: rgb(53.6, 53.6, 53.6);
-  color: #ffffff;
+  background-color: color-mix(in srgb, var(--wp--preset--color--gris-moyen) 92%, black);
+  color: var(--wp--preset--color--base);
 }
 .np-found-animal__btn:focus {
-  outline: 2px solid #4a4a4a;
+  outline: 2px solid var(--wp--preset--color--gris-moyen);
   outline-offset: 2px;
 }
 
@@ -762,7 +762,7 @@ input, select, textarea {
 }
 
 .np-top-banner {
-  background-color: var(--wp--preset--color--custom-vert);
+  background-color: var(--wp--preset--color--vert-flash);
   padding: 0.5rem;
   text-align: center;
 }
@@ -835,7 +835,7 @@ input, select, textarea {
   height: 80px;
   border-radius: 50%;
   background-color: #7C9082;
-  color: #FFFFFF;
+  color: var(--wp--preset--color--base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -901,7 +901,7 @@ input, select, textarea {
   gap: 8px;
   padding: 14px 32px;
   background-color: #5A6E5F;
-  color: #FFFFFF;
+  color: var(--wp--preset--color--base);
   font-family: var(--wp--preset--font-family--body, system-ui, sans-serif);
   font-size: 14px;
   font-weight: 500;
@@ -960,7 +960,7 @@ input, select, textarea {
   font-family: "Fraunces", serif;
   font-size: 2.7em;
   font-weight: 400;
-  color: var(--wp--preset--color--secondary);
+  color: var(--wp--preset--color--bleu-noir);
   letter-spacing: -0.5px;
   margin: 0;
   line-height: 1.15;
@@ -1005,7 +1005,7 @@ input, select, textarea {
   font-family: "Fraunces", serif;
   font-size: 30px;
   font-weight: 500;
-  color: var(--wp--preset--color--custom-noir-bleut);
+  color: var(--wp--preset--color--bleu-noir);
   flex: 1;
 }
 .np-faq__icon {
@@ -1182,7 +1182,7 @@ input, select, textarea {
 .np-pres__inner {
   position: relative;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: var(--wp--preset--color--base);
   min-height: 60vh;
   display: flex;
   max-width: inherit;
@@ -1323,7 +1323,7 @@ input, select, textarea {
   font-family: "Fraunces", serif;
   font-size: 32px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   line-height: 1.2;
   margin: 0;
 }
@@ -1340,7 +1340,7 @@ input, select, textarea {
   align-items: center;
   gap: 8px;
   align-self: flex-start;
-  background-color: #ffffff;
+  background-color: var(--wp--preset--color--base);
   color: #3d6b4f;
   border-radius: 24px;
   padding: 12px 24px;
@@ -1359,7 +1359,7 @@ input, select, textarea {
 }
 .np-mosaic__btn:hover {
   background-color: #3d6b4f;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .np-mosaic__btn:hover svg {
   transform: translateX(3px);
@@ -1454,7 +1454,7 @@ input, select, textarea {
 
 .np-carousel-texte__card {
   flex: 0 0 clamp(260px, 30vw, 550px);
-  background-color: #ffffff;
+  background-color: var(--wp--preset--color--base);
   border: 1.5px solid #E8E4DF;
   border-radius: 20px;
   padding: clamp(1.5rem, 3vw, 2.5rem);
@@ -1494,7 +1494,7 @@ input, select, textarea {
   color: #5c5346;
   line-height: 1.6;
   margin: 0;
-  border-left: 1px solid var(--wp--preset--color--secondary);
+  border-left: 1px solid var(--wp--preset--color--bleu-noir);
   padding-left: 30px;
   margin-left: 30px;
   max-width: 90%;
@@ -1551,7 +1551,7 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header.np-header-
 }
 
 .np-header {
-  background-color: #ffffff;
+  background-color: var(--wp--preset--color--base);
 }
 .np-header .np-header-inner {
   display: flex;
@@ -1700,7 +1700,7 @@ body {
   height: 60px;
   border-radius: 50%;
   background-color: #405C4D;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1750,7 +1750,7 @@ body {
 }
 
 .np-contact__form-card {
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
@@ -1781,7 +1781,7 @@ body {
   gap: 0.5em;
   padding: 0.6em 1.25em;
   background-color: #6B8E7C;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 600;
   border: none;
@@ -1791,20 +1791,20 @@ body {
 }
 .np-contact__form-card .wpcf7-submit:hover {
   background: rgb(89.4674698795, 118.7325301205, 103.6819277108);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 
 .np-contact__urgent {
   background-color: #6B8E7C;
   border-radius: 1rem;
   padding: 2rem;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 
 .np-contact__urgent-title {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   margin: 0 0 0.75rem;
 }
 
@@ -1821,7 +1821,7 @@ body {
   gap: 0.5em;
   padding: 0.5em 1.25em;
   background: rgb(149.7831325301, 175.7168674699, 162.3795180723);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
@@ -1830,7 +1830,7 @@ body {
 }
 .np-contact__urgent-btn:hover {
   background: rgb(129.4240963855, 160.3759036145, 144.4578313253);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 
 .np-contact__faq-list {
@@ -1862,7 +1862,7 @@ body {
 }
 
 .medaillon-public__card {
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 30px;
@@ -1943,7 +1943,7 @@ body {
 .wc-block-components-quantity-selector .wc-block-components-quantity-selector__button {
   border: 1px solid #6b635b;
   background-color: #6b635b;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   width: 40px;
   aspect-ratio: 1/1;
   border-radius: 100%;
@@ -2050,9 +2050,9 @@ body {
   align-items: center;
   gap: 0.5em;
   font-size: 1rem;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
   font-weight: 500;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   border-radius: 100px;
   padding: 0.5em 1em;
   text-decoration: none;
@@ -2063,8 +2063,8 @@ body {
   flex-shrink: 0;
 }
 .woocommerce-myaccount-wrapper .myaccount-header__logout:hover {
-  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
-  color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
+  color: var(--wp--preset--color--base);
 }
 .woocommerce-myaccount-wrapper .myaccount-header__subtitle {
   font-size: 1rem;
@@ -2077,7 +2077,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   padding: clamp(2em, 4vw, 4em);
-  background-color: #ffffff;
+  background-color: var(--wp--preset--color--base);
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-navigation.myaccount-tabs {
   width: 100%;
@@ -2111,11 +2111,11 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-navigation.myaccount-tabs .myaccount-tabs__link:hover {
-  background-color: var(--wp--preset--color--custom-vert);
+  background-color: var(--wp--preset--color--vert-eau);
   color: #4F6B4C;
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-navigation.myaccount-tabs .myaccount-tabs__item.is-active .myaccount-tabs__link {
-  background-color: var(--wp--preset--color--custom-vert);
+  background-color: var(--wp--preset--color--vert-eau);
   font-weight: 700;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
@@ -2190,7 +2190,7 @@ body {
   gap: 0.35em;
   padding: 0.5em 1.25em;
   background-color: #8CD28A;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
@@ -2200,7 +2200,7 @@ body {
 }
 .profile-summary__edit-btn:hover {
   background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .profile-summary__icon {
   flex-shrink: 0;
@@ -2214,8 +2214,8 @@ body {
   display: inline-flex;
   align-items: center;
   padding: 0.5em 1.25em;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
-  color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 600;
   border: none;
@@ -2224,11 +2224,11 @@ body {
   transition: background 0.2s;
 }
 .profile-summary__delete-btn:hover {
-  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
-  color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
+  color: var(--wp--preset--color--base);
 }
 .profile-summary__card {
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
@@ -2301,7 +2301,7 @@ body {
   align-items: center;
   padding: 0.5em 1.25em;
   background-color: #8CD28A;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
@@ -2312,7 +2312,7 @@ body {
 }
 .myaccount-animals__add-btn:hover {
   background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .myaccount-animals__empty {
   color: #5c5346;
@@ -2325,7 +2325,7 @@ body {
 }
 
 .animal-card {
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
@@ -2401,7 +2401,7 @@ body {
   text-decoration: none;
   border-radius: 0.5rem;
   border: 1px solid #e8e6e4;
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   color: #5c5346;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
@@ -2444,7 +2444,7 @@ body {
 }
 .animal-qr-modal__content {
   position: relative;
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 2rem;
   max-width: 320px;
@@ -2505,7 +2505,7 @@ body {
 }
 .np-delete-account-modal__content {
   position: relative;
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 2rem;
   max-width: 400px;
@@ -2565,8 +2565,8 @@ body {
 }
 .np-delete-account-modal__confirm {
   padding: 0.5em 1.25em;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--custom-rouge-moyen);
-  color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
+  color: var(--wp--preset--color--base);
   font-size: 1rem;
   font-weight: 600;
   border: none;
@@ -2575,8 +2575,8 @@ body {
   transition: background 0.2s;
 }
 .np-delete-account-modal__confirm:hover {
-  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--custom-rouge-moyen);
-  color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
+  color: var(--wp--preset--color--base);
 }
 
 .woocommerce-Addresses h2 {
@@ -2624,7 +2624,7 @@ body {
 .woocommerce-Addresses-ship-to-billing .button {
   padding: 0.5em 1.25em;
   background-color: #8CD28A;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   font-weight: 600;
   border: none;
   border-radius: 1rem;
@@ -2633,7 +2633,7 @@ body {
 }
 .woocommerce-Addresses-ship-to-billing .button:hover {
   background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 
 .woocommerce-form-row--ship-to-billing {
@@ -2664,7 +2664,7 @@ body {
 }
 .woocommerce-EditAccountForm button.woocommerce-Button.button {
   background-color: #2d6a6a;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   padding: 10px 20px;
   margin-top: 1em !important;
   font-size: 1rem;
@@ -2703,7 +2703,7 @@ body {
 }
 
 .order-card {
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
@@ -2740,19 +2740,19 @@ body {
   border-radius: 0.25rem;
   flex-shrink: 0;
   background-color: #8CD28A;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .order-card__badge--completed {
   background-color: #8CD28A;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .order-card__badge--processing {
   background-color: #f0ad4e;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .order-card__badge--on-hold {
   background-color: #f0ad4e;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
 }
 .order-card__badge--pending {
   background-color: rgba(92, 83, 70, 0.2);
@@ -2789,7 +2789,7 @@ body {
   text-decoration: none;
   border-radius: 0.5rem;
   border: 1px solid #e8e6e4;
-  background: #ffffff;
+  background: var(--wp--preset--color--base);
   color: #5c5346;
   transition: background-color 0.2s, border-color 0.2s;
 }
@@ -2800,7 +2800,7 @@ body {
 
 .woocommerce-MyAccount-orders .woocommerce-button {
   background-color: #2d6a6a;
-  color: #ffffff;
+  color: var(--wp--preset--color--base);
   padding: 0.2em 2em;
   margin-bottom: 0 !important;
   border-radius: 100px;
@@ -2810,7 +2810,7 @@ body {
 }
 .woocommerce-MyAccount-orders thead {
   font-size: 1rem;
-  background-color: var(--wp--preset--color--custom-vert-gris);
+  background-color: var(--wp--preset--color--olive);
 }
 .woocommerce-MyAccount-orders thead th {
   padding: 15px !important;

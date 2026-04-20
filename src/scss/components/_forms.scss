@@ -8,7 +8,7 @@
 input, select, textarea {
     border:1px solid $np-gray-light!important;
     border-radius: 5px!important;
-    color: var(--wp--preset--color--contrast);
+    color: var(--wp--preset--color--bleu-noir);
     font-family: var(--wp--preset--font-family--primary);
     font-size: var(--wp--preset--font-size--medium);
     font-weight: var(--wp--custom--font-weight--light);
@@ -28,7 +28,7 @@ input, select, textarea {
             font-size: 1rem;
             border-radius: 100px;
             padding: 0.5em 1.2rem!important;
-            background-color: $np-white;
+            background-color: var(--wp--preset--color--base);
             color: $np-teal;
             border: none;
             cursor: pointer;
@@ -36,7 +36,7 @@ input, select, textarea {
 
             &:hover {
                 background-color: $np-teal;
-                color: $np-white;
+                color: var(--wp--preset--color--base);
             }
         }
     }
@@ -46,7 +46,7 @@ input, select, textarea {
         border-radius: 100px;
         padding: 0.5rem 1rem;
         background-color: rgb(168, 213, 160);
-        color: $np-white;
+        color: var(--wp--preset--color--base);
         cursor: pointer;
         border: none;
         transition: background-color 0.2s ease;

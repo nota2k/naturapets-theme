@@ -5,8 +5,8 @@
 @use '../abstracts/variables' as *;
 
 .np-top-banner {
-  background-color: var(--wp--preset--color--custom-vert);
-  // color: $np-white;
+  background-color: var(--wp--preset--color--vert-flash);
+  // color: var(--wp--preset--color--base);
   padding: 0.5rem;
   text-align: center;
   

@@ -1497,16 +1497,6 @@ function naturapets_get_theme_color_palette()
 			}
 		}
 	}
-	if (empty($palette)) {
-		$palette = array(
-			'#848A71' => 'Olive',
-			'#C5E3C6' => 'Vert d\'eau',
-			'#774A0A' => 'Brun',
-			'#F4F3EA' => 'Beige',
-			'#FF5E5E' => 'Rouge moyen',
-			'#ffffff' => 'Base',
-		);
-	}
 	return $palette;
 }
 
@@ -1540,7 +1530,7 @@ function naturapets_icone_field_group()
 					'name' => 'icone_background',
 					'type' => 'radio',
 					'choices' => $palette_choices,
-					'default_value' => $default_hex ?: '#848A71',
+					'default_value' => $default_hex ?: '',
 					'layout' => 'horizontal',
 					'return_format' => 'value',
 					'instructions' => __('Couleur du cercle de fond (palette du thème).', 'naturapets'),

@@ -18,7 +18,7 @@ $np-split-cta-btn: #715b3a;
   margin-right: auto;
   min-height: min(85vh, 720px);
   overflow: hidden;
-  background: $np-white;
+  background: var(--wp--preset--color--base);
 
   @media (max-width: 767px) {
     min-height: 0;
@@ -102,7 +102,7 @@ $np-split-cta-btn: #715b3a;
     font-weight: 800;
     font-style: italic;
     line-height: 1;
-    color:rgb(35, 46, 64);
+    color: var(--wp--preset--color--bleu-noir);
     text-transform: uppercase;
     margin: 0 0 1.25rem -18%;
     padding-right: 0.2em;
@@ -114,7 +114,7 @@ $np-split-cta-btn: #715b3a;
       font-size: clamp(2rem, 4.7vw, 5.5rem);
       width: 100%;
       height: 100%;
-      color: #6cfa90;
+      color: var(--wp--preset--color--vert-flash);
       z-index: -1;
       left: -3px;
       top: -3px;
@@ -138,7 +138,7 @@ $np-split-cta-btn: #715b3a;
   display: inline-block;
   padding: 0.875rem 1.75rem;
   background-color: $np-split-cta-btn;
-  color: $np-white;
+  color: var(--wp--preset--color--base);
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
   text-decoration: none;
@@ -147,6 +147,6 @@ $np-split-cta-btn: #715b3a;
 
   &:hover {
     background-color: color.adjust($np-split-cta-btn, $lightness: -8%);
-    color: $np-white;
+    color: var(--wp--preset--color--base);
   }
 }
