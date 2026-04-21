@@ -230,6 +230,21 @@
 					"slug": "liquid-small"
 				},
 				{
+					"name": "LiquidMedium",
+					"size": "clamp(15px, 6vw, 20px)",
+					"slug": "liquid-medium"
+				},
+				{
+					"name": "LiquidLarge",
+					"size": "clamp(30px, 10vw, 45px)",
+					"slug": "liquid-large"
+				},
+				{
+					"name": "LiquidXLarge",
+					"size": "clamp(40px, 10vw, 60px)",
+					"slug": "liquid-x-large"
+				},
+				{
 					"name": "Small",
 					"size": "clamp(30px, 4vw, 40px)",
 					"slug": "small"

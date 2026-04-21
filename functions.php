@@ -1930,6 +1930,33 @@ function naturapets_get_product_first_gallery_attachment_id($product_id)
 }
 
 /**
+ * Résout l’ID produit WooCommerce pour le bloc « Galerie produit » (contexte FSE, fiche produit, $post).
+ *
+ * @param WP_Block|null $block Instance du bloc lors du rendu dynamique.
+ * @return int                  0 si aucun produit déterminé.
+ */
+function naturapets_product_gallery_get_product_id_for_block($block)
+{
+	if ($block instanceof WP_Block && !empty($block->context['postId'])) {
+		$cid = (int) $block->context['postId'];
+		if ($cid > 0 && 'product' === get_post_type($cid)) {
+			return $cid;
+		}
+	}
+	if (function_exists('is_product') && is_product()) {
+		$qid = (int) get_queried_object_id();
+		if ($qid > 0) {
+			return $qid;
+		}
+	}
+	global $post;
+	if ($post && isset($post->post_type) && 'product' === $post->post_type) {
+		return (int) $post->ID;
+	}
+	return 0;
+}
+
+/**
  * Indique si le survol galerie ne doit pas s’appliquer (fiche produit : image principale du produit courant).
  *
  * @param int $post_id ID du produit affiché par le bloc.
@@ -2132,58 +2159,6 @@ function naturapets_icone_field_group()
 	);
 }
 add_action('acf/init', 'naturapets_icone_field_group');
-
-/**
- * Groupe de champs ACF pour le bloc Galerie produit (design Figma 4-129).
- */
-function naturapets_product_gallery_field_group()
-{
-	if (!function_exists('acf_add_local_field_group')) {
-		return;
-	}
-	acf_add_local_field_group(
-		array(
-			'key' => 'group_naturapets_product_gallery',
-			'title' => 'Bloc Galerie produit – Champs',
-			'fields' => array(
-				array(
-					'key' => 'field_product_gallery_image_1',
-					'label' => __('Image principale (en haut)', 'naturapets'),
-					'name' => 'product_gallery_image_1',
-					'type' => 'image',
-					'return_format' => 'array',
-					'preview_size' => 'medium',
-				),
-				array(
-					'key' => 'field_product_gallery_image_2',
-					'label' => __('Image bandeau (au centre)', 'naturapets'),
-					'name' => 'product_gallery_image_2',
-					'type' => 'image',
-					'return_format' => 'array',
-					'preview_size' => 'medium',
-				),
-				array(
-					'key' => 'field_product_gallery_image_3',
-					'label' => __('Image grande (en bas)', 'naturapets'),
-					'name' => 'product_gallery_image_3',
-					'type' => 'image',
-					'return_format' => 'array',
-					'preview_size' => 'medium',
-				),
-			),
-			'location' => array(
-				array(
-					array(
-						'param' => 'block',
-						'operator' => '==',
-						'value' => 'naturapets/product-gallery',
-					),
-				),
-			),
-		)
-	);
-}
-add_action('acf/init', 'naturapets_product_gallery_field_group');
 
 /**
  * ==========================================================================

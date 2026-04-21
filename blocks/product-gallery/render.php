@@ -1,86 +1,144 @@
 <?php
 /**
- * Template de rendu du bloc Galerie produit (design Figma node 4-129)
- * Trois zones empilées : image principale (haute), bandeau, grande image.
- * Sur une page produit WooCommerce : récupère l'image à la une puis la galerie produit.
- * Sinon : utilise les images ACF du bloc.
+ * Bloc dynamique : galerie produit (design Figma 4-129).
+ * Image à la une + images de galerie WooCommerce (fiche produit ou contexte postId).
  *
  * @package Naturapets
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
-$url_1 = null;
-$url_2 = null;
-$url_3 = null;
+$image_ids = array();
 
-// En contexte page produit WooCommerce : image à la une en premier, puis galerie produit
-if ( function_exists( 'is_product' ) && function_exists( 'wc_get_product' ) && is_product() ) {
-	$product_id = get_the_ID();
-	$product   = wc_get_product( $product_id );
-	if ( $product ) {
-		$image_ids   = array();
-		$featured_id = $product->get_image_id();
-		// 1. Image à la une en premier
-		if ( $featured_id ) {
-			$image_ids[] = (int) $featured_id;
+$product_id = 0;
+if (function_exists('naturapets_product_gallery_get_product_id_for_block')) {
+	$product_id = naturapets_product_gallery_get_product_id_for_block($block ?? null);
+}
+
+if ($product_id > 0 && function_exists('wc_get_product')) {
+	$product = wc_get_product($product_id);
+	if ($product) {
+		$featured_id = (int) $product->get_image_id();
+		if ($featured_id) {
+			$image_ids[] = $featured_id;
 		}
-		// 2. Images de la galerie pour les suivantes (sans ré-afficher l'image à la une)
-		$gallery_ids = $product->get_gallery_image_ids();
-		if ( ! empty( $gallery_ids ) ) {
-			foreach ( $gallery_ids as $gid ) {
-				$gid = (int) $gid;
-				if ( $gid && $gid !== $featured_id ) {
-					$image_ids[] = $gid;
-				}
+		foreach ($product->get_gallery_image_ids() as $gid) {
+			$gid = (int) $gid;
+			if ($gid > 0 && $gid !== $featured_id) {
+				$image_ids[] = $gid;
 			}
 		}
-		$image_ids = array_slice( $image_ids, 0, 3 );
-		if ( isset( $image_ids[0] ) ) {
-			$url_1 = wp_get_attachment_image_url( (int) $image_ids[0], 'large' );
-		}
-		if ( isset( $image_ids[1] ) ) {
-			$url_2 = wp_get_attachment_image_url( (int) $image_ids[1], 'large' );
-		}
-		if ( isset( $image_ids[2] ) ) {
-			$url_3 = wp_get_attachment_image_url( (int) $image_ids[2], 'large' );
-		}
+		$image_ids = array_slice(array_values(array_unique($image_ids)), 0, 3);
 	}
 }
 
-// Fallback : images ACF du bloc (pages non-produit ou produit sans images)
-if ( ! $url_1 && ! $url_2 && ! $url_3 ) {
-	$image_1 = get_field( 'product_gallery_image_1' );
-	$image_2 = get_field( 'product_gallery_image_2' );
-	$image_3 = get_field( 'product_gallery_image_3' );
-	$url_1   = naturapets_get_acf_image_url( $image_1, 'large' );
-	$url_2   = naturapets_get_acf_image_url( $image_2, 'large' );
-	$url_3   = naturapets_get_acf_image_url( $image_3, 'large' );
+$product_name = ($product_id > 0) ? get_the_title($product_id) : '';
+
+$size_main  = (function_exists('wc_get_product') && class_exists('WooCommerce')) ? 'woocommerce_single' : 'large';
+$size_strip = 'large';
+$size_large = 'large';
+
+$slots = array(
+	'featured' => isset($image_ids[0]) ? (int) $image_ids[0] : 0,
+	'strip'    => isset($image_ids[1]) ? (int) $image_ids[1] : 0,
+	'large'    => isset($image_ids[2]) ? (int) $image_ids[2] : 0,
+);
+
+$has_any = $slots['featured'] || $slots['strip'] || $slots['large'];
+
+$wrapper_classes = 'np-product-gallery';
+if (!$has_any) {
+	$wrapper_classes .= ' np-product-gallery--empty';
 }
 
-$product_name = ( function_exists( 'is_product' ) && is_product() && function_exists( 'wc_get_product' ) ) ? get_the_title() : '';
-$alt_1 = $product_name ? sprintf( /* translators: %s: product name */ __( 'Image principale de %s', 'naturapets' ), $product_name ) : '';
-$alt_2 = $product_name ? sprintf( /* translators: %s: product name */ __( 'Galerie de %s (2)', 'naturapets' ), $product_name ) : '';
-$alt_3 = $product_name ? sprintf( /* translators: %s: product name */ __( 'Galerie de %s (3)', 'naturapets' ), $product_name ) : '';
+$wrapper_attributes = get_block_wrapper_attributes(
+	array(
+		'class' => $wrapper_classes,
+		'aria-label' => __('Galerie produit', 'naturapets'),
+	)
+);
+
+/**
+ * Affiche une image de la galerie ou rien.
+ *
+ * @param int    $attachment_id ID pièce jointe.
+ * @param string $size          Taille d’image WordPress.
+ * @param string $slot_modifier Modificateur : featured, strip, large.
+ * @param string $alt           Texte alternatif.
+ * @param string $loading       lazy|eager.
+ */
+$render_slot = static function ($attachment_id, $size, $slot_modifier, $alt, $loading) {
+	if ($attachment_id < 1) {
+		return;
+	}
+	$img = wp_get_attachment_image(
+		$attachment_id,
+		$size,
+		false,
+		array(
+			'class' => 'np-product-gallery__img',
+			'alt' => $alt,
+			'loading' => $loading,
+			'decoding' => 'async',
+		)
+	);
+	if ('' === $img) {
+		return;
+	}
+	$item_class = 'np-product-gallery__item np-product-gallery__item--' . preg_replace('/[^a-z0-9_-]/i', '', $slot_modifier);
+	echo '<div class="' . esc_attr($item_class) . '">';
+	echo $img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_get_attachment_image()
+	echo '</div>';
+};
 ?>
-<section class="np-product-gallery" aria-label="<?php esc_attr_e( 'Galerie produit', 'naturapets' ); ?>">
+<section <?php echo $wrapper_attributes; ?>>
 	<div class="np-product-gallery__inner">
-		<div class="np-product-gallery__item np-product-gallery__item--featured">
-			<?php if ( $url_1 ) : ?>
-				<img src="<?php echo esc_url( $url_1 ); ?>" alt="<?php echo esc_attr( $alt_1 ); ?>" loading="lazy" />
-			<?php endif; ?>
-		</div>
-		<div class="np-product-gallery__item np-product-gallery__item--strip">
-			<?php if ( $url_2 ) : ?>
-				<img src="<?php echo esc_url( $url_2 ); ?>" alt="<?php echo esc_attr( $alt_2 ); ?>" loading="lazy" />
-			<?php endif; ?>
-		</div>
-		<div class="np-product-gallery__item np-product-gallery__item--large">
-			<?php if ( $url_3 ) : ?>
-				<img src="<?php echo esc_url( $url_3 ); ?>" alt="<?php echo esc_attr( $alt_3 ); ?>" loading="lazy" />
-			<?php endif; ?>
-		</div>
+		<?php
+		if (!$has_any) :
+			?>
+			<p class="np-product-gallery__placeholder">
+				<?php
+				if (!function_exists('wc_get_product')) {
+					esc_html_e('WooCommerce doit être actif pour afficher la galerie produit.', 'naturapets');
+				} elseif ($product_id < 1) {
+					esc_html_e('Ajoutez ce bloc sur un modèle ou une page produit, ou prévisualisez une fiche produit pour voir les images.', 'naturapets');
+				} else {
+					esc_html_e('Ce produit n’a pas encore d’image à la une ni de galerie.', 'naturapets');
+				}
+				?>
+			</p>
+			<?php
+		else :
+			$alt_base = $product_name ? sprintf(
+				/* translators: %s: product title */
+				__('Galerie — %s', 'naturapets'),
+				$product_name
+			) : __('Galerie produit', 'naturapets');
+
+			$render_slot(
+				$slots['featured'],
+				$size_main,
+				'featured',
+				$alt_base . ' — ' . __('Image principale', 'naturapets'),
+				'eager'
+			);
+			$render_slot(
+				$slots['strip'],
+				$size_strip,
+				'strip',
+				$alt_base . ' — ' . __('Bandeau', 'naturapets'),
+				'lazy'
+			);
+			$render_slot(
+				$slots['large'],
+				$size_large,
+				'large',
+				$alt_base . ' — ' . __('Vue large', 'naturapets'),
+				'lazy'
+			);
+		endif;
+		?>
 	</div>
 </section>

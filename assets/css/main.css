@@ -759,6 +759,69 @@ input, select, textarea {
   }
 }
 
+.np-product-gallery {
+  width: 100%;
+}
+.np-product-gallery__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 2vw, 20px);
+  width: 100%;
+}
+.np-product-gallery__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(6px, 1.2vw, 12px);
+  background-color: var(--wp--preset--color--neutral-light, #e8e4df);
+}
+.np-product-gallery__item--featured {
+  flex: 0 0 auto;
+  min-height: clamp(300px, 15vh, 100%);
+  aspect-ratio: 1/2;
+  max-height: 75vh;
+}
+.np-product-gallery__item--featured :where(.woocommerce img) {
+  height: 100% !important;
+  object-fit: cover;
+}
+.np-product-gallery__item--strip {
+  flex: 0 0 auto;
+  min-height: clamp(100px, 14vh, 140px);
+  aspect-ratio: 1/1;
+  max-height: 100%;
+}
+.np-product-gallery__item--strip :where(.woocommerce img) {
+  height: 100% !important;
+  object-fit: cover;
+}
+.np-product-gallery__item--large {
+  flex: 1 1 auto;
+  min-height: clamp(220px, 42vh, 520px);
+  aspect-ratio: 3/4;
+  max-height: 65vh;
+}
+.np-product-gallery__placeholder {
+  margin: 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  font-size: var(--wp--preset--font-size--small, 0.9rem);
+  line-height: 1.5;
+  color: inherit;
+  opacity: 0.85;
+  text-align: center;
+}
+.np-product-gallery--empty .np-product-gallery__inner {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  border-radius: clamp(6px, 1.2vw, 12px);
+}
+
+.np-product-gallery-block-editor {
+  min-height: 80px;
+}
+
 .wp-block-naturapets-icone {
   width: fit-content;
 }
@@ -1371,6 +1434,7 @@ input, select, textarea {
   max-height: 800px;
   min-height: 500px;
   overflow: hidden;
+  color: var(--wp--preset--color--base);
 }
 .np-mosaic__col {
   display: flex;
@@ -1423,23 +1487,38 @@ input, select, textarea {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 16px;
-  padding: 48px;
+  padding: var(--wp--preset--spacing--liquid-large);
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  align-items: center;
+}
+.np-mosaic__content-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wp--preset--spacing--liquid-medium);
+  width: 100%;
+  max-width: 600px;
+  min-height: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
 }
 .np-mosaic__title {
-  font-family: "Fraunces", serif;
-  font-size: 32px;
+  font-size: clamp(2em, 7vh, 4em);
   font-weight: 400;
-  color: var(--wp--preset--color--base);
-  line-height: 1.2;
+  color: inherit;
+  line-height: 1em;
   margin: 0;
 }
 .np-mosaic__desc {
-  font-family: "Inter", sans-serif;
-  font-size: 15px;
+  font-size: 0.9375em;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
+  color: inherit;
+  opacity: 0.88;
+  line-height: inherit;
   margin: 0;
 }
 .np-mosaic__btn {
@@ -1451,12 +1530,12 @@ input, select, textarea {
   color: #3d6b4f;
   border-radius: 24px;
   padding: 12px 24px;
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  margin-top: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  max-width: 50%;
+  width: 100%;
+  margin-top: var(--wp--preset--spacing--liquid-small);
 }
 .np-mosaic__btn svg {
   width: 16px;
@@ -1464,12 +1543,14 @@ input, select, textarea {
   flex-shrink: 0;
   transition: transform 0.2s ease;
 }
-.np-mosaic__btn:hover {
-  background-color: #3d6b4f;
-  color: var(--wp--preset--color--base);
+.np-mosaic__btn:hover, .np-mosaic__btn:focus-visible {
+  filter: brightness(0.94);
 }
-.np-mosaic__btn:hover svg {
+.np-mosaic__btn:hover svg, .np-mosaic__btn:focus-visible svg {
   transform: translateX(3px);
+}
+.np-mosaic.has-text-color .np-mosaic__btn {
+  color: inherit;
 }
 @media (max-width: 900px) {
   .np-mosaic {
@@ -1498,7 +1579,7 @@ input, select, textarea {
     padding: 36px 24px;
   }
   .np-mosaic__title {
-    font-size: 24px;
+    font-size: 1.5em;
   }
 }
 

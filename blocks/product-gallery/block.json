@@ -1,16 +1,23 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
 	"name": "naturapets/product-gallery",
-	"title": "Galerie produit (Figma 4-129)",
-	"description": "Trois zones d'images empilées verticalement : image principale, bandeau, grande image.",
-	"category": "theme",
+	"title": "Galerie produit",
+	"description": "Mise en page Figma (4-129) : image principale, bandeau, grande vue. Sur une fiche produit WooCommerce, affiche l’image à la une puis la galerie.",
+	"category": "naturapets",
 	"icon": "format-gallery",
-	"keywords": ["galerie", "produit", "images", "naturapets", "figma"],
-	"acf": {
-		"mode": "preview",
-		"renderTemplate": "render.php"
-	},
+	"keywords": ["galerie", "produit", "WooCommerce", "images", "naturapets", "figma"],
+	"textdomain": "naturapets",
+	"usesContext": ["postId", "postType"],
+	"editorScript": "file:./index.js",
 	"supports": {
+		"html": false,
 		"anchor": true,
-		"align": ["wide", "full"]
-	}
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"render": "file:./render.php"
 }

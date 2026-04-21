@@ -1,16 +1,47 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
 	"name": "naturapets/mosaic",
 	"title": "Mosaïque",
 	"description": "Bloc mosaïque deux colonnes : grande image à gauche, image + zone texte verte à droite. Inversion optionnelle.",
 	"category": "theme",
 	"icon": "layout",
 	"keywords": ["mosaïque", "image", "texte", "split", "naturapets"],
+	"textdomain": "naturapets",
 	"acf": {
 		"mode": "preview",
 		"renderTemplate": "render.php"
 	},
 	"supports": {
+		"html": false,
 		"anchor": true,
-		"align": ["wide", "full"]
+		"align": ["wide", "full"],
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontFamily": true
+			}
+		},
+		"color": {
+			"text": true,
+			"__experimentalDefaultControls": {
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"__experimentalDefaultControls": {
+				"margin": false
+			}
+		}
 	}
 }

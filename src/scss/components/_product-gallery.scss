@@ -1,0 +1,77 @@
+// ==========================================================================
+// Bloc Galerie produit — Figma 4-129 (Naturapets)
+// Colonne : image principale → bandeau → grande vue
+// ==========================================================================
+
+.np-product-gallery {
+	width: 100%;
+
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(10px, 2vw, 20px);
+		width: 100%;
+	}
+
+	&__item {
+		position: relative;
+		overflow: hidden;
+		border-radius: clamp(6px, 1.2vw, 12px);
+		background-color: var(--wp--preset--color--neutral-light, #e8e4df);
+
+		&--featured {
+			flex: 0 0 auto;
+			min-height: clamp(300px, 15vh, 100%);
+			aspect-ratio: 1 / 2;
+			max-height: 75vh;
+
+			:where(.woocommerce img){
+				height: 100%!important;
+				object-fit: cover;
+			}
+		}
+
+		&--strip {
+			flex: 0 0 auto;
+			min-height: clamp(100px, 14vh, 140px);
+			aspect-ratio: 1 / 1;
+			max-height: 100%;
+			:where(.woocommerce img){
+				height: 100%!important;
+				object-fit: cover;
+			}
+		}
+
+		&--large {
+			flex: 1 1 auto;
+			min-height: clamp(220px, 42vh, 520px);
+			aspect-ratio: 3 / 4;
+			max-height: 65vh;
+		}
+	}
+
+	
+
+	&__placeholder {
+		margin: 0;
+		padding: clamp(1.25rem, 3vw, 2rem);
+		font-size: var(--wp--preset--font-size--small, 0.9rem);
+		line-height: 1.5;
+		color: inherit;
+		opacity: 0.85;
+		text-align: center;
+	}
+
+	&--empty &__inner {
+		min-height: 120px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px dashed rgba(0, 0, 0, 0.2);
+		border-radius: clamp(6px, 1.2vw, 12px);
+	}
+}
+
+.np-product-gallery-block-editor {
+	min-height: 80px;
+}

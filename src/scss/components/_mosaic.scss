@@ -10,6 +10,8 @@
 	max-height: 800px;
 	min-height: 500px;
 	overflow: hidden;
+	// Couleur de texte par défaut du bloc (surchargée par les réglages natifs + .has-text-color).
+	color: var(--wp--preset--color--base);
 
 	// ── Colonnes ────────────────────────────────────────────────────────────
 
@@ -84,25 +86,42 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		gap: 16px;
-		padding: 48px;
+		padding: var(--wp--preset--spacing--liquid-large);
+		color: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		text-align: inherit;
+		align-items: center;
+	}
+
+	// Groupe titre + description + bouton (même chaîne typo / couleur que le wrapper).
+	&__content-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--wp--preset--spacing--liquid-medium);
+		width: 100%;
+		max-width: 600px;
+		min-height: 0;
+		color: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		text-align: inherit;
 	}
 
 	&__title {
-		font-family: 'Fraunces', serif;
-		font-size: 32px;
+		font-size: clamp(2em, 7vh, 4em);
 		font-weight: 400;
-		color: var(--wp--preset--color--base);
-		line-height: 1.2;
+		color: inherit;
+		line-height: 1em;
 		margin: 0;
 	}
 
 	&__desc {
-		font-family: 'Inter', sans-serif;
-		font-size: 15px;
+		font-size: 0.9375em;
 		font-weight: 400;
-		color: rgba(255, 255, 255, 0.8);
-		line-height: 1.6;
+		color: inherit;
+		opacity: 0.88;
+		line-height: inherit;
 		margin: 0;
 	}
 
@@ -114,15 +133,16 @@
 		gap: 8px;
 		align-self: flex-start;
 		background-color: var(--wp--preset--color--base);
+		// Contraste par défaut sur pastille claire ; avec couleur de texte du bloc, aligné sur le groupe.
 		color: #3d6b4f;
 		border-radius: 24px;
 		padding: 12px 24px;
-		font-family: 'Inter', sans-serif;
-		font-size: 14px;
-		font-weight: 500;
-		text-decoration: none;
-		transition: background-color 0.2s ease, color 0.2s ease;
-		margin-top: 8px;
+		font-family: inherit;
+		font-weight: 600;
+		transition: filter 0.2s ease, transform 0.2s ease;
+		max-width: 50%;
+		width: 100%;
+		margin-top:var(--wp--preset--spacing--liquid-small);
 
 		svg {
 			width: 16px;
@@ -131,14 +151,18 @@
 			transition: transform 0.2s ease;
 		}
 
-		&:hover {
-			background-color: #3d6b4f;
-			color: var(--wp--preset--color--base);
+		&:hover,
+		&:focus-visible {
+			filter: brightness(0.94);
 
 			svg {
 				transform: translateX(3px);
 			}
 		}
+	}
+
+	&.has-text-color .np-mosaic__btn {
+		color: inherit;
 	}
 
 	// ── Responsive ──────────────────────────────────────────────────────────
@@ -176,7 +200,7 @@
 		}
 
 		&__title {
-			font-size: 24px;
+			font-size: 1.5em;
 		}
 	}
 }

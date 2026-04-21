@@ -63,15 +63,22 @@ if (!empty($image_secondary)) {
 	}
 }
 
-$block_id   = !empty($block['anchor']) ? $block['anchor'] : 'mosaic-' . $block['id'];
-$css_class  = 'np-mosaic';
-if ($inverted) $css_class .= ' np-mosaic--inverted';
+$block_id = !empty($block['anchor']) ? (string) $block['anchor'] : 'mosaic-' . (int) $block['id'];
+
+$wrapper_classes = array('np-mosaic');
+if ($inverted) {
+	$wrapper_classes[] = 'np-mosaic--inverted';
+}
+
+$wrapper_attributes = get_block_wrapper_attributes(
+	array(
+		'id' => $block_id,
+		'class' => implode(' ', $wrapper_classes),
+		'aria-label' => $title,
+	)
+);
 ?>
-<section
-	id="<?php echo esc_attr($block_id); ?>"
-	class="<?php echo esc_attr($css_class); ?>"
-	aria-label="<?php echo esc_attr($title); ?>"
->
+<section <?php echo $wrapper_attributes; ?>>
 	<!-- Colonne principale : image pleine hauteur -->
 	<div class="np-mosaic__col np-mosaic__col--main">
 		<?php if ($url_main): ?>
@@ -103,26 +110,35 @@ if ($inverted) $css_class .= ' np-mosaic--inverted';
 			<?php endif; ?>
 		</div>
 
-		<!-- Zone texte verte -->
+		<!-- Zone texte verte : groupe titre + paragraphe + bouton (cible CSS / a11y) -->
 		<div class="np-mosaic__text-zone">
-			<h2 class="np-mosaic__title"><?php echo esc_html($title); ?></h2>
+			<?php
+			$mosaic_heading_id = 'np-mosaic-heading-' . (int) $block['id'];
+			?>
+			<div
+				class="np-mosaic__content-group"
+				role="group"
+				aria-labelledby="<?php echo esc_attr($mosaic_heading_id); ?>"
+			>
+				<h2 class="np-mosaic__title" id="<?php echo esc_attr($mosaic_heading_id); ?>"><?php echo esc_html($title); ?></h2>
 
-			<?php if ($description): ?>
-				<p class="np-mosaic__desc"><?php echo nl2br(esc_html($description)); ?></p>
-			<?php endif; ?>
+				<?php if ($description): ?>
+					<p class="np-mosaic__desc"><?php echo nl2br(esc_html($description)); ?></p>
+				<?php endif; ?>
 
-			<?php if ($button_url && $button_label): ?>
-				<a
-					href="<?php echo esc_url($button_url); ?>"
-					class="np-mosaic__btn"
-				>
-					<span><?php echo esc_html($button_label); ?></span>
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<line x1="5" y1="12" x2="19" y2="12"></line>
-						<polyline points="12 5 19 12 12 19"></polyline>
-					</svg>
-				</a>
-			<?php endif; ?>
+				<?php if ($button_url && $button_label): ?>
+					<a
+						href="<?php echo esc_url($button_url); ?>"
+						class="np-mosaic__btn"
+					>
+						<span><?php echo esc_html($button_label); ?></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<line x1="5" y1="12" x2="19" y2="12"></line>
+							<polyline points="12 5 19 12 12 19"></polyline>
+						</svg>
+					</a>
+				<?php endif; ?>
+			</div>
 		</div>
 
 	</div>
