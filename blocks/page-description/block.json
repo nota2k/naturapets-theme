@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "naturapets/page-description",
+	"title": "Description de la page",
+	"category": "naturapets",
+	"icon": "text-page",
+	"description": "Affiche l’extrait (description) de la page courante. À renseigner dans le panneau Document lorsque le modèle « Boutique » est actif.",
+	"keywords": ["extrait", "description", "résumé", "page", "boutique"],
+	"textdomain": "naturapets",
+	"supports": {
+		"html": false,
+		"inserter": true,
+		"anchor": true,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		},
+		"color": {
+			"text": true,
+			"background": true
+		}
+	},
+	"render": "file:./render.php"
+}

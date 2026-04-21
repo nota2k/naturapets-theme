@@ -46,6 +46,72 @@
     }
 }
 
+
+.wc-block-product-template.is-flex-container>li {
+    list-style: none;
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+    // width: 100%;
+    min-width: 300px;
+    flex-grow: 2;
+}
+
+@media(min-width: 600px) {
+    .wc-block-product-template.is-flex-container.is-flex-container.columns-2>li {
+        max-width: calc(50% - 0.625em);
+        width: auto;
+        flex-grow: 2;
+    }
+
+    .wc-block-product-template.is-flex-container.is-flex-container.columns-3>li {
+        max-width: calc(33.33333% - 1.04167em);
+        flex-grow: 3;
+    }
+
+    // 4 colonnes : plafond 25% (avec gap 1.25em Woo), min 300px, flex pour répartir l’espace restant.
+    .wc-block-product-template.is-flex-container.is-flex-container.columns-4>li {
+        flex: 1 1 300px;
+        width: auto;
+        min-width: 300px;
+        max-width: calc(25% - 0.9375em);
+    }
+
+    .wc-block-product-template.is-flex-container.is-flex-container.columns-5>li {
+        width: calc(20% - 1em)
+    }
+
+    .wc-block-product-template.is-flex-container.is-flex-container.columns-6>li {
+        width: calc(16.66667% - 1.04167em)
+    }
+}
+
+
+.wc-block-product-template__responsive {
+    grid-gap: 1.25em;
+    display: grid
+}
+
+.wc-block-product-template__responsive.columns-2 {
+    grid-template-columns: repeat(auto-fill,minmax(max(250px,calc(50% - .625em)),1fr))
+}
+
+.wc-block-product-template__responsive.columns-3 {
+    grid-template-columns: repeat(auto-fill,minmax(max(250px,calc(33.33333% - .83333em)),1fr));
+}
+
+.wc-block-product-template__responsive.columns-4 {
+    grid-template-columns: repeat(auto-fill,minmax(max(280px,(25%)),1fr))
+}
+
+.wc-block-product-template__responsive.columns-5 {
+    grid-template-columns: repeat(auto-fill,minmax(max(250px,calc(20% - 1em)),1fr))
+}
+
+.wc-block-product-template__responsive.columns-6 {
+    grid-template-columns: repeat(auto-fill,minmax(max(250  px,calc(16.66667% - 1.04167em)),1fr))
+}
+
 .wp-block-woocommerce-product-details {
 
     h3 {

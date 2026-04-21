@@ -16,6 +16,48 @@ if (!defined('ABSPATH')) {
 define('NATURAPETS_VERSION', wp_get_theme()->get('Version'));
 
 /**
+ * Extrait sur les pages : description utilisée par le modèle « Boutique » et le bloc « Description de la page ».
+ */
+function naturapets_add_page_excerpt_support()
+{
+	add_post_type_support('page', 'excerpt');
+}
+add_action('init', 'naturapets_add_page_excerpt_support');
+
+/**
+ * Éditeur : panneau « Description (boutique) » dans la barre latérale (Document) si le modèle Boutique est choisi.
+ */
+function naturapets_enqueue_shop_template_editor_script()
+{
+	$screen = function_exists('get_current_screen') ? get_current_screen() : null;
+	if (!$screen || 'post' !== $screen->base || empty($screen->post_type) || 'page' !== $screen->post_type) {
+		return;
+	}
+	if (method_exists($screen, 'is_block_editor') && !$screen->is_block_editor()) {
+		return;
+	}
+	$path = get_stylesheet_directory() . '/assets/js/editor-shop-description.js';
+	if (!file_exists($path)) {
+		return;
+	}
+	wp_enqueue_script(
+		'naturapets-editor-shop-description',
+		get_stylesheet_directory_uri() . '/assets/js/editor-shop-description.js',
+		array(
+			'wp-plugins',
+			'wp-edit-post',
+			'wp-element',
+			'wp-components',
+			'wp-data',
+			'wp-i18n',
+		),
+		(string) filemtime($path),
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'naturapets_enqueue_shop_template_editor_script');
+
+/**
  * Charger les classes du thème.
  */
 require_once get_stylesheet_directory() . '/includes/class-qrcode.php';
@@ -597,19 +639,39 @@ add_action('wp_body_open', 'naturapets_account_deleted_notice', 5);
  * BLOC ACF – Section Hero (design Figma – grille 2x2)
  * ==========================================================================
  */
-add_action( 'after_setup_theme', 'themeslug_remove_core_patterns' );
 
-function themeslug_remove_core_patterns() {
-	remove_theme_support( 'core-block-patterns' );
+/**
+ * Réactiver explicitement les patterns du cœur (au cas où le thème parent les désactiverait).
+ */
+function naturapets_enable_core_block_patterns() {
+	add_theme_support( 'core-block-patterns' );
+}
+add_action( 'after_setup_theme', 'naturapets_enable_core_block_patterns', 11 );
+
+/**
+ * Indique si un pattern est fourni par WordPress (cœur).
+ *
+ * @param array $pattern Pattern enregistré.
+ * @return bool
+ */
+function naturapets_is_core_block_pattern( $pattern ) {
+	$pattern_name = isset( $pattern['name'] ) ? (string) $pattern['name'] : '';
+	if ( $pattern_name !== '' && 0 === strpos( $pattern_name, 'core/' ) ) {
+		return true;
+	}
+	if ( ! empty( $pattern['filePath'] ) && is_string( $pattern['filePath'] ) ) {
+		$pattern_file = strtolower( wp_normalize_path( $pattern['filePath'] ) );
+		if ( false !== strpos( $pattern_file, '/wp-includes/block-patterns' ) ) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /**
- * Autoriser le chargement des patterns distants uniquement si WooCommerce est actif.
+ * Autoriser le répertoire de patterns distants WordPress.org (comportement par défaut du cœur).
  */
-function naturapets_allow_remote_block_patterns() {
-	return class_exists( 'WooCommerce' );
-}
-add_filter( 'should_load_remote_block_patterns', 'naturapets_allow_remote_block_patterns' );
+add_filter( 'should_load_remote_block_patterns', '__return_true' );
 
 /**
  * Déterminer si un pattern concerne WooCommerce (remote ou plugin).
@@ -659,7 +721,7 @@ function naturapets_is_woocommerce_pattern( $pattern ) {
 }
 
 /**
- * Ne garder que les patterns locaux (dossier /patterns du thème actif).
+ * Limiter les patterns tiers : conserver le thème, WooCommerce, et les patterns natifs WordPress.
  *
  * Les patterns synchronisés/en BDD (wp_block) restent disponibles dans l'éditeur,
  * car ils ne passent pas par le registre des block patterns PHP.
@@ -669,9 +731,9 @@ function naturapets_keep_only_local_theme_patterns() {
 		return;
 	}
 
-	$registry              = WP_Block_Patterns_Registry::get_instance();
-	$patterns              = $registry->get_all_registered();
-	$stylesheet_patterns   = wp_normalize_path( trailingslashit( get_stylesheet_directory() . '/patterns' ) );
+	$registry               = WP_Block_Patterns_Registry::get_instance();
+	$patterns               = $registry->get_all_registered();
+	$stylesheet_patterns    = wp_normalize_path( trailingslashit( get_stylesheet_directory() . '/patterns' ) );
 	$stylesheet_slug_prefix = get_stylesheet() . '/';
 
 	foreach ( $patterns as $pattern ) {
@@ -697,8 +759,9 @@ function naturapets_keep_only_local_theme_patterns() {
 		}
 
 		$is_woocommerce_pattern = naturapets_is_woocommerce_pattern( $pattern );
+		$is_core_pattern        = naturapets_is_core_block_pattern( $pattern );
 
-		if ( ! $is_local && ! $is_woocommerce_pattern ) {
+		if ( ! $is_local && ! $is_woocommerce_pattern && ! $is_core_pattern ) {
 			unregister_block_pattern( $pattern_name );
 		}
 	}
@@ -808,8 +871,92 @@ function naturapets_register_hero_block()
 	if (file_exists($top_banner_rotatif_path . '/block.json')) {
 		register_block_type($top_banner_rotatif_path);
 	}
+	$page_description_path = get_stylesheet_directory() . '/blocks/page-description';
+	if (file_exists($page_description_path . '/block.json')) {
+		register_block_type($page_description_path);
+	}
 }
 add_action('init', 'naturapets_register_hero_block');
+
+/**
+ * Fallback: enregistrer explicitement le bloc naturapets/page-description.
+ * Evite le cas "bloc non pris en charge" si l'enregistrement metadata échoue.
+ */
+function naturapets_register_page_description_block_fallback()
+{
+	if (!function_exists('register_block_type') || WP_Block_Type_Registry::get_instance()->is_registered('naturapets/page-description')) {
+		return;
+	}
+
+	$render_file = get_stylesheet_directory() . '/blocks/page-description/render.php';
+	if (!file_exists($render_file)) {
+		return;
+	}
+
+	register_block_type('naturapets/page-description', array(
+		'api_version' => 3,
+		'title' => __('Description de la page', 'naturapets'),
+		'category' => 'naturapets',
+		'icon' => 'text-page',
+		'description' => __('Affiche l’extrait (description) de la page courante.', 'naturapets'),
+		'render_callback' => static function () use ($render_file) {
+			ob_start();
+			include $render_file;
+			return (string) ob_get_clean();
+		},
+		'supports' => array(
+			'html' => false,
+			'inserter' => true,
+			'anchor' => true,
+			'align' => array('wide', 'full'),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+			),
+			'color' => array(
+				'text' => true,
+				'background' => true,
+			),
+		),
+	));
+}
+add_action('init', 'naturapets_register_page_description_block_fallback', 20);
+
+/**
+ * Shortcode fallback pour afficher la description de page (extrait) sur la boutique.
+ * Usage: [naturapets_page_description]
+ *
+ * @return string
+ */
+function naturapets_page_description_shortcode()
+{
+	$post_id = 0;
+
+	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
+		$post_id = (int) wc_get_page_id('shop');
+	}
+
+	if ($post_id < 1) {
+		$post_id = (int) get_queried_object_id();
+	}
+
+	if ($post_id < 1) {
+		return '';
+	}
+
+	$excerpt = get_the_excerpt($post_id);
+	if ('' === trim(wp_strip_all_tags($excerpt))) {
+		return '';
+	}
+
+	$inner = false !== stripos($excerpt, '<p') ? wp_kses_post($excerpt) : wp_kses_post(wpautop($excerpt));
+	return '<div class="np-page-description-block"><div class="np-page-description">' . $inner . '</div></div>';
+}
+add_shortcode('naturapets_page_description', 'naturapets_page_description_shortcode');
 
 /**
  * Groupe de champs ACF pour le bloc Section Hero.
@@ -1656,39 +1803,32 @@ function naturapets_get_product_first_gallery_attachment_id($product_id)
 }
 
 /**
- * Survol : afficher la première image de galerie sur l’image à la une (cartes, grilles, etc.).
- * Désactivé sur la fiche produit pour le produit principal (même ID que la page).
+ * Indique si le survol galerie ne doit pas s’appliquer (fiche produit : image principale du produit courant).
  *
- * @param string         $block_content HTML rendu du bloc.
- * @param array          $parsed_block  Bloc parsé.
- * @param WP_Block|null  $instance      Instance (WP 5.9+), pour le contexte postId / postType.
+ * @param int $post_id ID du produit affiché par le bloc.
+ * @return bool
+ */
+function naturapets_skip_product_gallery_hover_on_single_main($post_id)
+{
+	$post_id = (int) $post_id;
+	if ($post_id < 1 || !function_exists('is_product') || !is_product()) {
+		return false;
+	}
+	$main_id = (int) get_queried_object_id();
+	return $main_id > 0 && $post_id === $main_id;
+}
+
+/**
+ * Injecte la 1re image de galerie après la 1re balise &lt;img&gt; et enveloppe pour le survol CSS.
+ *
+ * @param string $block_content HTML du bloc.
+ * @param int    $post_id       ID produit.
+ * @param string $scale         Attribut scale (ex. cover, contain).
  * @return string
  */
-function naturapets_wrap_product_featured_image_gallery_hover($block_content, $parsed_block, $instance = null)
+function naturapets_product_gallery_hover_markup($block_content, $post_id, $scale = 'cover')
 {
-	if (empty($parsed_block['blockName']) || 'core/post-featured-image' !== $parsed_block['blockName']) {
-		return $block_content;
-	}
-	if (!$instance instanceof WP_Block) {
-		return $block_content;
-	}
-	$post_id = isset($instance->context['postId']) ? (int) $instance->context['postId'] : 0;
-	if ($post_id < 1) {
-		return $block_content;
-	}
-	$post_type = isset($instance->context['postType']) ? (string) $instance->context['postType'] : '';
-	if ('product' !== $post_type) {
-		$post_type = get_post_type($post_id);
-	}
-	if ('product' !== $post_type) {
-		return $block_content;
-	}
-	if (function_exists('is_product') && is_product()) {
-		$main_id = (int) get_queried_object_id();
-		if ($main_id > 0 && $post_id === $main_id) {
-			return $block_content;
-		}
-	}
+	$post_id = (int) $post_id;
 	$gallery_id = naturapets_get_product_first_gallery_attachment_id($post_id);
 	if ($gallery_id < 1 || '' === trim($block_content)) {
 		return $block_content;
@@ -1710,7 +1850,7 @@ function naturapets_wrap_product_featured_image_gallery_hover($block_content, $p
 		}
 	}
 
-	// Reprendre les classes « visuelles » de l’à la une ; laisser wp_get_attachment_image réinjecter attachment-* / size-*.
+	// Reprendre les classes « visuelles » de l’image principale ; wp_get_attachment_image réinjecte attachment-* / size-*.
 	$merged_class = trim((string) $feat['class']);
 	$merged_class = preg_replace('/\battachment-\S+/', '', $merged_class);
 	$merged_class = preg_replace('/\bsize-\S+/', '', $merged_class);
@@ -1739,13 +1879,56 @@ function naturapets_wrap_product_featured_image_gallery_hover($block_content, $p
 		return $block_content;
 	}
 
-	$attrs = $instance->attributes;
-	$scale = isset($attrs['scale']) && is_string($attrs['scale']) ? $attrs['scale'] : 'cover';
+	$scale = is_string($scale) ? $scale : 'cover';
 	$classes = 'np-product-thumb-hover';
 	if ('contain' === $scale) {
 		$classes .= ' np-product-thumb-hover--contain';
 	}
 	return '<div class="' . esc_attr($classes) . '">' . $inner . '</div>';
+}
+
+/**
+ * Survol : afficher la première image de galerie sur l’image produit (bloc WooCommerce) ou l’image à la une.
+ * Désactivé sur la fiche produit pour le produit principal (même ID que la page).
+ *
+ * @param string         $block_content HTML rendu du bloc.
+ * @param array          $parsed_block  Bloc parsé.
+ * @param WP_Block|null  $instance      Instance (WP 5.9+), pour le contexte postId / postType.
+ * @return string
+ */
+function naturapets_wrap_product_featured_image_gallery_hover($block_content, $parsed_block, $instance = null)
+{
+	$block_name = isset($parsed_block['blockName']) ? (string) $parsed_block['blockName'] : '';
+	$allowed = array('core/post-featured-image', 'woocommerce/product-image');
+	if ('' === $block_name || !in_array($block_name, $allowed, true)) {
+		return $block_content;
+	}
+	if (!$instance instanceof WP_Block) {
+		return $block_content;
+	}
+	$post_id = isset($instance->context['postId']) ? (int) $instance->context['postId'] : 0;
+	if ($post_id < 1) {
+		return $block_content;
+	}
+	$post_type = isset($instance->context['postType']) ? (string) $instance->context['postType'] : '';
+	if ('core/post-featured-image' === $block_name) {
+		if ('product' !== $post_type) {
+			$post_type = get_post_type($post_id);
+		}
+		if ('product' !== $post_type) {
+			return $block_content;
+		}
+	} elseif ('woocommerce/product-image' === $block_name) {
+		if ('product' !== get_post_type($post_id)) {
+			return $block_content;
+		}
+	}
+	if (naturapets_skip_product_gallery_hover_on_single_main($post_id)) {
+		return $block_content;
+	}
+	$attrs = $instance->attributes;
+	$scale = isset($attrs['scale']) && is_string($attrs['scale']) ? $attrs['scale'] : 'cover';
+	return naturapets_product_gallery_hover_markup($block_content, $post_id, $scale);
 }
 add_filter('render_block', 'naturapets_wrap_product_featured_image_gallery_hover', 10, 3);
 

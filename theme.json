@@ -11,6 +11,11 @@
 			"name": "no-title",
 			"postTypes": ["page", "post"],
 			"title": "No Title"
+		},
+		{
+			"name": "page-boutique",
+			"postTypes": ["page"],
+			"title": "Boutique"
 		}
 	],
 	"settings": {
@@ -102,6 +107,11 @@
 					"color": "#4A4A4A",
 					"name": "Gris moyen",
 					"slug": "gris-moyen"
+				},
+				{
+					"color": "#a47d5b",
+					"name": "Brun",
+					"slug": "brun"
 				},
 				{
 					"color": "#FF5E5E",
@@ -659,6 +669,11 @@
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
+		},
+		{
+			"area": "general",
+			"name": "archive-posts-loop",
+			"title": "Boucle articles (archive)"
 		}
 	]
 }
