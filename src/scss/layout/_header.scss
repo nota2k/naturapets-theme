@@ -81,8 +81,6 @@ body:not(.medaillon_public-template-default) .wp-site-blocks>header {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
-  font-weight: var(--wp--custom--font-weight--bold);
-  font-size: var(--wp--preset--font-size--medium);
 
   .np-brand-natura,
   .np-brand-pets {
@@ -110,8 +108,6 @@ body:not(.medaillon_public-template-default) .wp-site-blocks>header {
   .wp-block-navigation-item__content {
     color: $np-taupe !important;
     text-decoration: none;
-    font-weight: var(--wp--custom--font-weight--semi-bold);
-    font-size: var(--wp--preset--font-size--medium);
     transition: color 0.2s ease;
 
     &:hover {

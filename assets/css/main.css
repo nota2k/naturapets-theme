@@ -1681,8 +1681,6 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header.np-header-
   display: flex;
   flex-direction: column;
   line-height: 1.2;
-  font-weight: var(--wp--custom--font-weight--bold);
-  font-size: var(--wp--preset--font-size--medium);
 }
 .np-brand-text .np-brand-natura,
 .np-brand-text .np-brand-pets {
@@ -1706,8 +1704,6 @@ body:not(.medaillon_public-template-default) .wp-site-blocks > header.np-header-
 .np-header-nav .wp-block-navigation-item__content {
   color: #5c5346 !important;
   text-decoration: none;
-  font-weight: var(--wp--custom--font-weight--semi-bold);
-  font-size: var(--wp--preset--font-size--medium);
   transition: color 0.2s ease;
 }
 .np-header-nav a:hover,

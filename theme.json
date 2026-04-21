@@ -1,20 +1,27 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/theme.json",
-	"version": 3,
+	"$schema": "https://schemas.wp.org/wp/6.9/theme.json",
 	"customTemplates": [
 		{
 			"name": "blank",
-			"postTypes": ["page", "post"],
+			"postTypes": [
+				"page",
+				"post"
+			],
 			"title": "Blank"
 		},
 		{
 			"name": "no-title",
-			"postTypes": ["page", "post"],
+			"postTypes": [
+				"page",
+				"post"
+			],
 			"title": "No Title"
 		},
 		{
 			"name": "page-boutique",
-			"postTypes": ["page"],
+			"postTypes": [
+				"page"
+			],
 			"title": "Boutique"
 		}
 	],
@@ -33,6 +40,26 @@
 							"name": "Small",
 							"size": "15px",
 							"slug": "small"
+						},
+						{
+							"name": "LiquidSmall",
+							"size": "clamp(10px, 4vw, 15px)",
+							"slug": "liquid-small"
+						},
+						{
+							"name": "LiquidMedium",
+							"size": "clamp(15px, 6vw, 20px)",
+							"slug": "liquid-medium"
+						},
+						{
+							"name": "LiquidLarge",
+							"size": "clamp(20px, 8vw, 30px)",
+							"slug": "liquid-large"
+						},
+						{
+							"name": "LiquidXLarge",
+							"size": "clamp(30px, 10vw, 40px)",
+							"slug": "liquid-x-large"
 						},
 						{
 							"name": "Medium",
@@ -57,6 +84,39 @@
 			"defaultDuotone": false,
 			"defaultGradients": false,
 			"defaultPalette": false,
+			"duotone": [
+				{
+					"colors": [
+						"#000000",
+						"#ffffff"
+					],
+					"name": "Black and White",
+					"slug": "black-and-white"
+				},
+				{
+					"colors": [
+						"#0000ff",
+						"#ffffff"
+					],
+					"name": "Primary and White",
+					"slug": "primary-and-white"
+				},
+				{
+					"colors": [
+						"#000099",
+						"#ffffff"
+					],
+					"name": "Secondary and White",
+					"slug": "secondary-and-white"
+				}
+			],
+			"gradients": [
+				{
+					"gradient": "linear-gradient(0deg, var(--wp--preset--color--primary) 0%, var(--wp--preset--color--contrast) 100%)",
+					"name": "Primary to Contrast",
+					"slug": "primary-contrast"
+				}
+			],
 			"palette": [
 				{
 					"color": "#ffffff",
@@ -122,19 +182,19 @@
 		},
 		"custom": {
 			"fontWeight": {
-				"thin": 100,
-				"extra-light": 200,
-				"light": 300,
-				"regular": 400,
-				"medium": 500,
-				"semi-bold": 600,
+				"black": 900,
 				"bold": 700,
 				"extra-bold": 800,
-				"black": 900
+				"extra-light": 200,
+				"light": 300,
+				"medium": 500,
+				"regular": 400,
+				"semi-bold": 600,
+				"thin": 100
 			},
 			"lineHeight": {
 				"body": 1.75,
-				"heading": 1.1,
+				"heading": 1.1000000000000001,
 				"medium": 1.5,
 				"one": 1
 			},
@@ -143,8 +203,8 @@
 			}
 		},
 		"layout": {
-			"contentSize": "640px",
-			"wideSize": "1200px"
+			"contentSize": "1000px",
+			"wideSize": "1440px"
 		},
 		"shadow": {
 			"defaultPresets": false,
@@ -165,9 +225,9 @@
 			"defaultSpacingSizes": false,
 			"spacingSizes": [
 				{
-					"name": "xSmall",
-					"size": "20px",
-					"slug": "x-small"
+					"name": "LiquidSmall",
+					"size": "clamp(10px, 4vw, 15px)",
+					"slug": "liquid-small"
 				},
 				{
 					"name": "Small",
@@ -207,41 +267,378 @@
 				{
 					"fontFace": [
 						{
-							"fontDisplay": "block",
-							"fontFamily": "Outfit",
-							"fontStretch": "normal",
+							"fontFamily": "Nunito",
 							"fontStyle": "normal",
-							"fontWeight": "100 900",
-							"src": [ "file:./assets/fonts/Outfit-Variable.woff2" ]
+							"fontWeight": "200",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDDshRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "300",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDOUhRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "500",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDIkhRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDGUmRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDFwmRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "800",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDDsmRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "normal",
+							"fontWeight": "900",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXI3I6Li01BKofiOc5wtlZ2di8HDBImRTY9jo7eTWk.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "200",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiLXA3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "300",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNi83A3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "400",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNirXA3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "500",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNin3A3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "600",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNic3c3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "700",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiSnc3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "800",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiLXc3j6zbXWnoeg.woff2"
+						},
+						{
+							"fontFamily": "Nunito",
+							"fontStyle": "italic",
+							"fontWeight": "900",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiBHc3j6zbXWnoeg.woff2"
 						}
 					],
-					"fontFamily": "Outfit, sans-serif",
-					"name": "Outfit",
-					"slug": "primary"
+					"fontFamily": "Nunito, sans-serif",
+					"name": "Nunito",
+					"slug": "nunito"
 				},
 				{
-					"fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
-					"name": "System Font",
-					"slug": "system-font"
+					"fontFace": [
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "200",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4GVilnsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "300",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4GiClnsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4G1ilnsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "500",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4G5ClnsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4GCC5nsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4GMS5nsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "800",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4GVi5nsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "normal",
+							"fontWeight": "900",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1mMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfGWVpNn64CL7U8upHZIbMV51Q42ptCp5F5bxqqtQ1yiU4Gfy5nsV8kA_Ykqw.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "200",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmoP91UlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "300",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmrR91UlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "400",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmqP91UlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "500",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmq991UlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "600",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmpR8FUlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "700",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmpo8FUlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "800",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmoP8FUlIfM0qxVd.woff2"
+						},
+						{
+							"fontFamily": "\"Nunito Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "900",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/pe1kMImSLYBIv1o4X1M8cce4OdVisMz5nZRqy6cmmmU3t2FQWEAEOvV9wNvrwlNstMKW3Y6K5WMwXeVy3GboJ0kTHmom8FUlIfM0qxVd.woff2"
+						}
+					],
+					"fontFamily": "\"Nunito Sans\", sans-serif",
+					"name": "Nunito Sans",
+					"slug": "nunito-sans"
+				},
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "100",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxqjC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "200",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxujC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "300",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RujC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxujC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "500",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRujC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcaRyjC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByjC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "800",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxyjC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "normal",
+							"fontWeight": "900",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcHhyjC_TShUtWNg.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "100",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTP7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "200",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLTf7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "300",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTf7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "400",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTf7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "500",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1h5Tf7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "600",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1iVSv7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "700",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1isSv7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "800",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLSv7Tp05GNi3k.woff2"
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontStyle": "italic",
+							"fontWeight": "900",
+							"src": "http://naturapets.local/wp-content/uploads/fonts/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jiSv7Tp05GNi3k.woff2"
+						}
+					],
+					"fontFamily": "Fraunces, serif",
+					"name": "Fraunces",
+					"slug": "fraunces"
 				}
 			],
 			"fontSizes": [
 				{
 					"fluid": false,
 					"name": "xSmall",
-					"size": "16px",
+					"size": "13px",
 					"slug": "x-small"
+				},
+				{
+					"fluid": {
+						"max": "1.2em",
+						"min": "1em"
+					},
+					"name": "LiquidSmall",
+					"size": "clamp(0.7em, 4vw, 1.2em)",
+					"slug": "liquid-small"
+				},
+				{	
+					"fluid": {
+						"max": "3em",
+						"min": "2.8em"
+					},
+					"name": "LiquidMedium",
+					"size": "clamp(1.6em, 6vw, 2.8em)",
+					"slug": "liquid-medium"
+				},
+				{
+					"fluid": {
+						"max": "3em",
+						"min": "2.8em"
+					},
+					"name": "LiquidLarge",
+					"size": "clamp(5em, 7vw, 6em)",
+					"slug": "liquid-large"
+				},
+				{
+					"fluid": {
+						"max": "12em",
+						"min": "10em"
+					},
+					"name": "LiquidXLarge",
+					"size": "clamp(10em,10vw, 12em)",
+					"slug": "liquid-x-large"
 				},
 				{
 					"fluid": false,
 					"name": "Small",
-					"size": "18px",
+					"size": "16px",
 					"slug": "small"
 				},
 				{
 					"fluid": {
-						"min": "18px",
-						"max": "20px"
+						"max": "18px",
+						"min": "16px"
 					},
 					"name": "Medium",
 					"size": "20px",
@@ -249,8 +646,8 @@
 				},
 				{
 					"fluid": {
-						"min": "20px",
-						"max": "24px"
+						"max": "34px",
+						"min": "28px"
 					},
 					"name": "Large",
 					"size": "24px",
@@ -258,48 +655,12 @@
 				},
 				{
 					"fluid": {
-						"min": "24px",
-						"max": "30px"
+						"max": "68px",
+						"min": "60px"
 					},
 					"name": "xLarge",
 					"size": "30px",
 					"slug": "x-large"
-				},
-				{
-					"fluid": {
-						"min": "30px",
-						"max": "36px"
-					},
-					"name": "36px",
-					"size": "36px",
-					"slug": "max-36"
-				},
-				{
-					"fluid": {
-						"min": "36px",
-						"max": "48px"
-					},
-					"name": "48px",
-					"size": "48px",
-					"slug": "max-48"
-				},
-				{
-					"fluid": {
-						"min": "42px",
-						"max": "60px"
-					},
-					"name": "60px",
-					"size": "60px",
-					"slug": "max-60"
-				},
-				{
-					"fluid": {
-						"min": "48px",
-						"max": "72px"
-					},
-					"name": "72px",
-					"size": "72px",
-					"slug": "max-72"
 				}
 			]
 		},
@@ -307,28 +668,96 @@
 	},
 	"styles": {
 		"blocks": {
+			"core/accordion": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
+					"fontSize": "var(--wp--preset--font-size--small)",
+					"letterSpacing": "-3px",
+					"lineHeight": "1"
+				}
+			},
 			"core/button": {
+				"border": {
+					"radius": {
+						"bottomLeft": "120px",
+						"bottomRight": "120px",
+						"topLeft": "120px",
+						"topRight": "120px"
+					}
+				},
+				"color": {
+					"background": "var(--wp--preset--color--secondary)",
+					"text": "var(--wp--preset--color--neutral)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--neutral)"
+						}
+					}
+				},
+				"spacing": {
+					"padding": {
+						"bottom": "7%",
+						"left": "var(--wp--preset--spacing--liquid-small)",
+						"right": "var(--wp--preset--spacing--liquid-small)",
+						"top": "7%"
+					}
+				},
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--custom-1)",
+					"letterSpacing": "0px",
+					"lineHeight": "1"
+				},
 				"variations": {
-					"outline" : {
+					"outline": {
 						"border": {
 							"color": "currentColor",
 							"style": "solid",
 							"width": "1px"
 						},
+						"color": {
+							"background": "#ffffff08",
+							"text": "var(--wp--preset--color--secondary)"
+						},
 						"spacing": {
 							"padding": {
-								"top": "14px",
-								"right": "29px",
-								"bottom": "14px",
-								"left": "29px"
+								"bottom": "7%",
+								"left": "var(--wp--preset--spacing--liquid-small)",
+								"right": "var(--wp--preset--spacing--liquid-small)",
+								"top": "7%"
 							}
+						},
+						"typography": {
+							"fontFamily": "var(--wp--preset--font-family--nunito)",
+							"fontSize": "var(--wp--preset--font-size--liquid-small)",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"lineHeight": "1"
 						}
 					}
 				}
 			},
 			"core/buttons": {
 				"spacing": {
-					"blockGap": "10px"
+					"blockGap": {
+						"left": "var(--wp--preset--spacing--liquid-small)",
+						"top": "var(--wp--preset--spacing--liquid-small)"
+					},
+					"margin": {
+						"bottom": "0",
+						"top": "0"
+					},
+					"padding": {
+						"bottom": "0",
+						"left": "0",
+						"right": "0",
+						"top": "0"
+					}
+				},
+				"typography": {
+					"letterSpacing": "-1px",
+					"lineHeight": "1"
 				}
 			},
 			"core/code": {
@@ -339,14 +768,19 @@
 				"css": "& code {overflow-wrap: normal; overflow-x: scroll; tab-size: 4; white-space: pre !important;}",
 				"spacing": {
 					"padding": {
-						"top": "var(--wp--custom--spacing--gap)",
-						"right": "var(--wp--custom--spacing--gap)",
 						"bottom": "var(--wp--custom--spacing--gap)",
-						"left": "var(--wp--custom--spacing--gap)"
+						"left": "var(--wp--custom--spacing--gap)",
+						"right": "var(--wp--custom--spacing--gap)",
+						"top": "var(--wp--custom--spacing--gap)"
 					}
 				},
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--small)"
+				}
+			},
+			"core/columns": {
+				"typography": {
+					"letterSpacing": "5px"
 				}
 			},
 			"core/comment-author-name": {
@@ -355,10 +789,18 @@
 					"lineHeight": "var(--wp--custom--line-height--medium)"
 				}
 			},
+			"core/comment-content": {
+				"typography": {
+					"lineHeight": "1.3"
+				}
+			},
 			"core/comment-date": {
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--small)",
-					"lineHeight": "var(--wp--custom--line-height--medium)"
+					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
+					"fontSize": "var(--wp--preset--font-size--custom-2)",
+					"fontStyle": "normal",
+					"fontWeight": "600",
+					"lineHeight": "1.2"
 				}
 			},
 			"core/comment-edit-link": {
@@ -377,33 +819,58 @@
 					"margin": {
 						"top": "var(--wp--preset--spacing--x-large)"
 					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
+					"lineHeight": "1"
 				}
 			},
 			"core/comments-title": {
 				"spacing": {
 					"margin": {
-						"top": "var(--wp--custom--spacing--gap)",
-						"bottom": "var(--wp--custom--spacing--gap)"
+						"bottom": "var(--wp--custom--spacing--gap)",
+						"top": "var(--wp--custom--spacing--gap)"
 					}
 				}
 			},
 			"core/cover": {
 				"spacing": {
 					"padding": {
-						"top": "var(--wp--custom--spacing--gap)",
-						"right": "var(--wp--custom--spacing--gap)",
 						"bottom": "var(--wp--custom--spacing--gap)",
-						"left": "var(--wp--custom--spacing--gap)"
+						"left": "var(--wp--custom--spacing--gap)",
+						"right": "var(--wp--custom--spacing--gap)",
+						"top": "var(--wp--custom--spacing--gap)"
 					}
+				}
+			},
+			"core/heading": {
+				"spacing": {
+					"margin": {
+						"bottom": "0.3em",
+						"left": "0",
+						"right": "0",
+						"top": "0em"
+					},
+					"padding": {
+						"bottom": "0",
+						"left": "0",
+						"right": "0",
+						"top": "0"
+					}
+				},
+				"typography": {
+					"letterSpacing": "-4%",
+					"lineHeight": "1",
+					"textTransform": "uppercase"
 				}
 			},
 			"core/image": {
 				"spacing": {
 					"margin": {
-						"top": "30px",
-						"right": "0",
 						"bottom": "30px",
-						"left": "0"
+						"left": "0",
+						"right": "0",
+						"top": "30px"
 					}
 				}
 			},
@@ -423,19 +890,104 @@
 						}
 					}
 				},
+				"spacing": {
+					"blockGap": "0"
+				},
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--small)"
+					"fontSize": "var(--wp--preset--font-size--small)",
+					"lineHeight": "1"
+				}
+			},
+			"core/navigation-link": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
+					"fontStyle": "normal",
+					"fontWeight": "400",
+					"letterSpacing": "20px",
+					"lineHeight": "1.3"
+				}
+			},
+			"core/page-list": {
+				"typography": {
+					"letterSpacing": "0px"
 				}
 			},
 			"core/paragraph": {
-				"css": ".has-background {padding: 20px 30px;}"
+				"css": ".has-background {padding: 20px 30px;}",
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--liquid-small)",
+						"left": "0",
+						"right": "0"
+					},
+					"padding": {
+						"bottom": "0",
+						"left": "0px",
+						"right": "0px",
+						"top": "0px"
+					}
+				},
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--custom-1)",
+					"letterSpacing": "0px",
+					"lineHeight": "1.5",
+					"textDecoration": "none",
+					"textTransform": "none"
+				}
 			},
 			"core/post-comments-form": {
 				"css": "& input[type=submit] {width: auto;} & label {font-size: var(--wp--preset--font-size--x-small);}"
 			},
+			"core/post-content": {
+				"typography": {
+					"lineHeight": "1.5"
+				}
+			},
+			"core/post-excerpt": {
+				"typography": {
+					"fontStyle": "normal",
+					"fontWeight": "300",
+					"letterSpacing": "5%",
+					"lineHeight": "1.2"
+				}
+			},
+			"core/post-featured-image": {
+				"spacing": {
+					"margin": {
+						"bottom": "0px",
+						"top": "-1px"
+					},
+					"padding": {
+						"bottom": "0px",
+						"left": "0",
+						"right": "0",
+						"top": "0px"
+					}
+				}
+			},
 			"core/post-template": {
 				"spacing": {
 					"blockGap": "var(--wp--preset--spacing--medium);"
+				}
+			},
+			"core/post-title": {
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--liquid-small)",
+						"top": "0"
+					},
+					"padding": {
+						"bottom": "0",
+						"top": "0"
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--fraunces)",
+					"fontSize": "var(--wp--preset--font-size--custom-3)",
+					"fontStyle": "normal",
+					"fontWeight": "400",
+					"letterSpacing": "-5px",
+					"lineHeight": "1.1"
 				}
 			},
 			"core/preformatted": {
@@ -446,10 +998,10 @@
 				"css": "{overflow-wrap: normal; overflow-x: scroll; tab-size: 4; white-space: pre !important;}",
 				"spacing": {
 					"padding": {
-						"top": "25px",
-						"right": "30px",
 						"bottom": "25px",
-						"left": "30px"
+						"left": "30px",
+						"right": "30px",
+						"top": "25px"
 					}
 				}
 			},
@@ -470,15 +1022,30 @@
 				},
 				"spacing": {
 					"padding": {
-						"top": "var(--wp--custom--spacing--gap)",
-						"right": "var(--wp--custom--spacing--gap)",
 						"bottom": "var(--wp--custom--spacing--gap)",
-						"left": "var(--wp--custom--spacing--gap)"
+						"left": "var(--wp--custom--spacing--gap)",
+						"right": "var(--wp--custom--spacing--gap)",
+						"top": "var(--wp--custom--spacing--gap)"
 					}
 				},
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--medium)",
 					"lineHeight": "var(--wp--custom--line-height--medium)"
+				}
+			},
+			"core/query-title": {
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--liquid-small)"
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--fraunces)",
+					"fontSize": "var(--wp--preset--font-size--custom-2)",
+					"fontStyle": "normal",
+					"fontWeight": "200",
+					"letterSpacing": "-2px",
+					"lineHeight": "1"
 				}
 			},
 			"core/quote": {
@@ -498,10 +1065,10 @@
 				},
 				"spacing": {
 					"padding": {
-						"top": "var(--wp--custom--spacing--gap)",
-						"right": "var(--wp--custom--spacing--gap)",
 						"bottom": "var(--wp--custom--spacing--gap)",
-						"left": "var(--wp--custom--spacing--gap)"
+						"left": "var(--wp--custom--spacing--gap)",
+						"right": "var(--wp--custom--spacing--gap)",
+						"top": "var(--wp--custom--spacing--gap)"
 					}
 				}
 			},
@@ -551,6 +1118,37 @@
 						"top": "0"
 					}
 				}
+			},
+			"core/term-description": {
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--liquid-small)"
+					}
+				},
+				"typography": {
+					"lineHeight": "1.4"
+				}
+			},
+			"woocommerce/breadcrumbs": {
+				"color": {
+					"text": "var(--wp--preset--color--secondary)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--base)"
+						}
+					}
+				},
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--small)",
+					"lineHeight": "1"
+				}
+			},
+			"woocommerce/product-button": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--x-small)"
+				}
 			}
 		},
 		"color": {
@@ -559,6 +1157,11 @@
 		},
 		"elements": {
 			"button": {
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--marron)"
+					}
+				},
 				"border": {
 					"radius": "5px"
 				},
@@ -568,57 +1171,65 @@
 				},
 				"spacing": {
 					"padding": {
-						"top": "15px",
-						"right": "30px",
 						"bottom": "15px",
-						"left": "30px"
+						"left": "30px",
+						"right": "30px",
+						"top": "15px"
 					}
 				},
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--x-small)",
-					"fontWeight": "var(--wp--custom--font-weight--regular)",
-					"lineHeight": "var(--wp--custom--line-height--medium)"
-				},
-				":hover": {
-					"color": {
-						"background": "var(--wp--preset--color--marron)"
-					}
+					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
+					"fontSize": "var(--wp--preset--font-size--custom-1)",
+					"fontStyle": "normal",
+					"fontWeight": "300",
+					"letterSpacing": "-1px",
+					"lineHeight": "1"
 				}
 			},
 			"caption": {
 				"spacing": {
 					"margin": {
-						"top": "10px",
-						"bottom": "0px"
+						"bottom": "0px",
+						"top": "10px"
 					}
 				},
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--small)"
+					"fontSize": "var(--wp--preset--font-size--small)",
+					"letterSpacing": "-1px",
+					"lineHeight": "1.2"
 				}
 			},
 			"h1": {
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--max-36)"
+					"fontSize": "var(--wp--preset--font-size--custom-4)",
+					"fontStyle": "normal",
+					"fontWeight": "400"
 				}
 			},
 			"h2": {
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--x-large)"
+					"fontSize": "var(--wp--preset--font-size--custom-3)",
+					"fontStyle": "normal",
+					"fontWeight": "400",
+					"lineHeight": "1"
 				}
 			},
 			"h3": {
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--large)"
+					"fontSize": "var(--wp--preset--font-size--custom-2)",
+					"lineHeight": "0.9"
 				}
 			},
 			"h4": {
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--medium)"
+					"fontSize": "var(--wp--preset--font-size--large)",
+					"lineHeight": "1.3"
 				}
 			},
 			"h5": {
 				"typography": {
-					"fontSize": "var(--wp--preset--font-size--small)"
+					"fontSize": "var(--wp--preset--font-size--custom-1)",
+					"lineHeight": "1.2"
 				}
 			},
 			"h6": {
@@ -628,35 +1239,41 @@
 			},
 			"heading": {
 				"typography": {
-					"fontWeight": "var(--wp--custom--font-weight--regular)",
-					"lineHeight": "var(--wp--custom--line-height--heading)"
+					"fontStyle": "normal",
+					"fontWeight": "100",
+					"letterSpacing": "0px",
+					"lineHeight": "1"
 				}
 			},
 			"link": {
-				"color": {
-					"text": "var(--wp--preset--color--bleu-noir)"
-				},
 				":hover": {
 					"color": {
 						"text": "var(--wp--preset--color--bleu-noir)"
 					}
+				},
+				"color": {
+					"text": "var(--wp--preset--color--bleu-noir)"
+				},
+				"typography": {
+					"lineHeight": "1.4",
+					"textDecoration": "none"
 				}
 			}
 		},
 		"spacing": {
-			"blockGap": "var(--wp--custom--spacing--gap)",
+			"blockGap": "0px",
 			"padding": {
-				"top": "0px",
-				"right": "var(--wp--custom--spacing--gap)",
 				"bottom": "0px",
-				"left": "var(--wp--custom--spacing--gap)"
+				"left": "var(--wp--preset--spacing--x-small)",
+				"right": "var(--wp--preset--spacing--x-small)",
+				"top": "0px"
 			}
 		},
 		"typography": {
-			"fontFamily": "var(--wp--preset--font-family--primary)",
+			"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
 			"fontSize": "var(--wp--preset--font-size--medium)",
 			"fontWeight": "var(--wp--custom--font-weight--light)",
-			"lineHeight": "var(--wp--custom--line-height--body)"
+			"lineHeight": "1.2"
 		}
 	},
 	"templateParts": [
@@ -680,5 +1297,6 @@
 			"name": "content-post",
 			"title": "Contenu article"
 		}
-	]
+	],
+	"version": 3
 }
