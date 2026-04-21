@@ -391,6 +391,12 @@ input, select, textarea {
   font-size: var(--wp--preset--font-size--x-large, 30px);
 }
 
+.hero-banner-archive .absolute {
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
 .np-split-cta {
   position: relative;
   width: 100%;
@@ -3075,11 +3081,11 @@ body .wp-site-blocks:has(main) footer {
 }
 
 .relative {
-  position: relative;
+  position: relative !important;
 }
 
 .absolute {
-  position: absolute;
+  position: absolute !important;
 }
 
 /*# sourceMappingURL=main.css.map */

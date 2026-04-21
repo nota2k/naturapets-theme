@@ -207,3 +207,14 @@
 .np-hero-banner__cta.has-x-large-font-size {
   font-size: var(--wp--preset--font-size--x-large, 30px);
 }
+
+.hero-banner-archive{
+  .absolute{
+    // top: 0;
+    left: 0;
+    right: 0;
+    // width: 100%;
+    // height: 100%;
+    z-index: 1;
+  }
+}

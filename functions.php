@@ -25,6 +25,91 @@ function naturapets_add_page_excerpt_support()
 add_action('init', 'naturapets_add_page_excerpt_support');
 
 /**
+ * Canvas de l’éditeur (iframe) : même feuille que le front pour que le SCSS compilé s’applique aux blocs.
+ * `enqueue_block_editor_assets` ne suffit pas : il charge le cadre admin, pas le contenu édité.
+ */
+function naturapets_setup_editor_styles()
+{
+	add_theme_support('editor-styles');
+	$main_rel = 'assets/css/main.css';
+	$main_abs = get_stylesheet_directory() . '/' . $main_rel;
+	if (is_readable($main_abs)) {
+		add_editor_style($main_rel);
+	}
+}
+add_action('after_setup_theme', 'naturapets_setup_editor_styles', 20);
+
+/**
+ * AJAX : rendu HTML d’un shortcode pour l’aperçu dans l’éditeur (bloc Shortcode).
+ */
+function naturapets_ajax_shortcode_preview()
+{
+	if (!check_ajax_referer('naturapets_sc_preview', 'nonce', false) || !current_user_can('edit_posts')) {
+		status_header(403);
+		nocache_headers();
+		header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
+		echo 'forbidden';
+		wp_die('', '', array('response' => 403));
+	}
+	$raw = isset($_POST['shortcode']) ? wp_unslash($_POST['shortcode']) : '';
+	if (!is_string($raw)) {
+		status_header(400);
+		wp_die('', '', array('response' => 400));
+	}
+	$raw = trim($raw);
+	if ('' === $raw || strlen($raw) > 10000) {
+		status_header(400);
+		wp_die('', '', array('response' => 400));
+	}
+
+	// Charger les assets front pour que l'aperçu reflète les styles du shortcode.
+	do_action('wp_enqueue_scripts');
+	$html = do_shortcode($raw);
+	ob_start();
+	wp_print_styles();
+	$styles = (string) ob_get_clean();
+	nocache_headers();
+	header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+	echo $styles . $html;
+	wp_die('', '', array('response' => 200));
+}
+add_action('wp_ajax_naturapets_shortcode_preview', 'naturapets_ajax_shortcode_preview');
+
+/**
+ * Éditeur : script d’aperçu pour le bloc core/shortcode.
+ */
+function naturapets_enqueue_shortcode_editor_preview()
+{
+	$path = get_stylesheet_directory() . '/assets/js/shortcode-editor-preview.js';
+	if (!file_exists($path)) {
+		return;
+	}
+	wp_enqueue_script(
+		'naturapets-shortcode-editor-preview',
+		get_stylesheet_directory_uri() . '/assets/js/shortcode-editor-preview.js',
+		array(
+			'wp-hooks',
+			'wp-compose',
+			'wp-element',
+			'wp-components',
+			'wp-block-editor',
+			'wp-i18n',
+		),
+		(string) filemtime($path),
+		true
+	);
+	wp_localize_script(
+		'naturapets-shortcode-editor-preview',
+		'naturapetsShortcodePreview',
+		array(
+			'ajaxUrl' => admin_url('admin-ajax.php'),
+			'nonce' => wp_create_nonce('naturapets_sc_preview'),
+		)
+	);
+}
+add_action('enqueue_block_editor_assets', 'naturapets_enqueue_shortcode_editor_preview', 25);
+
+/**
  * Éditeur : panneau « Description (boutique) » dans la barre latérale (Document) si le modèle Boutique est choisi.
  */
 function naturapets_enqueue_shop_template_editor_script()
@@ -552,15 +637,7 @@ function naturapets_enqueue_editor_styles()
 		array(),
 		null
 	);
-	$css_file = get_stylesheet_directory() . '/assets/css/main.css';
-	if (file_exists($css_file)) {
-		wp_enqueue_style(
-			'naturapets-main',
-			get_stylesheet_directory_uri() . '/assets/css/main.css',
-			array('naturapets-style', 'naturapets-font-nunito'),
-			filemtime($css_file)
-		);
-	}
+	// main.css est chargé dans l’iframe via add_editor_style() (voir naturapets_setup_editor_styles).
 }
 add_action('enqueue_block_editor_assets', 'naturapets_enqueue_editor_styles');
 
@@ -586,7 +663,7 @@ function naturapets_icone_block_editor_styles()
 	$css .= '.acf-field[data-name="icone_background"] .acf-radio-list input[type="radio"], .acf-field-field_icone_background .acf-radio-list input[type="radio"] { width: 28px; height: 28px; padding: 0; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px; cursor: pointer; appearance: none; -webkit-appearance: none; } ';
 	$css .= '.acf-field[data-name="icone_background"] .acf-radio-list input[type="radio"]:checked, .acf-field-field_icone_background .acf-radio-list input[type="radio"]:checked { border-color: #1e1e1e; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1e1e1e; } ';
 	$css .= implode(' ', $rules);
-	wp_add_inline_style('naturapets-main', $css);
+	wp_add_inline_style('naturapets-style', $css);
 }
 add_action('enqueue_block_editor_assets', 'naturapets_icone_block_editor_styles', 20);
 
@@ -927,15 +1004,23 @@ function naturapets_register_page_description_block_fallback()
 add_action('init', 'naturapets_register_page_description_block_fallback', 20);
 
 /**
- * Shortcode fallback pour afficher la description de page (extrait) sur la boutique.
- * Usage: [naturapets_page_description]
+ * Résoudre l’ID de page source pour les shortcodes de contenu boutique.
+ * En éditeur/AJAX preview, il n’y a pas de contexte d’archive : on force la page Boutique.
  *
- * @return string
+ * @return int
  */
-function naturapets_page_description_shortcode()
+function naturapets_get_shop_page_context_id()
 {
 	$post_id = 0;
 
+	if (function_exists('wc_get_page_id')) {
+		$shop_id = (int) wc_get_page_id('shop');
+		if ($shop_id > 0) {
+			$post_id = $shop_id;
+		}
+	}
+
+	// Sur le front archive produit, on conserve explicitement le contexte archive.
 	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
 		$post_id = (int) wc_get_page_id('shop');
 	}
@@ -943,6 +1028,19 @@ function naturapets_page_description_shortcode()
 	if ($post_id < 1) {
 		$post_id = (int) get_queried_object_id();
 	}
+
+	return $post_id > 0 ? $post_id : 0;
+}
+
+/**
+ * Shortcode fallback pour afficher la description de page (extrait) sur la boutique.
+ * Usage: [naturapets_page_description]
+ *
+ * @return string
+ */
+function naturapets_page_description_shortcode()
+{
+	$post_id = naturapets_get_shop_page_context_id();
 
 	if ($post_id < 1) {
 		return '';
@@ -966,15 +1064,7 @@ add_shortcode('naturapets_page_description', 'naturapets_page_description_shortc
  */
 function naturapets_page_content_shortcode()
 {
-	$post_id = 0;
-
-	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
-		$post_id = (int) wc_get_page_id('shop');
-	}
-
-	if ($post_id < 1) {
-		$post_id = (int) get_queried_object_id();
-	}
+	$post_id = naturapets_get_shop_page_context_id();
 
 	if ($post_id < 1) {
 		return '';

@@ -8,6 +8,7 @@
 	"description": "Affiche l’extrait (description) de la page courante. À renseigner dans le panneau Document lorsque le modèle « Boutique » est actif.",
 	"keywords": ["extrait", "description", "résumé", "page", "boutique"],
 	"textdomain": "naturapets",
+	"editorScript": "file:./index.js",
 	"supports": {
 		"html": false,
 		"inserter": true,
