@@ -959,6 +959,43 @@ function naturapets_page_description_shortcode()
 add_shortcode('naturapets_page_description', 'naturapets_page_description_shortcode');
 
 /**
+ * Shortcode pour afficher le contenu complet de la page Boutique.
+ * Usage: [naturapets_page_content]
+ *
+ * @return string
+ */
+function naturapets_page_content_shortcode()
+{
+	$post_id = 0;
+
+	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
+		$post_id = (int) wc_get_page_id('shop');
+	}
+
+	if ($post_id < 1) {
+		$post_id = (int) get_queried_object_id();
+	}
+
+	if ($post_id < 1) {
+		return '';
+	}
+
+	$content = get_post_field('post_content', $post_id);
+	if (!is_string($content) || '' === trim(wp_strip_all_tags($content))) {
+		return '';
+	}
+
+	// Appliquer les filtres "the_content" (blocs, shortcodes, embeds, etc.).
+	$rendered = apply_filters('the_content', $content);
+	if (!is_string($rendered) || '' === trim($rendered)) {
+		return '';
+	}
+
+	return '<div class="np-page-content-block">' . $rendered . '</div>';
+}
+add_shortcode('naturapets_page_content', 'naturapets_page_content_shortcode');
+
+/**
  * Groupe de champs ACF pour le bloc Section Hero.
  */
 function naturapets_hero_block_field_group()

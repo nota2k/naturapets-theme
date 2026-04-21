@@ -52,7 +52,7 @@ if ( $has_media ) {
 ?>
 <section class="<?php echo esc_attr( $section_class ); ?>" aria-label="<?php esc_attr_e( 'Bannière d\'accueil', 'naturapets' ); ?>">
 	<?php if ( $has_media ) : ?>
-		<div class="np-hero-banner__media" aria-hidden="true">
+		<div class="np-hero-banner__media" aria-hidden="false">
 			<?php if ( ! empty( $video_url ) ) : ?>
 				<video class="np-hero-banner__video" autoplay muted loop playsinline>
 					<source src="<?php echo esc_url( $video_url ); ?>" type="<?php echo esc_attr( $video_mime ); ?>">
@@ -79,9 +79,15 @@ if ( $has_media ) {
 				$cta_class .= ' has-' . esc_attr( $bouton_taille ) . '-font-size';
 			}
 			?>
-			<a href="<?php echo esc_url( $bouton_url ); ?>" class="<?php echo esc_attr( $cta_class ); ?>">
-				<?php echo esc_html( $bouton_texte ); ?>
-			</a>
+			<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"left"}} -->
+			<div class="wp-block-buttons">
+				<!-- wp:button {"url":"<?php echo esc_url( $bouton_url ); ?>","textAlign":"center","className":"<?php echo esc_attr( $cta_class ); ?>"} -->
+				<a class="wp-block-button__link <?php echo esc_attr( $cta_class ); ?>" href="<?php echo esc_url( $bouton_url ); ?>">
+					<?php echo esc_html( $bouton_texte ); ?>
+				</a>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
 		</div>
 	</div>
 </section>

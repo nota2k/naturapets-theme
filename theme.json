@@ -674,6 +674,11 @@
 			"area": "general",
 			"name": "archive-posts-loop",
 			"title": "Boucle articles (archive)"
+		},
+		{
+			"area": "content",
+			"name": "content-post",
+			"title": "Contenu article"
 		}
 	]
 }

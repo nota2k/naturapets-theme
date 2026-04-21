@@ -11,37 +11,52 @@
 .np-hero-banner {
   position: relative;
   width: 100%;
-  max-width: 100vw;
-  box-sizing: border-box;
+  box-sizing: content-box;
   background-color: $np-gray-light;
-  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 4vw, 3rem);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  min-height: clamp(280px, 40vw, 380px);
+  min-height: 100%;
   overflow: hidden;
 }
 
 // Avec image/vidéo : hauteur au moins 100 % du viewport
 .np-hero-banner--has-media {
-  min-height: 70vh;
+  max-width: inherit;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  img {
+    width: 100%;
+    max-width: inherit;
+    height: auto;
+    object-fit: cover;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 // Couche image / vidéo en fond
 .np-hero-banner__media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  position: relative;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  line-height: 0;
 }
 
 .np-hero-banner__image,
 .np-hero-banner__video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: relative;
   object-fit: cover;
   display: block;
+  line-height: 0;
 }
 
 // Overlay léger pour lisibilité du texte sur image/vidéo
@@ -49,11 +64,16 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.15) 50%, transparent 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   pointer-events: none;
 }
 
 .np-hero-banner__inner {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 4vw, 3rem);
   z-index: 1;
   width: 100%;
   max-width: 1200px;
@@ -93,15 +113,41 @@
 }
 
 // Presets du thème (ACF « Taille du titre ») – variables WordPress / Frost
-.np-hero-banner__title.has-x-small-font-size { font-size: var(--wp--preset--font-size--x-small, 16px); }
-.np-hero-banner__title.has-small-font-size { font-size: var(--wp--preset--font-size--small, 18px); }
-.np-hero-banner__title.has-medium-font-size { font-size: var(--wp--preset--font-size--medium, 20px); }
-.np-hero-banner__title.has-large-font-size { font-size: var(--wp--preset--font-size--large, 24px); }
-.np-hero-banner__title.has-x-large-font-size { font-size: var(--wp--preset--font-size--x-large, 30px); }
-.np-hero-banner__title.has-max-36-font-size { font-size: var(--wp--preset--font-size--max-36, 36px); }
-.np-hero-banner__title.has-max-48-font-size { font-size: var(--wp--preset--font-size--max-48, 48px); }
-.np-hero-banner__title.has-max-60-font-size { font-size: var(--wp--preset--font-size--max-60, 60px); }
-.np-hero-banner__title.has-max-72-font-size { font-size: var(--wp--preset--font-size--max-72, 72px); }
+.np-hero-banner__title.has-x-small-font-size {
+  font-size: var(--wp--preset--font-size--x-small, 16px);
+}
+
+.np-hero-banner__title.has-small-font-size {
+  font-size: var(--wp--preset--font-size--small, 18px);
+}
+
+.np-hero-banner__title.has-medium-font-size {
+  font-size: var(--wp--preset--font-size--medium, 20px);
+}
+
+.np-hero-banner__title.has-large-font-size {
+  font-size: var(--wp--preset--font-size--large, 24px);
+}
+
+.np-hero-banner__title.has-x-large-font-size {
+  font-size: var(--wp--preset--font-size--x-large, 30px);
+}
+
+.np-hero-banner__title.has-max-36-font-size {
+  font-size: var(--wp--preset--font-size--max-36, 36px);
+}
+
+.np-hero-banner__title.has-max-48-font-size {
+  font-size: var(--wp--preset--font-size--max-48, 48px);
+}
+
+.np-hero-banner__title.has-max-60-font-size {
+  font-size: var(--wp--preset--font-size--max-60, 60px);
+}
+
+.np-hero-banner__title.has-max-72-font-size {
+  font-size: var(--wp--preset--font-size--max-72, 72px);
+}
 
 .np-hero-banner--has-media .np-hero-banner__title {
   color: #fff;
@@ -142,8 +188,22 @@
 }
 
 // Presets du thème pour le bouton (ACF « Taille du bouton ») – variables WordPress / Frost
-.np-hero-banner__cta.has-x-small-font-size { font-size: var(--wp--preset--font-size--x-small, 16px); }
-.np-hero-banner__cta.has-small-font-size { font-size: var(--wp--preset--font-size--small, 18px); }
-.np-hero-banner__cta.has-medium-font-size { font-size: var(--wp--preset--font-size--medium, 20px); }
-.np-hero-banner__cta.has-large-font-size { font-size: var(--wp--preset--font-size--large, 24px); }
-.np-hero-banner__cta.has-x-large-font-size { font-size: var(--wp--preset--font-size--x-large, 30px); }
+.np-hero-banner__cta.has-x-small-font-size {
+  font-size: var(--wp--preset--font-size--x-small, 16px);
+}
+
+.np-hero-banner__cta.has-small-font-size {
+  font-size: var(--wp--preset--font-size--small, 18px);
+}
+
+.np-hero-banner__cta.has-medium-font-size {
+  font-size: var(--wp--preset--font-size--medium, 20px);
+}
+
+.np-hero-banner__cta.has-large-font-size {
+  font-size: var(--wp--preset--font-size--large, 24px);
+}
+
+.np-hero-banner__cta.has-x-large-font-size {
+  font-size: var(--wp--preset--font-size--x-large, 30px);
+}
