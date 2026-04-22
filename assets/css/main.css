@@ -2675,24 +2675,34 @@ li {
 }
 
 .woocommerce-myaccount-wrapper {
-  font-size: var(--wp--preset--font-size--courant);
   height: 100%;
   min-height: 64vh;
   padding-top: 0 !important;
   max-width: var(--wp--style--global--wide-size);
+  padding: 0 var(--wp--preset--spacing--liquid-small);
   margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .woocommerce-myaccount-wrapper {
+    padding: 0 var(--wp--preset--spacing--liquid-small);
+  }
 }
 .woocommerce-myaccount-wrapper h1.myaccount-header__title {
   font-size: var(--wp--preset--font-size--liquid-large);
-  font-weight: var(--wp--custom--font-weight--medium);
+  font-weight: 400;
 }
-.woocommerce-myaccount-wrapper h3 {
-  font-size: var(--wp--preset--font-size--liquid-medium);
-  margin-bottom: var(--wp--preset--spacing--liquid-small) !important;
-  font-weight: var(--wp--custom--font-weight--medium);
+.woocommerce-myaccount-wrapper h3:not(.animal-card__name) {
+  font-size: var(--wp--preset--font-size--liquid-large);
+  margin-bottom: var(--wp--preset--spacing--liquid-medium) !important;
+  font-weight: var(--wp--custom--font-weight--semi-bold);
+  color: var(--wp--preset--color--secondary);
+  margin-top: 0;
+}
+.woocommerce-myaccount-wrapper button, .woocommerce-myaccount-wrapper .wp-element-button {
+  border-radius: 100px;
 }
 .woocommerce-myaccount-wrapper > .woocommerce-account,
-.woocommerce-myaccount-wrapper .woocommerce.account-navigation {
+.woocommerce-myaccount-wrapper .woocom merce.account-navigation {
   width: 100%;
   max-width: var(--wp--style--global--wide-size) !important;
 }
@@ -2710,38 +2720,19 @@ li {
   padding-bottom: 1.25em;
 }
 .woocommerce-myaccount-wrapper .myaccount-header__title {
-  font-size: var(--wp--preset--font-size--courant);
   line-height: 1.2em;
   font-weight: var(--wp--custom--font-weight--regular);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0;
 }
 .woocommerce-myaccount-wrapper .myaccount-header__logout {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  font-size: var(--wp--preset--font-size--courant);
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-  font-weight: var(--wp--custom--font-weight--medium);
-  color: var(--wp--preset--color--base);
-  border-radius: 100px;
-  padding: 0.5em 1em;
-  text-decoration: none;
   flex-shrink: 0;
-  transition: all 0.2s ease-in-out;
 }
 .woocommerce-myaccount-wrapper .myaccount-header__logout-icon {
   flex-shrink: 0;
-}
-.woocommerce-myaccount-wrapper .myaccount-header__logout:hover {
-  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
-  color: var(--wp--preset--color--base);
-}
-.woocommerce-myaccount-wrapper .myaccount-header__subtitle {
-  font-size: var(--wp--preset--font-size--courant);
-  color: #5c5346;
-  margin: 0;
-  opacity: 0.9;
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation {
   display: flex;
@@ -2772,19 +2763,19 @@ li {
   display: inline-block;
   padding: 0.5em 1.25em;
   border-radius: 40px;
-  color: #5c5346;
+  color: var(--wp--preset--color--secondary);
   font-weight: var(--wp--custom--font-weight--semi-bold);
   text-decoration: none;
-  background-color: #fff;
-  border: 1px solid #4F6B4C;
+  background-color: var(--wp--preset--color--base);
   transition: background-color 0.2s, color 0.2s;
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-navigation.myaccount-tabs .myaccount-tabs__link:hover {
   background-color: var(--wp--preset--color--vert-eau);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
 }
 .woocommerce-myaccount-wrapper .woocommerce.account-navigation .woocommerce-MyAccount-navigation.myaccount-tabs .myaccount-tabs__item.is-active .myaccount-tabs__link {
   background-color: var(--wp--preset--color--vert-eau);
+  color: var(--wp--preset--color--secondary);
   font-weight: var(--wp--custom--font-weight--bold);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
@@ -2818,7 +2809,7 @@ li {
   padding: 1rem 0 0;
   font-size: var(--wp--preset--font-size--medium);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
 }
 .woocommerce-myaccount-wrapper .profile-summary__welcome {
   margin: 0 0 2rem;
@@ -2846,9 +2837,7 @@ li {
   margin-bottom: 1.5rem;
 }
 .profile-summary__title {
-  font-size: var(--wp--preset--font-size--medium);
-  font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0 0 0.25em;
 }
 .profile-summary__subtitle {
@@ -2862,19 +2851,6 @@ li {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
-  padding: 0.5em 1.25em;
-  background-color: #8CD28A;
-  color: var(--wp--preset--color--base);
-  font-size: var(--wp--preset--font-size--courant);
-  font-weight: var(--wp--custom--font-weight--semi-bold);
-  text-decoration: none;
-  border-radius: 1rem;
-  border: none;
-  transition: background-color 0.2s;
-}
-.profile-summary__edit-btn:hover {
-  background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
-  color: var(--wp--preset--color--base);
 }
 .profile-summary__icon {
   flex-shrink: 0;
@@ -2887,25 +2863,13 @@ li {
 .profile-summary__delete-btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.5em 1.25em;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-  color: var(--wp--preset--color--base);
-  font-size: var(--wp--preset--font-size--courant);
-  font-weight: var(--wp--custom--font-weight--semi-bold);
-  border: none;
-  border-radius: 30px;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.profile-summary__delete-btn:hover {
-  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
-  color: var(--wp--preset--color--base);
+  background-color: var(--wp--preset--color--rouge-moyen) !important;
 }
 .profile-summary__card {
   background: var(--wp--preset--color--base);
   border-radius: 1rem;
   padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border: 1px solid #e8e6e4;
   margin-bottom: 1rem;
 }
@@ -2921,16 +2885,16 @@ li {
   gap: 0.25rem;
 }
 .profile-summary__row dt {
-  font-size: 0.875rem;
-  font-weight: var(--wp--custom--font-weight--medium);
-  color: #5c5346;
-  margin: 0;
+  font-size: var(--wp--preset--font-size--liquid-small);
+  margin-bottom: 0.7em !important;
+  font-family: var(--wp--preset--font-family--nunito-sans);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
 }
 .profile-summary__row dd {
   font-family: var(--wp--preset--font-family--liquid-small);
   font-size: var(--wp--preset--font-size--courant);
   font-weight: var(--wp--custom--font-weight--regular);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0;
   line-height: 1.2;
 }
@@ -2959,8 +2923,7 @@ li {
   margin-bottom: 1.5rem;
 }
 .myaccount-animals__title {
-  font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0 0 0.25em;
 }
 .myaccount-animals__subtitle {
@@ -2973,50 +2936,52 @@ li {
 .myaccount-animals__add-btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.5em 1.25em;
-  background-color: #8CD28A;
-  color: var(--wp--preset--color--base);
-  font-size: var(--wp--preset--font-size--courant);
-  font-weight: var(--wp--custom--font-weight--semi-bold);
-  text-decoration: none;
-  border-radius: 30px;
-  border: none;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-}
-.myaccount-animals__add-btn:hover {
-  background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
-  color: var(--wp--preset--color--base);
+  background-color: #2d6a6a;
+  border-radius: var(--wp--preset--border-radius--pill);
 }
 .myaccount-animals__empty {
   color: #5c5346;
   padding: 2rem;
 }
 .myaccount-animals__grid {
+  margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 .myaccount-animals__help {
   padding: 1.5rem !important;
-  margin-bottom: 2.5rem !important;
+  margin-bottom: 1em !important;
 }
 .myaccount-animals__help li {
   font-size: var(--wp--preset--font-size--liquid-small);
 }
+.myaccount-animals__help h3 {
+  margin-bottom: 1em !important;
+  color: var(--wp--preset--color--secondary);
+}
 .myaccount-animals__pending {
-  margin: 3rem 0 !important;
+  margin: 5rem 0 !important;
+  padding: 2rem 0;
+}
+.myaccount-animals__pending__grid {
+  padding: 2rem 0;
+}
+.myaccount-animals__pending {
+  border-bottom: 2px solid #e8e6e4;
+  border-top: 2px solid #e8e6e4;
 }
 
 .animal-card {
   background: var(--wp--preset--color--base);
   border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e8e6e4;
+  padding: var(--wp--preset--spacing--liquid-medium);
+  border: 1px solid var(--wp--preset--color--vert-eau);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
 }
 .animal-card__header {
   display: flex;
@@ -3025,12 +2990,18 @@ li {
   gap: 0.5rem;
 }
 .animal-card__name {
-  font-size: var(--wp--preset--font-size--small);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
-  margin: 0;
+  color: var(--wp--preset--color--secondary);
+  margin-top: 12px !important;
+  font-size: var(--wp--preset--font-size--liquid-large) !important;
+  margin-bottom: var(--wp--preset--spacing--liquid-medium) !important;
+  font-weight: var(--wp--custom--font-weight--light) !important;
+  line-height: 1 !important;
 }
 .animal-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   font-size: 0.875rem;
   font-weight: var(--wp--custom--font-weight--semi-bold);
   padding: 0.25em 0.6em;
@@ -3038,8 +3009,8 @@ li {
   flex-shrink: 0;
 }
 .animal-card__badge--active {
-  background-color: #E0FFE0;
-  color: #4F6B4C;
+  background-color: var(--wp--preset--color--vert-eau);
+  color: var(--wp--preset--color--secondary);
 }
 .animal-card__id {
   font-size: 0.875rem;
@@ -3059,14 +3030,16 @@ li {
   gap: 1rem;
 }
 .animal-card__row dt {
+  font-size: var(--wp--preset--font-size--liquid-small);
   font-weight: var(--wp--custom--font-weight--regular);
-  color: #5c5346;
+  color: var(--wp--preset--color--contrast);
   margin: 0;
 }
 .animal-card__row dd {
   margin: 0;
-  font-weight: var(--wp--custom--font-weight--medium);
-  color: #4F6B4C;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--regular);
+  color: var(--wp--preset--color--olive);
   text-align: right;
 }
 .animal-card__actions {
@@ -3075,26 +3048,38 @@ li {
   margin-top: auto;
   flex-wrap: wrap;
 }
+.animal-card__actions a {
+  height: inherit !important;
+  width: 100%;
+  background-color: var(--wp--preset--color--vert-medium);
+  font-size: var(--wp--preset--font-size--liquid-small);
+  font-weight: var(--wp--custom--font-weight--regular);
+  color: var(--wp--preset--color--base);
+  text-decoration: none;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 50px;
+}
 .animal-card__btn {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
   width: 100%;
-  padding: 0.4em 0.9em;
   text-align: center;
-}
-.animal-card__btn:hover {
-  background-color: rgba(92, 83, 70, 0.06);
-  border-color: #5c5346;
-}
-.animal-card__btn--secondary {
-  border: 1px solid #e8e6e4;
+  border: 1px solid var(--wp--preset--color--vert-eau);
+  padding: 10px 1em;
+  height: 40px;
+  justify-content: center;
 }
 .animal-card__icon {
   flex-shrink: 0;
 }
 .animal-card__qr-trigger {
   font-family: inherit;
+}
+
+a.animal-card__name {
+  font-size: var(--wp--preset--font-size--small) !important;
 }
 
 .animal-qr-modal {
@@ -3142,12 +3127,12 @@ li {
   color: #5c5346;
 }
 .animal-qr-modal__close:hover {
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
 }
 .animal-qr-modal__title {
   font-size: var(--wp--preset--font-size--small);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0 0 1rem;
 }
 .animal-qr-modal__body {
@@ -3203,12 +3188,12 @@ li {
   color: #5c5346;
 }
 .np-delete-account-modal__close:hover {
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
 }
 .np-delete-account-modal__title {
   font-size: var(--wp--preset--font-size--small);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0 0 1rem;
 }
 .np-delete-account-modal__text {
@@ -3226,34 +3211,10 @@ li {
   flex-wrap: wrap;
 }
 .np-delete-account-modal__cancel {
-  padding: 0.5em 1.25em;
-  background: rgba(92, 83, 70, 0.2);
-  color: #5c5346;
-  font-size: var(--wp--preset--font-size--courant);
-  font-weight: var(--wp--custom--font-weight--semi-bold);
-  border: none;
-  border-radius: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.np-delete-account-modal__cancel:hover {
-  background: rgba(92, 83, 70, 0.15);
-  color: #5c5346;
 }
 .np-delete-account-modal__confirm {
-  padding: 0.5em 1.25em;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-  color: var(--wp--preset--color--base);
-  font-size: var(--wp--preset--font-size--courant);
-  font-weight: var(--wp--custom--font-weight--semi-bold);
-  border: none;
-  border-radius: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.np-delete-account-modal__confirm:hover {
-  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
-  color: var(--wp--preset--color--base);
 }
 
 .woocommerce-Addresses h2 {
@@ -3298,9 +3259,9 @@ li {
 .woocommerce-Addresses-ship-to-billing input[type=checkbox] {
   margin-right: 0.5em;
 }
-.woocommerce-Addresses-ship-to-billing .button {
+.woocommerce-Addresses-ship-to-billing .wp-element-button {
   padding: 0.5em 1.25em;
-  background-color: #8CD28A;
+  background-color: var(--wp--preset--color--vert-medium);
   color: var(--wp--preset--color--base);
   font-weight: var(--wp--custom--font-weight--semi-bold);
   border: none;
@@ -3308,8 +3269,8 @@ li {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.woocommerce-Addresses-ship-to-billing .button:hover {
-  background-color: rgb(111.037037037, 198.6666666667, 108.5333333333);
+.woocommerce-Addresses-ship-to-billing .wp-element-button:hover {
+  background-color: var(--wp--preset--color--secondary);
   color: var(--wp--preset--color--base);
 }
 
@@ -3359,7 +3320,7 @@ li {
 .orders-history__title {
   font-size: var(--wp--preset--font-size--medium);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0 0 0.25em;
 }
 .orders-history__subtitle {
@@ -3403,7 +3364,7 @@ li {
 .order-card__id {
   font-size: var(--wp--preset--font-size--small);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
   margin: 0;
 }
 .order-card__date {
@@ -3416,11 +3377,11 @@ li {
   padding: 0.25em 0.6em;
   border-radius: 0.25rem;
   flex-shrink: 0;
-  background-color: #8CD28A;
+  background-color: var(--wp--preset--color--vert-medium);
   color: var(--wp--preset--color--base);
 }
 .order-card__badge--completed {
-  background-color: #8CD28A;
+  background-color: var(--wp--preset--color--vert-medium);
   color: var(--wp--preset--color--base);
 }
 .order-card__badge--processing {
@@ -3455,7 +3416,7 @@ li {
 .order-card__total {
   font-size: var(--wp--preset--font-size--courant);
   font-weight: var(--wp--custom--font-weight--bold);
-  color: #4F6B4C;
+  color: var(--wp--preset--color--secondary);
 }
 .order-card__btn {
   display: inline-flex;

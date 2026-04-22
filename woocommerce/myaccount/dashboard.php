@@ -31,7 +31,7 @@ $edit_account_url = wc_get_endpoint_url( 'edit-account', '', wc_get_page_permali
 	<div class="profile-summary__header">
 		<h2 class="profile-summary__title">Profil</h2>
 		<p class="profile-summary__subtitle">Vos informations personnelles</p>
-		<a href="<?php echo esc_url( $edit_account_url ); ?>" class="profile-summary__edit-btn">
+		<a href="<?php echo esc_url( $edit_account_url ); ?>" class="profile-summary__edit-btn wp-block-button__link has-base-color has-secondary-background-color has-text-color has-background has-link-color has-text-align-center wp-element-button">
 			<svg class="profile-summary__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
 			Modifier mon profil
 		</a>
@@ -63,7 +63,7 @@ $edit_account_url = wc_get_endpoint_url( 'edit-account', '', wc_get_page_permali
 	</div>
 
 	<div class="profile-summary__delete">
-		<button type="button" class="profile-summary__delete-btn" id="np-delete-account-trigger">
+		<button type="button" class="profile-summary__delete-btn wp-block-button__link has-base-color has-secondary-background-color has-text-color has-background has-link-color has-text-align-center wp-element-button" id="np-delete-account-trigger">
 			Supprimer mon compte
 		</button>
 	</div>
@@ -79,8 +79,8 @@ $edit_account_url = wc_get_endpoint_url( 'edit-account', '', wc_get_page_permali
 			<?php wp_nonce_field( 'naturapets_delete_account', 'naturapets_delete_account_nonce' ); ?>
 			<input type="hidden" name="naturapets_delete_account" value="1" />
 			<div class="np-delete-account-modal__actions">
-				<button type="button" class="np-delete-account-modal__cancel">Annuler</button>
-				<button type="submit" class="np-delete-account-modal__confirm">Confirmer la suppression</button>
+				<button type="button" class="np-delete-account-modal__cancel wp-element-button">Annuler</button>
+				<button type="submit" class="np-delete-account-modal__confirm wp-element-button">Confirmer la suppression</button>
 			</div>
 		</form>
 	</div>

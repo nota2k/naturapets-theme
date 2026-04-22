@@ -1,12 +1,11 @@
-@use 'sass:color';
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
 
-// Couleurs design dashboard
-$np-green-dark: #4F6B4C;
-$np-green-light: #8CD28A;
-$np-green-badge: #E0FFE0;
+// Tokens dérivés de theme.json (évite les doublons hardcodés)
+$np-green-dark: var(--wp--preset--color--secondary);
+$np-green-light: var(--wp--preset--color--vert-medium);
+$np-green-badge: var(--wp--preset--color--vert-eau);
 
 li{
     letter-spacing: 0;
@@ -14,27 +13,37 @@ li{
 }
 
 .woocommerce-myaccount-wrapper {
-    font-size: var(--wp--preset--font-size--courant);
     height: 100%;
     min-height: 64vh;
     padding-top:0!important;
     max-width:var(--wp--style--global--wide-size);
+    padding:0 var(--wp--preset--spacing--liquid-small);
     margin: 0 auto;
+
+    @media (max-width: 768px) {
+        padding:0 var(--wp--preset--spacing--liquid-small);
+    }
 
 
     h1.myaccount-header__title{
         font-size: var(--wp--preset--font-size--liquid-large);
-        font-weight: var(--wp--custom--font-weight--medium);
+        font-weight: 400;
     }
 
-    h3{
-        font-size: var(--wp--preset--font-size--liquid-medium);
-        margin-bottom:var(--wp--preset--spacing--liquid-small)!important;
-        font-weight: var(--wp--custom--font-weight--medium);
+    h3:not(.animal-card__name){
+        font-size: var(--wp--preset--font-size--liquid-large);
+        margin-bottom:var(--wp--preset--spacing--liquid-medium)!important;
+        font-weight: var(--wp--custom--font-weight--semi-bold);
+        color: var(--wp--preset--color--secondary);
+        margin-top: 0;
+    }
+
+    button, .wp-element-button{
+        border-radius:100px;
     }
 
     >.woocommerce-account,
-    .woocommerce.account-navigation {
+    .woocom merce.account-navigation {
         width: 100%;
         max-width: var(--wp--style--global--wide-size) !important;
     }
@@ -55,7 +64,7 @@ li{
         }
 
         &__title {
-            font-size: var(--wp--preset--font-size--courant);
+            // font-size: var(--wp--preset--font-size--courant);
             line-height: 1.2em;
             font-weight: var(--wp--custom--font-weight--regular);
             color: $np-green-dark;
@@ -66,31 +75,15 @@ li{
             display: inline-flex;
             align-items: center;
             gap: 0.5em;
-            font-size: var(--wp--preset--font-size--courant);
-            background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-            font-weight: var(--wp--custom--font-weight--medium);
-            color: var(--wp--preset--color--base);
-            border-radius: 100px;
-            padding: 0.5em 1em;
-            text-decoration: none;
             flex-shrink: 0;
-            transition: all 0.2s ease-in-out;
 
             &-icon {
                 flex-shrink: 0;
             }
-
-            &:hover {
-                background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
-                color: var(--wp--preset--color--base);
-            }
         }
 
         &__subtitle {
-            font-size: var(--wp--preset--font-size--courant);
-            color: $np-taupe;
-            margin: 0;
-            opacity: 0.9;
+            
         }
     }
 
@@ -126,11 +119,10 @@ li{
                 display: inline-block;
                 padding: 0.5em 1.25em;
                 border-radius: 40px;
-                color: $np-taupe;
+                color: var(--wp--preset--color--secondary);
                 font-weight: var(--wp--custom--font-weight--semi-bold);
                 text-decoration: none;
-                background-color: #fff;
-                border: 1px solid $np-green-dark;
+                background-color: var(--wp--preset--color--base);
                 transition: background-color 0.2s, color 0.2s;
 
                 &:hover {
@@ -141,7 +133,7 @@ li{
 
             .myaccount-tabs__item.is-active .myaccount-tabs__link {
                 background-color: var(--wp--preset--color--vert-eau);
-                // color: var(--wp--preset--color--base);
+                color: var(--wp--preset--color--secondary);
                 font-weight: var(--wp--custom--font-weight--bold);
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             }
@@ -215,8 +207,8 @@ li{
     }
 
     &__title {
-        font-size: var(--wp--preset--font-size--medium);
-        font-weight: var(--wp--custom--font-weight--bold);
+        // font-size: var(--wp--preset--font-size--medium);
+        // font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
@@ -233,20 +225,6 @@ li{
         display: inline-flex;
         align-items: center;
         gap: 0.35em;
-        padding: 0.5em 1.25em;
-        background-color: $np-green-light;
-        color: var(--wp--preset--color--base);
-        font-size: var(--wp--preset--font-size--courant);
-        font-weight: var(--wp--custom--font-weight--semi-bold);
-        text-decoration: none;
-        border-radius: $border-radius-xl;
-        border: none;
-        transition: background-color 0.2s;
-
-        &:hover {
-            background-color: color.adjust($np-green-light, $lightness: -8%);
-            color: var(--wp--preset--color--base);
-        }
     }
 
     &__icon {
@@ -262,29 +240,18 @@ li{
     &__delete-btn {
         display: inline-flex;
         align-items: center;
-        padding: 0.5em 1.25em;
-        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-        color: var(--wp--preset--color--base);
-        font-size: var(--wp--preset--font-size--courant);
-        font-weight: var(--wp--custom--font-weight--semi-bold);
-        border: none;   
-        border-radius: 30px;
         cursor: pointer;
-        transition: background 0.2s;
-
-        &:hover {
-            background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
-            color: var(--wp--preset--color--base);
-        }
+        background-color: var(--wp--preset--color--rouge-moyen) !important;
     }
 
     &__card {
         background: var(--wp--preset--color--base);
         border-radius: $border-radius-xl;
         padding: 1.5rem;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         border: 1px solid $np-gray-light;
         margin-bottom: 1rem;
+
+
     }
 
     &__list {
@@ -300,10 +267,10 @@ li{
         gap: 0.25rem;
 
         dt {
-            font-size: $font-size-sm;
-            font-weight: var(--wp--custom--font-weight--medium);
-            color: $np-taupe;
-            margin: 0;
+            font-size: var(--wp--preset--font-size--liquid-small);
+            margin-bottom: 0.7em!important;
+            font-family: var(--wp--preset--font-family--nunito-sans);
+            font-weight: var(--wp--custom--font-weight--semi-bold);
         }
 
         dd {
@@ -346,7 +313,7 @@ li{
     }
 
     &__title {
-        font-weight: var(--wp--custom--font-weight--bold);
+        // font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
         margin: 0 0 0.25em;
     }
@@ -362,21 +329,9 @@ li{
     &__add-btn {
         display: inline-flex;
         align-items: center;
-        padding: 0.5em 1.25em;
-        background-color: $np-green-light;
-        color: var(--wp--preset--color--base);
-        font-size: var(--wp--preset--font-size--courant);
-        font-weight: var(--wp--custom--font-weight--semi-bold);
-        text-decoration: none;
-        border-radius: 30px;
-        border: none;
         cursor: pointer;
-        transition: background-color 0.2s, transform 0.1s;
-
-        &:hover {
-            background-color: color.adjust($np-green-light, $lightness: -8%);
-            color: var(--wp--preset--color--base);
-        }
+        background-color:#2d6a6a;
+        border-radius:var(--wp--preset--border-radius--pill);
     }
 
     &__empty {
@@ -385,6 +340,7 @@ li{
     }
 
     &__grid {
+        margin-top: 1rem;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
@@ -392,14 +348,27 @@ li{
 
     &__help{
         padding: 1.5rem!important;
-        margin-bottom: 2.5rem!important;
+        margin-bottom: 1em!important;
 
         li{
-            font-size: var(--wp--preset--font-size--liquid-small);}
+            font-size: var(--wp--preset--font-size--liquid-small);
+        }
+
+        h3{
+            margin-bottom: 1em!important;
+            color: $np-green-dark;
+        }
     }
 
     &__pending{
-        margin: 3rem 0 !important;
+        margin: 5rem 0 !important;
+        padding: 2rem 0;
+        &__grid{
+            padding: 2rem 0;
+        }
+
+        border-bottom: 2px solid $np-gray-light;
+        border-top: 2px solid $np-gray-light;
     }
 }
 
@@ -407,12 +376,12 @@ li{
 .animal-card {
     background: var(--wp--preset--color--base);
     border-radius: $border-radius-xl;
-    padding: 1.5rem;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    border: 1px solid $np-gray-light;
+    padding: var(--wp--preset--spacing--liquid-medium);
+    border: 1px solid var(--wp--preset--color--vert-eau);
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    position: relative;
 
     &__header {
         display: flex;
@@ -422,13 +391,19 @@ li{
     }
 
     &__name {
-        font-size: var(--wp--preset--font-size--small);
         font-weight: var(--wp--custom--font-weight--bold);
         color: $np-green-dark;
-        margin: 0;
+        margin-top:12px!important;
+        font-size: var(--wp--preset--font-size--liquid-large)!important;
+        margin-bottom: var(--wp--preset--spacing--liquid-medium) !important;
+        font-weight: var(--wp--custom--font-weight--light)!important;
+        line-height: 1!important;
     }
 
     &__badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
         font-size: $font-size-sm;
         font-weight: var(--wp--custom--font-weight--semi-bold);
         padding: 0.25em 0.6em;
@@ -461,15 +436,17 @@ li{
         gap: 1rem;
 
         dt {
+            font-size: var(--wp--preset--font-size--liquid-small);
             font-weight: var(--wp--custom--font-weight--regular);
-            color: $np-taupe;
+            color: var(--wp--preset--color--contrast);
             margin: 0;
         }
 
         dd {
             margin: 0;
-            font-weight: var(--wp--custom--font-weight--medium);
-            color: $np-green-dark;
+            font-size: var(--wp--preset--font-size--small);
+            font-weight: var(--wp--custom--font-weight--regular);
+            color: var(--wp--preset--color--olive);
             text-align: right;
         }
     }
@@ -479,6 +456,20 @@ li{
         gap: 0.75rem;
         margin-top: auto;
         flex-wrap: wrap;
+        
+
+        a{
+        height: inherit!important;
+        width: 100%;
+        background-color:var(--wp--preset--color--vert-medium);
+        font-size: var(--wp--preset--font-size--liquid-small);
+        font-weight: var(--wp--custom--font-weight--regular);
+        color: var(--wp--preset--color--base);
+        text-decoration: none;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius:50px;
+        }
     }
 
     &__btn {
@@ -486,17 +477,11 @@ li{
         align-items: center;
         gap: 0.35em;
         width: 100%;
-        padding: 0.4em 0.9em;
         text-align: center;
-
-        &:hover {
-            background-color: rgba($np-taupe, 0.06);
-            border-color: $np-taupe;
-        }
-
-        &--secondary {
-            border: 1px solid $np-gray-light;
-        }
+        border:1px solid var(--wp--preset--color--vert-eau);
+        padding: 10px 1em;
+        height: 40px;
+        justify-content: center;
     }
 
     &__icon {
@@ -506,6 +491,10 @@ li{
     &__qr-trigger {
         font-family: inherit;
     }
+}
+
+a.animal-card__name{
+    font-size: var(--wp--preset--font-size--small)!important;
 }
 
 // Modal QR Code
@@ -656,37 +645,11 @@ li{
     }
 
     &__cancel {
-        padding: 0.5em 1.25em;
-        background: rgba($np-taupe, 0.2);
-        color: $np-taupe;
-        font-size: var(--wp--preset--font-size--courant);
-        font-weight: var(--wp--custom--font-weight--semi-bold);
-        border: none;
-        border-radius: $border-radius-xl;
         cursor: pointer;
-        transition: background 0.2s;
-
-        &:hover {
-            background: rgba($np-taupe, 0.15);
-            color: $np-taupe;
-        }
     }
 
     &__confirm {
-        padding: 0.5em 1.25em;
-        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), var(--wp--preset--color--rouge-moyen);
-        color: var(--wp--preset--color--base);
-        font-size: var(--wp--preset--font-size--courant);
-        font-weight: var(--wp--custom--font-weight--semi-bold);
-        border: none;
-        border-radius: $border-radius-xl;
         cursor: pointer;
-        transition: background 0.2s;
-
-        &:hover {
-            background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), var(--wp--preset--color--rouge-moyen);
-            color: var(--wp--preset--color--base);
-        }
     }
 }
 
@@ -742,7 +705,7 @@ li{
         margin-right: 0.5em;
     }
 
-    .button {
+    .wp-element-button {
         padding: 0.5em 1.25em;
         background-color: $np-green-light;
         color: var(--wp--preset--color--base);
@@ -753,7 +716,7 @@ li{
         transition: background-color 0.2s;
 
         &:hover {
-            background-color: color.adjust($np-green-light, $lightness: -8%);
+            background-color: var(--wp--preset--color--secondary);
             color: var(--wp--preset--color--base);
         }
     }

@@ -3448,7 +3448,7 @@ function naturapets_display_animals_list($customer_id)
 	if ($claimable_count > 0) {
 		echo '<p><strong>' . esc_html(sprintf(_n('%d médaillon à activer', '%d médaillons à activer', $claimable_count, 'naturapets'), $claimable_count)) . '</strong></p>';
 	}
-	echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="myaccount-animals__add-btn">+ Ajouter un médaillon</a>';
+	echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="myaccount-animals__add-btn wp-element-button">+ Ajouter un médaillon</a>';
 	echo '</div>';
 
 	if ($claimable_count > 0) {
@@ -3463,7 +3463,7 @@ function naturapets_display_animals_list($customer_id)
 		echo '<form method="post" style="margin-top: 12px; display: grid; gap: 8px; grid-template-columns: 1fr auto;">';
 		wp_nonce_field('naturapets_activate_medaillon_' . $customer_id, 'naturapets_activate_medaillon_nonce');
 		echo '<input type="text" name="naturapets_activation_code" placeholder="Code médaillon (ex: NP-XXXXXX)" required style="height: 42px; padding: 0 10px; border: 1px solid #b8d4c2; border-radius: 8px;" />';
-		echo '<button type="submit" name="naturapets_activate_medaillon" value="1" class="button button-primary" style="height: 42px;">Activer maintenant</button>';
+		echo '<button type="submit" name="naturapets_activate_medaillon" value="1" class="wp-element-button" style="height: 42px;">Activer maintenant</button>';
 		echo '</form>';
 		echo '</div>';
 
@@ -3479,7 +3479,7 @@ function naturapets_display_animals_list($customer_id)
 			echo '</div>';
 			echo '<p class="animal-card__id">Statut: En attente d\'activation</p>';
 			echo '<p class="animal-card__actions">';
-			echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="button button-secondary">Commander un autre médaillon</a>';
+			echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="wp-element-button">Commander un autre médaillon</a>';
 			echo '</p>';
 			echo '</article>';
 		}

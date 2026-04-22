@@ -69,7 +69,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 					<div class="order-card__footer">
 						<span class="order-card__total"><?php echo wp_kses_post( $order->get_formatted_order_total() ); ?></span>
-						<a href="<?php echo esc_url( $view_url ); ?>" class="order-card__btn">
+						<a href="<?php echo esc_url( $view_url ); ?>" class="order-card__btn wp-element-button">
 							Voir les détails
 						</a>
 					</div>
@@ -84,11 +84,11 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 		<?php if ( 1 < $customer_orders->max_num_pages ) : ?>
 			<div class="woocommerce-pagination woocommerce-pagination--without-numbers woocommerce-Pagination orders-history__pagination">
 				<?php if ( 1 !== $current_page ) : ?>
-					<a class="woocommerce-button woocommerce-button--previous woocommerce-Button woocommerce-Button--previous button<?php echo esc_attr( $wp_button_class ); ?>" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page - 1 ) ); ?>"><?php esc_html_e( 'Précédent', 'woocommerce' ); ?></a>
+					<a class="wp-element-button" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page - 1 ) ); ?>"><?php esc_html_e( 'Précédent', 'woocommerce' ); ?></a>
 				<?php endif; ?>
 
 				<?php if ( intval( $customer_orders->max_num_pages ) !== $current_page ) : ?>
-					<a class="woocommerce-button woocommerce-button--next woocommerce-Button woocommerce-Button--next button<?php echo esc_attr( $wp_button_class ); ?>" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page + 1 ) ); ?>"><?php esc_html_e( 'Suivant', 'woocommerce' ); ?></a>
+					<a class="wp-element-button" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page + 1 ) ); ?>"><?php esc_html_e( 'Suivant', 'woocommerce' ); ?></a>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -96,7 +96,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 <?php else : ?>
 
-	<?php wc_print_notice( esc_html__( 'Vous n\'avez pas encore passé de commande.', 'woocommerce' ) . ' <a class="woocommerce-Button wc-forward button' . esc_attr( $wp_button_class ) . '" href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '">' . esc_html__( 'Découvrir les produits', 'woocommerce' ) . '</a>', 'notice' ); ?>
+	<?php wc_print_notice( esc_html__( 'Vous n\'avez pas encore passé de commande.', 'woocommerce' ) . ' <a class="wp-element-button" href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '">' . esc_html__( 'Découvrir les produits', 'woocommerce' ) . '</a>', 'notice' ); ?>
 
 <?php endif; ?>
 
