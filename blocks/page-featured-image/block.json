@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "naturapets/page-featured-image",
+	"title": "Image mise en avant de la page",
+	"category": "naturapets",
+	"icon": "format-image",
+	"description": "Affiche l’image mise en avant de la page de contexte (ex: page Boutique), sans être impactée par une boucle produits.",
+	"keywords": ["featured", "image", "page", "boutique", "hero"],
+	"textdomain": "naturapets",
+	"editorScript": "file:./index.js",
+	"attributes": {
+		"dimRatio": {
+			"type": "number",
+			"default": 60
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"render": "file:./render.php"
+}

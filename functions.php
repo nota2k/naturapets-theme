@@ -952,6 +952,10 @@ function naturapets_register_hero_block()
 	if (file_exists($page_description_path . '/block.json')) {
 		register_block_type($page_description_path);
 	}
+	$page_featured_image_path = get_stylesheet_directory() . '/blocks/page-featured-image';
+	if (file_exists($page_featured_image_path . '/block.json')) {
+		register_block_type($page_featured_image_path);
+	}
 }
 add_action('init', 'naturapets_register_hero_block');
 
@@ -1031,6 +1035,103 @@ function naturapets_get_shop_page_context_id()
 
 	return $post_id > 0 ? $post_id : 0;
 }
+
+/**
+ * Résout l'ID de page à utiliser pour les contenus "hero de page"
+ * sans dépendre du post courant de boucle.
+ *
+ * @return int
+ */
+function naturapets_get_page_hero_context_id()
+{
+	// Archive produits WooCommerce => page Boutique.
+	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
+		$shop_id = (int) wc_get_page_id('shop');
+		if ($shop_id > 0) {
+			return $shop_id;
+		}
+	}
+
+	// Contexte principal de la requête (fiable même avec une boucle secondaire).
+	$queried_id = (int) get_queried_object_id();
+	if ($queried_id > 0) {
+		return $queried_id;
+	}
+
+	// Aperçu éditeur/AJAX : pas de requête archive, on force la page Boutique.
+	if ((is_admin() || (function_exists('wp_doing_ajax') && wp_doing_ajax())) && function_exists('wc_get_page_id')) {
+		$shop_id = (int) wc_get_page_id('shop');
+		if ($shop_id > 0) {
+			return $shop_id;
+		}
+	}
+
+	// Dernier filet en contexte éditorial : post global si c'est une page.
+	global $post;
+	if ($post instanceof WP_Post && 'page' === get_post_type($post->ID)) {
+		return (int) $post->ID;
+	}
+
+	return 0;
+}
+
+/**
+ * Shortcode : image mise en avant de la page de contexte (sans pollution de boucle).
+ * Usage : [naturapets_page_featured_image class="absolute alignfull" dim="60"]
+ *
+ * @param array<string,string> $atts
+ * @return string
+ */
+function naturapets_page_featured_image_shortcode($atts)
+{
+	$atts = shortcode_atts(
+		array(
+			'class' => '',
+			'dim' => '60',
+			'loading' => 'eager',
+		),
+		(array) $atts,
+		'naturapets_page_featured_image'
+	);
+
+	$post_id = naturapets_get_page_hero_context_id();
+	if ($post_id < 1) {
+		return '';
+	}
+
+	$thumb_id = (int) get_post_thumbnail_id($post_id);
+	if ($thumb_id < 1) {
+		return '';
+	}
+
+	$extra_classes = array_filter(array_map('sanitize_html_class', preg_split('/\s+/', (string) $atts['class']) ?: array()));
+	$classes = trim('np-page-featured-image ' . implode(' ', $extra_classes));
+	$dim = max(0, min(100, (int) $atts['dim']));
+	$overlay_opacity = $dim / 100;
+
+	$image_html = wp_get_attachment_image(
+		$thumb_id,
+		'full',
+		false,
+		array(
+			'class' => 'np-page-featured-image__img',
+			'style' => 'height: 100%!important;',
+			'loading' => ('lazy' === $atts['loading']) ? 'lazy' : 'eager',
+			'fetchpriority' => 'high',
+			'alt' => '',
+		)
+	);
+
+	if (!is_string($image_html) || '' === trim($image_html)) {
+		return '';
+	}
+
+	return '<figure class="' . esc_attr($classes) . '">' .
+		$image_html .
+		'<span class="np-page-featured-image__overlay" style="opacity:' . esc_attr((string) $overlay_opacity) . ';"></span>' .
+		'</figure>';
+}
+add_shortcode('naturapets_page_featured_image', 'naturapets_page_featured_image_shortcode');
 
 /**
  * Shortcode fallback pour afficher la description de page (extrait) sur la boutique.
@@ -1158,6 +1259,15 @@ function naturapets_hero_banner_field_group()
 			'key' => 'group_naturapets_hero_banner',
 			'title' => 'Bloc Bannière Hero – Champs',
 			'fields' => array(
+				array(
+					'key' => 'field_hero_banner_use_page_featured_image',
+					'label' => 'Utiliser l’image mise en avant de la page',
+					'name' => 'hero_banner_use_page_featured_image',
+					'type' => 'true_false',
+					'ui' => 1,
+					'default_value' => 0,
+					'instructions' => 'Si activé, utilise la featured image de la page de contexte (ex: page Boutique). La vidéo reste prioritaire si renseignée.',
+				),
 				array(
 					'key' => 'field_hero_banner_image',
 					'label' => 'Image de fond',
@@ -4242,6 +4352,47 @@ add_action('wp_footer', function () {
 add_action('wp_head', function () {
 	echo '<style> .added_to_cart.wc_forward { display: none !important; } </style>';
 });
+
+/**
+ * Empêche le rendu des blocs "variation selector" sur les produits simples.
+ *
+ * WooCommerce peut tenter d'afficher ces blocs sur un contexte non variable,
+ * ce qui déclenche un fatal (appel à get_variation_attributes() sur WC_Product_Simple).
+ */
+add_filter('render_block', function ($block_content, $block) {
+	if (empty($block['blockName'])) {
+		return $block_content;
+	}
+
+	$is_variation_selector_block = (
+		0 === strpos($block['blockName'], 'woocommerce/add-to-cart-with-options-variation-selector')
+	);
+
+	if (!$is_variation_selector_block) {
+		return $block_content;
+	}
+
+	$product = null;
+	if (function_exists('wc_get_product')) {
+		global $product;
+		if ($product instanceof WC_Product) {
+			// Utilise le produit déjà résolu par WooCommerce quand disponible.
+			$product = $product;
+		} else {
+			$product = wc_get_product(get_the_ID());
+		}
+	}
+
+	if (!$product instanceof WC_Product) {
+		return '';
+	}
+
+	if (!$product->is_type('variable')) {
+		return '';
+	}
+
+	return $block_content;
+}, 10, 2);
 
 /**
  * ==========================================================================

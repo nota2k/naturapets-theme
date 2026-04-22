@@ -1,113 +1,25 @@
 <!-- wp:template-part {"slug":"header","theme":"naturapets","area":"header"} /-->
 
+<!-- wp:group {"tagName":"section","metadata":{"name":"Hero banner archive","categories":["naturapets-woocommerce"],"patternName":"naturapets/woocommerce-hero-banner-archive-json"},"align":"full","className":"relative","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"0","bottom":"0","left":"0"}},"dimensions":{"minHeight":"100%"},"layout":{"selfStretch":"fill","flexSize":null}},"layout":{"type":"constrained","contentSize":"1000px","justifyContent":"center","wideSize":"100%"}} -->
+<section class="wp-block-group alignfull relative"
+	style="min-height:100%;margin-top:0;padding-top:0;padding-bottom:0;padding-left:0"><!-- wp:naturapets/page-featured-image {"className":"absolute alignfull","dimRatio":60} /-->
 
-<!-- wp:group {"tagName":"main","className":"site-content","align":"full","style":{"spacing":{"padding":{"top":"0","bottom":"0"},"blockGap":"0","margin":{"top":"0","bottom":"0"}},"dimensions":{"minHeight":"100vh"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"stretch","orientation":"vertical","verticalAlignment":"space-between"}} -->
-<main class="wp-block-group alignfull"
-	style="min-height:100vh;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0">
-	<!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
-	<article class="wp-block-group">
-		<!-- wp:group {"tagName":"header","className":"entry-header","layout":{"type":"constrained"}} -->
-		<header class="wp-block-group entry-header">
-			<!-- wp:post-title {"level":1} /-->
-		</header>
-		<!-- /wp:group -->
-		<!-- wp:shortcode -->
-		[naturapets_page_content]
-		<!-- /wp:shortcode -->
-	</article>
-	<!-- /wp:group -->
-	<!-- wp:group {"tagName":"section","metadata":{"name":"Hero banner archive","categories":["naturapets-woocommerce"],"patternName":"naturapets/woocommerce-hero-banner-archive-json"},"align":"full","className":"relative","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"0","bottom":"0","left":"0"}},"dimensions":{"minHeight":"100%"},"layout":{"selfStretch":"fill","flexSize":null}},"layout":{"type":"constrained","contentSize":"60%","justifyContent":"center"}} -->
-	<section class="wp-block-group alignfull relative"
-		style="min-height:100%;margin-top:0;padding-top:0;padding-bottom:0;padding-left:0">
-		<!-- wp:post-featured-image {"width":"100%","height":"100%","overlayColor":"neutral","dimRatio":60,"align":"full","className":"absolute","style":{"layout":{"selfStretch":"fixed","flexSize":"100%"}}} /-->
-		<!-- wp:group {"className":"relative","style":{"dimensions":{"minHeight":"70vh"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch","verticalAlignment":"center"}} -->
-		<div class="wp-block-group relative" style="min-height:70vh">
-			<!-- wp:group {"className":"absolute","style":{"layout":{"selfStretch":"fixed","flexSize":"100%"},"dimensions":{"minHeight":""},"spacing":{"padding":{"left":"var:preset|spacing|x-large"}}},"layout":{"type":"constrained","contentSize":"40%","justifyContent":"left","wideSize":"100%"}} -->
-			<div class="wp-block-group absolute" style="padding-left:var(--wp--preset--spacing--x-large)">
-				<!-- wp:query-title {"type":"archive","showPrefix":false,"align":"full","style":{"typography":{"fontStyle":"normal","fontWeight":"300"},"elements":{"link":{"color":{"text":"var:preset|color|primary"}}}},"textColor":"primary","fontSize":"max-72"} /-->
+	<!-- wp:group {"className":"relative","style":{"dimensions":{"minHeight":"70vh"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch","verticalAlignment":"center"}} -->
+	<div class="wp-block-group relative" style="min-height:70vh">
+		<!-- wp:group {"className":"absolute","style":{"layout":{"selfStretch":"fixed","flexSize":"100%"},"dimensions":{"minHeight":""},"spacing":{"padding":{"left":"var:preset|spacing|x-large"}}},"layout":{"type":"constrained","contentSize":"60%","justifyContent":"left","wideSize":"100%"}} -->
+		<div class="wp-block-group absolute" style="padding-left:var(--wp--preset--spacing--x-large)">
+			<!-- wp:query-title {"type":"archive","showPrefix":false,"align":"full","style":{"typography":{"fontStyle":"normal","fontWeight":"300"},"elements":{"link":{"color":{"text":"var:preset|color|primary"}}}},"textColor":"primary","fontSize":"max-72"} /-->
 
-				<!-- wp:group {"align":"full","layout":{"type":"default"}} -->
-				<div class="wp-block-group alignfull">
-					<!-- wp:naturapets/page-description /-->
-				</div>
-				<!-- /wp:group -->
-			</div>
+			<!-- wp:group {"layout":{"type":"default"}} -->
+			<div class="wp-block-group"><!-- wp:naturapets/page-description /--></div>
 			<!-- /wp:group -->
-		</div>
-		<!-- /wp:group -->
-	</section>
-	<!-- /wp:group -->
-
-	<!-- wp:group {"align":"wide","style":{"border":{"radius":"24px"},"spacing":{"padding":{"top":"7px","bottom":"7px","left":"16px","right":"16px"},"blockGap":"0"},"typography":{"fontSize":"14px","fontWeight":"500"},"elements":{"link":{"color":{"text":"#ffffff"}}},"dimensions":{"minHeight":"100%"},"layout":{"selfStretch":"fill","flexSize":null}},"textColor":"secondary","fontSize":"small","fontFamily":"inter","layout":{"type":"constrained","justifyContent":"center"}} -->
-	<div class="wp-block-group alignwide has-secondary-color has-text-color has-link-color has-inter-font-family has-small-font-size"
-		style="border-radius:24px;min-height:100%;padding-top:7px;padding-right:16px;padding-bottom:7px;padding-left:16px;font-size:14px;font-weight:500">
-		<!-- wp:group {"style":{"dimensions":{"minHeight":""},"spacing":{"margin":{"top":"var:preset|spacing|x-small","bottom":"var:preset|spacing|x-small"}}},"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center"}} -->
-		<div class="wp-block-group"
-			style="margin-top:var(--wp--preset--spacing--x-small);margin-bottom:var(--wp--preset--spacing--x-small)">
-			<!-- wp:woocommerce/store-notices {"align":""} /-->
-		</div>
-		<!-- /wp:group -->
-
-		<!-- wp:group {"style":{"dimensions":{"minHeight":"100%"},"spacing":{"blockGap":"var:preset|spacing|x-small","padding":{"top":"0","bottom":"var:preset|spacing|large"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch","verticalAlignment":"space-between"}} -->
-		<div class="wp-block-group"
-			style="min-height:100%;padding-top:0;padding-bottom:var(--wp--preset--spacing--large)">
-			<!-- wp:group {"style":{"spacing":{"padding":{"right":"0","left":"0"},"blockGap":"0"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-			<div class="wp-block-group" style="padding-right:0;padding-left:0">
-				<!-- wp:woocommerce/breadcrumbs {"fontSize":"medium","align":"","backgroundColor":"base","textColor":"secondary","fontFamily":"inter","style":{"border":{"radius":"24px"},"spacing":{"padding":{"top":"7px","bottom":"7px","left":"16px","right":"16px"}},"typography":{"fontWeight":"300","lineHeight":"1","textTransform":"none","fontStyle":"normal"},"elements":{"link":{"color":{"text":"var:preset|color|secondary"}}},"layout":{"selfStretch":"fit","flexSize":null}}} /-->
-			</div>
-			<!-- /wp:group -->
-
-			<!-- wp:group {"align":"wide","className":"alignwide","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"}} -->
-			<div class="wp-block-group alignwide"><!-- wp:woocommerce/product-results-count /-->
-
-				<!-- wp:woocommerce/catalog-sorting /-->
-			</div>
-			<!-- /wp:group -->
-
-			<!-- wp:woocommerce/product-collection {"queryId":10,"query":{"perPage":20,"pages":0,"offset":0,"postType":"product","order":"asc","orderBy":"title","search":"","exclude":[],"inherit":false,"taxQuery":[],"isProductCollectionBlock":true,"woocommerceOnSale":false,"woocommerceStockStatus":["instock","outofstock","onbackorder"],"woocommerceAttributes":[],"woocommerceHandPickedProducts":[]},"tagName":"div","displayLayout":{"type":"flex","columns":5,"shrinkColumns":true},"dimensions":{"widthType":"fill","fixedWidth":"100%"},"queryContextIncludes":["collection"],"__privatePreviewState":{"isPreview":false,"previewMessage":"Les produits dépendront de la page consultée."},"layout":{"type":"constrained","justifyContent":"center"}} -->
-			<div class="wp-block-woocommerce-product-collection">
-				<!-- wp:woocommerce/product-template {"align":"wide"} -->
-				<!-- wp:group {"className":"np-product-card","style":{"border":{"width":"0px","style":"none"},"spacing":{"blockGap":"0"},"dimensions":{"minHeight":"300px"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"stretch"}} -->
-				<div class="wp-block-group np-product-card" style="border-style:none;border-width:0px;min-height:300px">
-					<!-- wp:group {"style":{"border":{"radius":{"topLeft":"20px","topRight":"20px"},"top":{"width":"1px","color":"#C5E3C6"},"right":{"width":"1px","color":"#C5E3C6"},"bottom":{"width":"0px","style":"none"},"left":{"width":"1px","color":"#C5E3C6"}},"layout":{"selfStretch":"fill","flexSize":null}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch","flexWrap":"nowrap","verticalAlignment":"space-between"}} -->
-					<div class="wp-block-group"
-						style="border-top-left-radius:20px;border-top-right-radius:20px;border-top-color:#C5E3C6;border-top-width:1px;border-right-color:#C5E3C6;border-right-width:1px;border-bottom-style:none;border-bottom-width:0px;border-left-color:#C5E3C6;border-left-width:1px">
-						<!-- wp:woocommerce/product-image {"showSaleBadge":false,"isDescendentOfQueryLoop":true,"width":"100%","height":"200px","style":{"dimensions":{"aspectRatio":"auto"},"border":{"radius":{"topLeft":"20px","topRight":"20px"}},"layout":{"selfStretch":"fit","flexSize":null}}} -->
-						<!-- wp:woocommerce/product-sale-badge {"align":"right"} /-->
-						<!-- /wp:woocommerce/product-image -->
-					</div>
-					<!-- /wp:group -->
-
-					<!-- wp:group {"style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"24px","right":"24px"},"blockGap":"0px"},"layout":{"selfStretch":"fill","flexSize":null},"border":{"right":{"color":"var:preset|color|vert-eau","width":"1px"},"bottom":{"color":"var:preset|color|vert-eau","width":"1px"},"left":{"color":"var:preset|color|vert-eau","width":"1px"},"top":[]}},"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"space-between","justifyContent":"stretch","flexWrap":"wrap"}} -->
-					<div class="wp-block-group"
-						style="border-right-color:var(--wp--preset--color--vert-eau);border-right-width:1px;border-bottom-color:var(--wp--preset--color--vert-eau);border-bottom-width:1px;border-left-color:var(--wp--preset--color--vert-eau);border-left-width:1px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
-						<!-- wp:group {"style":{"spacing":{"blockGap":"7px"},"layout":{"selfStretch":"fill","flexSize":null}},"layout":{"type":"constrained"}} -->
-						<div class="wp-block-group">
-							<!-- wp:post-title {"isLink":true,"style":{"typography":{"fontStyle":"normal","fontWeight":"500","fontSize":"18px","lineHeight":"1.5","letterSpacing":"-0.44px"},"elements":{"link":{"color":{"text":"var:preset|color|secondary"}}}},"textColor":"secondary","fontFamily":"nunito-sans"} /-->
-
-							<!-- wp:woocommerce/product-summary {"isDescendentOfQueryLoop":true,"summaryLength":20,"fontFamily":"inter","style":{"typography":{"fontSize":"14px","lineHeight":"1.43","letterSpacing":"-0.15px"},"color":{"text":"#8A8A8A"},"elements":{"link":{"color":{"text":"#8A8A8A"}}}}} /-->
-						</div>
-						<!-- /wp:group -->
-
-						<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|x-small","margin":{"top":"10px"}},"layout":{"selfStretch":"fill"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom","justifyContent":"space-between"}} -->
-						<div class="wp-block-group" style="margin-top:10px">
-							<!-- wp:woocommerce/product-price {"isDescendentOfQueryLoop":true,"textColor":"secondary","fontFamily":"fraunces","style":{"typography":{"fontStyle":"normal","fontWeight":"500","fontSize":"24px","lineHeight":"1.33","letterSpacing":"0.07px"},"elements":{"link":{"color":{"text":"var:preset|color|secondary"}}}}} /-->
-
-							<!-- wp:woocommerce/product-button {"isDescendentOfQueryLoop":true,"backgroundColor":"secondary","fontFamily":"inter","style":{"border":{"radius":"24px"},"spacing":{"padding":{"top":"7px","bottom":"7px","left":"16px","right":"16px"}},"color":{"text":"#ffffff"},"typography":{"fontSize":"14px","fontWeight":"500"},"elements":{"link":{"color":{"text":"#ffffff"}}}}} /-->
-						</div>
-						<!-- /wp:group -->
-					</div>
-					<!-- /wp:group -->
-				</div>
-				<!-- /wp:group -->
-				<!-- /wp:woocommerce/product-template -->
-			</div>
-			<!-- /wp:woocommerce/product-collection -->
 		</div>
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
-</main>
+</section>
 <!-- /wp:group -->
+
+<!-- wp:block {"ref":2364} /-->
 
 <!-- wp:template-part {"slug":"footer","theme":"naturapets","area":"footer"} /-->

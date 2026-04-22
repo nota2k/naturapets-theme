@@ -635,7 +635,7 @@
 					"fluid": {
 						"max": "1.4rem",
 						"min": "1rem"
-					},
+					},	
 					"name": "Courant",
 					"lineHeight": "1.15",
 					"size": "clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.743), 1.4rem)",
@@ -643,11 +643,11 @@
 				},
 				{
 					"fluid": {
-						"max": "8,8",
-						"min": "7,6"
+						"max": "7.8rem",
+						"min": "6.6rem"
 					},
 					"name": "Liquid Géant",
-					"size": "clamp(7.6rem, 7.6rem + ((1vw - 0.2rem) * 0.743), 8.8rem)",
+					"size": "clamp(6.6rem, 6.6rem + ((1vw - 0.2rem) * 0.743), 7.8rem)",
 					"slug": "liquid-geant"
 				},
 				{

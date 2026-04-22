@@ -45,7 +45,7 @@
 	justify-content: center;
     padding-block: var(--wp--preset--spacing--liquid-large);
     padding-inline: var(--wp--preset--spacing--liquid-large);
-	gap: 20px;
+	gap: 30px;
 	text-align: center;
 
 	@media (min-width: $breakpoint-md) {
@@ -86,12 +86,12 @@
 }
 
 .np-promo-code__separator {
-	width: var(--wp--preset--spacing--liquid-large);
-	max-width: 3.75rem;
+    width: 100%;
+    max-width: 13.75em;
 	height: 1px;
 	border: none;
 	margin: 0;
-	background-color: $np-gray-light;
+	background-color:var(--wp--preset--color--vert-eau);
 }
 
 .np-promo-code__box {
