@@ -862,8 +862,8 @@ input, select, textarea {
 }
 .np-top-banner__text {
   margin: 0;
-  font-size: var(--wp--preset--font-size--x-small);
-  font-weight: var(--wp--custom--font-weight--bold);
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   max-width: var(--wp--style--global--wide-size, 1200px);
   margin-left: auto;
   margin-right: auto;
@@ -889,8 +889,8 @@ input, select, textarea {
   justify-content: center;
   margin: 0;
   padding: 0 0.75rem;
-  font-size: var(--wp--preset--font-size--x-small);
-  font-weight: var(--wp--custom--font-weight--bold);
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: var(--wp--custom--font-weight--semi-bold);
   text-align: center;
   box-sizing: border-box;
 }
@@ -1098,6 +1098,9 @@ input, select, textarea {
   margin: 0;
 }
 
+.np-faq {
+  padding: 0 1rem;
+}
 .np-faq__inner {
   display: flex;
   flex-direction: column;
@@ -1105,44 +1108,54 @@ input, select, textarea {
   gap: 40px;
   background-color: #faf8f5;
   border: 1px solid #e8e4df;
+  border-radius: 20px;
   padding: 48px;
-  margin: 0 auto;
 }
 .np-faq__label {
   display: inline-flex;
   align-items: center;
   background-color: rgba(124, 144, 130, 0.125);
-  border-radius: 12px;
-  padding: 4px 12px;
+  border-radius: 30px;
+  color: var(--wp--preset--color--gris-moyen);
+  padding: 13px;
+  width: auto;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
 }
 .np-faq__label span {
-  font-family: "Inter", sans-serif;
+  font-size: var(--wp--preset--font-size--small);
   font-weight: 500;
   letter-spacing: 0.5px;
-  color: #7c9082;
+  color: var(--wp--preset--color--bleu-noir);
   text-transform: uppercase;
 }
 .np-faq__header {
   display: flex;
+  gap: var(--wp--preset--spacing--50);
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  align-items: start;
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 .np-faq__title {
-  font-family: "Fraunces", serif;
-  font-size: var(--wp--preset--font-size--liquid-x-large);
+  font-size: var(--wp--preset--font-size--liquid-large);
+  line-height: 1.15;
   font-weight: 400;
-  color: var(--wp--preset--color--bleu-noir);
+  text-align: left;
+  color: var(--wp--preset--color--secondary);
   letter-spacing: -0.5px;
   margin: 0;
+  white-space: nowrap;
   line-height: 1.15;
 }
 .np-faq__subtitle {
-  font-size: var(--wp--preset--font-size--liquid-medium);
+  font-size: var(--wp--preset--font-size--liquid-courant);
   font-weight: 400;
   margin: 0;
+  text-align: left;
 }
 .np-faq__list {
   width: 100%;
@@ -1173,9 +1186,11 @@ input, select, textarea {
   border-radius: 4px;
 }
 .np-faq__question-text {
-  font-size: var(--wp--preset--font-size--liquid-large);
+  font-family: var(--wp--preset--font-family--fraunces);
+  font-size: var(--wp--preset--font-size--liquid-medium);
   font-weight: 500;
-  color: var(--wp--preset--color--bleu-noir);
+  line-height: 1.15;
+  color: var(--wp--preset--color--secondary);
   flex: 1;
 }
 .np-faq__icon {
@@ -1185,7 +1200,7 @@ input, select, textarea {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  color: #7c9082;
+  color: var(--wp--preset--color--primary);
   transition: transform 0.25s ease;
 }
 .np-faq__answer {
@@ -1201,13 +1216,11 @@ input, select, textarea {
   transition: padding-bottom 0.3s ease;
 }
 .np-faq__answer-inner p {
-  font-family: "Nunito Sans", sans-serif;
-  font-size: 18px;
+  font-size: var(--wp--preset--font-size--liquid-courant);
   font-weight: 400;
-  color: var(--wc-secondary-text);
+  color: var(--wp--preset--color--bleu-noir);
   line-height: 1.6;
   margin: 0;
-  margin-left: 15px;
 }
 .np-faq__item--open .np-faq__answer {
   grid-template-rows: 1fr;
@@ -1219,6 +1232,9 @@ input, select, textarea {
   transform: rotate(180deg);
 }
 @media (max-width: 768px) {
+  .np-faq {
+    padding: 0 0.5rem;
+  }
   .np-faq__inner {
     padding: 32px 24px;
     gap: 28px;
