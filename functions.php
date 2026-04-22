@@ -2939,6 +2939,7 @@ function naturapets_medaillon_public_admin_columns($columns)
 		if ($key === 'title') {
 			$new_columns['medaillon_id'] = 'ID';
 			$new_columns[$key] = $value;
+			$new_columns['medaillon_status'] = __('Statut', 'naturapets');
 			$new_columns['medaillon_qrcode'] = 'QR Code';
 		} else {
 			$new_columns[$key] = $value;
@@ -2958,7 +2959,29 @@ function naturapets_medaillon_public_admin_column_styles()
 	if (!$screen || $screen->id !== 'edit-medaillon_public') {
 		return;
 	}
-	echo '<style>.column-medaillon_id { width: 5em; }</style>';
+	echo '<style>
+		.column-medaillon_id { width: 5em; }
+		.column-medaillon_status { width: 9em; }
+		.naturapets-status-badge {
+			display: inline-flex;
+			align-items: center;
+			padding: 3px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+			font-weight: 600;
+			line-height: 1.4;
+		}
+		.naturapets-status-badge--assigned {
+			background: #e8f7ee;
+			color: #0b5d2a;
+			border: 1px solid #b8e0c5;
+		}
+		.naturapets-status-badge--available {
+			background: #f2f4f7;
+			color: #334155;
+			border: 1px solid #d9dee5;
+		}
+	</style>';
 }
 add_action('admin_head-edit.php', 'naturapets_medaillon_public_admin_column_styles');
 
@@ -2969,6 +2992,16 @@ function naturapets_medaillon_public_admin_columns_content($column, $post_id)
 {
 	if ($column === 'medaillon_id') {
 		echo '<code>' . (int) $post_id . '</code>';
+		return;
+	}
+
+	if ($column === 'medaillon_status') {
+		$status = get_post_meta($post_id, '_medaillon_status', true);
+		$is_assigned = 'assigned' === $status;
+		$status_label = $is_assigned ? __('Attribué', 'naturapets') : __('Disponible', 'naturapets');
+		$status_class = $is_assigned ? 'naturapets-status-badge naturapets-status-badge--assigned' : 'naturapets-status-badge naturapets-status-badge--available';
+
+		echo '<span class="' . esc_attr($status_class) . '">' . esc_html($status_label) . '</span>';
 		return;
 	}
 
@@ -2996,6 +3029,58 @@ function naturapets_medaillon_public_admin_columns_content($column, $post_id)
 	}
 }
 add_action('manage_medaillon_public_posts_custom_column', 'naturapets_medaillon_public_admin_columns_content', 10, 2);
+
+/**
+ * Filtre de statut sur la liste admin des médaillons publics.
+ */
+function naturapets_medaillon_public_status_filter_dropdown($post_type)
+{
+	if ('medaillon_public' !== $post_type) {
+		return;
+	}
+
+	$current_filter = isset($_GET['naturapets_medaillon_status'])
+		? sanitize_key(wp_unslash($_GET['naturapets_medaillon_status']))
+		: '';
+
+	echo '<select name="naturapets_medaillon_status">';
+	echo '<option value="">' . esc_html__('Tous les statuts', 'naturapets') . '</option>';
+	echo '<option value="available" ' . selected($current_filter, 'available', false) . '>' . esc_html__('Disponibles uniquement', 'naturapets') . '</option>';
+	echo '</select>';
+}
+add_action('restrict_manage_posts', 'naturapets_medaillon_public_status_filter_dropdown');
+
+/**
+ * Applique le filtre de statut à la requête admin des médaillons publics.
+ */
+function naturapets_medaillon_public_status_filter_query($query)
+{
+	if (!is_admin() || !$query->is_main_query()) {
+		return;
+	}
+
+	if ('medaillon_public' !== $query->get('post_type')) {
+		return;
+	}
+
+	if (!isset($_GET['naturapets_medaillon_status'])) {
+		return;
+	}
+
+	$status_filter = sanitize_key(wp_unslash($_GET['naturapets_medaillon_status']));
+	if ('available' !== $status_filter) {
+		return;
+	}
+
+	$meta_query = (array) $query->get('meta_query');
+	$meta_query[] = array(
+		'key' => '_medaillon_status',
+		'value' => 'available',
+	);
+
+	$query->set('meta_query', $meta_query);
+}
+add_action('pre_get_posts', 'naturapets_medaillon_public_status_filter_query');
 
 /**
  * Metabox : toutes les infos du médaillon sur la fiche medaillon_public.
