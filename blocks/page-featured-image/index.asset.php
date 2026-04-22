@@ -1,6 +1,6 @@
 <?php
 /**
- * Dépendances du script éditeur du bloc page-featured-image.
+ * Dependances du script editeur du bloc (convention WordPress).
  *
  * @package naturapets
  */
@@ -9,6 +9,7 @@ return array(
 	'dependencies' => array(
 		'wp-blocks',
 		'wp-element',
+		'wp-hooks',
 		'wp-block-editor',
 		'wp-server-side-render',
 	),

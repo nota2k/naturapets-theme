@@ -804,6 +804,9 @@ function naturapets_is_woocommerce_pattern( $pattern ) {
  * car ils ne passent pas par le registre des block patterns PHP.
  */
 function naturapets_keep_only_local_theme_patterns() {
+	// Déverrouillé : conserver toutes les compositions (remote + natives + thème).
+	return;
+
 	if ( ! class_exists( 'WP_Block_Patterns_Registry' ) ) {
 		return;
 	}
@@ -1008,6 +1011,118 @@ function naturapets_register_page_description_block_fallback()
 add_action('init', 'naturapets_register_page_description_block_fallback', 20);
 
 /**
+ * Fallback: enregistrer explicitement le bloc naturapets/page-featured-image.
+ * Evite le cas "bloc non pris en charge" si l'enregistrement metadata échoue.
+ */
+function naturapets_register_page_featured_image_block_fallback()
+{
+	if (!function_exists('register_block_type')) {
+		return;
+	}
+
+	if (class_exists('WP_Block_Type_Registry') && WP_Block_Type_Registry::get_instance()->is_registered('naturapets/page-featured-image')) {
+		return;
+	}
+
+	$editor_script_handle = '';
+	$editor_script_file   = get_stylesheet_directory() . '/blocks/page-featured-image/index.js';
+	$editor_asset_file    = get_stylesheet_directory() . '/blocks/page-featured-image/index.asset.php';
+
+	if (file_exists($editor_script_file)) {
+		$asset = array(
+			'dependencies' => array('wp-element', 'wp-hooks', 'wp-block-editor', 'wp-server-side-render'),
+			'version'      => (string) filemtime($editor_script_file),
+		);
+
+		if (file_exists($editor_asset_file)) {
+			$loaded_asset = require $editor_asset_file;
+			if (is_array($loaded_asset)) {
+				$asset = array_merge($asset, $loaded_asset);
+			}
+		}
+
+		$editor_script_handle = 'naturapets-page-featured-image-editor';
+		wp_register_script(
+			$editor_script_handle,
+			get_stylesheet_directory_uri() . '/blocks/page-featured-image/index.js',
+			isset($asset['dependencies']) && is_array($asset['dependencies']) ? $asset['dependencies'] : array(),
+			isset($asset['version']) ? (string) $asset['version'] : null,
+			true
+		);
+	}
+
+	$render_file = get_stylesheet_directory() . '/blocks/page-featured-image/render.php';
+	if (!file_exists($render_file)) {
+		return;
+	}
+
+	$args = array(
+		'api_version' => 3,
+		'title' => __('Image mise en avant de la page', 'naturapets'),
+		'category' => 'naturapets',
+		'icon' => 'format-image',
+		'description' => __('Affiche l’image mise en avant de la page courante (ou la page Boutique sur l’archive produit).', 'naturapets'),
+		'render_callback' => static function () use ($render_file) {
+			ob_start();
+			include $render_file;
+			return (string) ob_get_clean();
+		},
+		'supports' => array(
+			'html' => false,
+			'inserter' => true,
+			'anchor' => true,
+			'align' => array('wide', 'full'),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+			),
+		),
+	);
+
+	if ('' !== $editor_script_handle) {
+		$args['editor_script'] = $editor_script_handle;
+	}
+
+	register_block_type('naturapets/page-featured-image', $args);
+}
+add_action('init', 'naturapets_register_page_featured_image_block_fallback', 20);
+
+/**
+ * Charger le script éditeur du bloc featured image même en cas d'échec metadata.
+ *
+ * @return void
+ */
+function naturapets_enqueue_page_featured_image_editor_script()
+{
+	$script_file = get_stylesheet_directory() . '/blocks/page-featured-image/index.js';
+	if (!file_exists($script_file)) {
+		return;
+	}
+
+	$asset_file = get_stylesheet_directory() . '/blocks/page-featured-image/index.asset.php';
+	$asset      = array(
+		'dependencies' => array('wp-blocks', 'wp-element', 'wp-hooks', 'wp-block-editor', 'wp-server-side-render'),
+		'version'      => (string) filemtime($script_file),
+	);
+
+	if (file_exists($asset_file)) {
+		$loaded_asset = require $asset_file;
+		if (is_array($loaded_asset)) {
+			$asset = array_merge($asset, $loaded_asset);
+		}
+	}
+
+	wp_enqueue_script(
+		'naturapets-page-featured-image-editor-fallback',
+		get_stylesheet_directory_uri() . '/blocks/page-featured-image/index.js',
+		isset($asset['dependencies']) && is_array($asset['dependencies']) ? $asset['dependencies'] : array(),
+		isset($asset['version']) ? (string) $asset['version'] : null,
+		true
+	);
+}
+add_action('enqueue_block_editor_assets', 'naturapets_enqueue_page_featured_image_editor_script', 20);
+
+/**
  * Résoudre l’ID de page source pour les shortcodes de contenu boutique.
  * En éditeur/AJAX preview, il n’y a pas de contexte d’archive : on force la page Boutique.
  *
@@ -1037,103 +1152,6 @@ function naturapets_get_shop_page_context_id()
 }
 
 /**
- * Résout l'ID de page à utiliser pour les contenus "hero de page"
- * sans dépendre du post courant de boucle.
- *
- * @return int
- */
-function naturapets_get_page_hero_context_id()
-{
-	// Archive produits WooCommerce => page Boutique.
-	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
-		$shop_id = (int) wc_get_page_id('shop');
-		if ($shop_id > 0) {
-			return $shop_id;
-		}
-	}
-
-	// Contexte principal de la requête (fiable même avec une boucle secondaire).
-	$queried_id = (int) get_queried_object_id();
-	if ($queried_id > 0) {
-		return $queried_id;
-	}
-
-	// Aperçu éditeur/AJAX : pas de requête archive, on force la page Boutique.
-	if ((is_admin() || (function_exists('wp_doing_ajax') && wp_doing_ajax())) && function_exists('wc_get_page_id')) {
-		$shop_id = (int) wc_get_page_id('shop');
-		if ($shop_id > 0) {
-			return $shop_id;
-		}
-	}
-
-	// Dernier filet en contexte éditorial : post global si c'est une page.
-	global $post;
-	if ($post instanceof WP_Post && 'page' === get_post_type($post->ID)) {
-		return (int) $post->ID;
-	}
-
-	return 0;
-}
-
-/**
- * Shortcode : image mise en avant de la page de contexte (sans pollution de boucle).
- * Usage : [naturapets_page_featured_image class="absolute alignfull" dim="60"]
- *
- * @param array<string,string> $atts
- * @return string
- */
-function naturapets_page_featured_image_shortcode($atts)
-{
-	$atts = shortcode_atts(
-		array(
-			'class' => '',
-			'dim' => '60',
-			'loading' => 'eager',
-		),
-		(array) $atts,
-		'naturapets_page_featured_image'
-	);
-
-	$post_id = naturapets_get_page_hero_context_id();
-	if ($post_id < 1) {
-		return '';
-	}
-
-	$thumb_id = (int) get_post_thumbnail_id($post_id);
-	if ($thumb_id < 1) {
-		return '';
-	}
-
-	$extra_classes = array_filter(array_map('sanitize_html_class', preg_split('/\s+/', (string) $atts['class']) ?: array()));
-	$classes = trim('np-page-featured-image ' . implode(' ', $extra_classes));
-	$dim = max(0, min(100, (int) $atts['dim']));
-	$overlay_opacity = $dim / 100;
-
-	$image_html = wp_get_attachment_image(
-		$thumb_id,
-		'full',
-		false,
-		array(
-			'class' => 'np-page-featured-image__img',
-			'style' => 'height: 100%!important;',
-			'loading' => ('lazy' === $atts['loading']) ? 'lazy' : 'eager',
-			'fetchpriority' => 'high',
-			'alt' => '',
-		)
-	);
-
-	if (!is_string($image_html) || '' === trim($image_html)) {
-		return '';
-	}
-
-	return '<figure class="' . esc_attr($classes) . '">' .
-		$image_html .
-		'<span class="np-page-featured-image__overlay" style="opacity:' . esc_attr((string) $overlay_opacity) . ';"></span>' .
-		'</figure>';
-}
-add_shortcode('naturapets_page_featured_image', 'naturapets_page_featured_image_shortcode');
-
-/**
  * Shortcode fallback pour afficher la description de page (extrait) sur la boutique.
  * Usage: [naturapets_page_description]
  *
@@ -1156,6 +1174,210 @@ function naturapets_page_description_shortcode()
 	return '<div class="np-page-description-block"><div class="np-page-description">' . $inner . '</div></div>';
 }
 add_shortcode('naturapets_page_description', 'naturapets_page_description_shortcode');
+
+/**
+ * Résoudre l'ID du contexte pour la bannière (hors contexte Query Loop).
+ *
+ * @return int
+ */
+function naturapets_get_banner_context_post_id()
+{
+	if (is_admin()) {
+		// En éditeur (template/site editor), récupérer un contexte exploitable pour l'aperçu.
+		$editor_queried_id = (int) get_queried_object_id();
+		if ($editor_queried_id > 0 && has_post_thumbnail($editor_queried_id)) {
+			return $editor_queried_id;
+		}
+
+		$editor_current_id = (int) get_the_ID();
+		if ($editor_current_id > 0 && has_post_thumbnail($editor_current_id)) {
+			return $editor_current_id;
+		}
+
+		// Fallback robuste pour le Site Editor : boutique, page articles, page d'accueil, puis première page avec image.
+		if (function_exists('wc_get_page_id')) {
+			$shop_id = (int) wc_get_page_id('shop');
+			if ($shop_id > 0 && has_post_thumbnail($shop_id)) {
+				return $shop_id;
+			}
+		}
+
+		$page_for_posts = (int) get_option('page_for_posts');
+		if ($page_for_posts > 0 && has_post_thumbnail($page_for_posts)) {
+			return $page_for_posts;
+		}
+
+		$page_on_front = (int) get_option('page_on_front');
+		if ($page_on_front > 0 && has_post_thumbnail($page_on_front)) {
+			return $page_on_front;
+		}
+
+		$pages_with_thumbnail = get_posts(
+			array(
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+				'meta_key'       => '_thumbnail_id',
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+			)
+		);
+		if (is_array($pages_with_thumbnail) && !empty($pages_with_thumbnail[0])) {
+			return (int) $pages_with_thumbnail[0];
+		}
+	}
+
+	if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
+		$shop_id = (int) wc_get_page_id('shop');
+		if ($shop_id > 0) {
+			return $shop_id;
+		}
+		return 0;
+	}
+
+	if (function_exists('is_home') && is_home() && 'page' === get_option('show_on_front')) {
+		$page_for_posts = (int) get_option('page_for_posts');
+		if ($page_for_posts > 0) {
+			return $page_for_posts;
+		}
+	}
+
+	$queried_object = get_queried_object();
+	if ($queried_object instanceof WP_Post) {
+		return (int) $queried_object->ID;
+	}
+
+	if (function_exists('is_singular') && is_singular()) {
+		$queried_id = (int) get_queried_object_id();
+		if ($queried_id > 0) {
+			return $queried_id;
+		}
+	}
+
+	// Éviter toute fuite du contexte d'une Query Loop (get_the_ID()).
+	return 0;
+}
+
+/**
+ * Contexte figé de bannière pour éviter les effets de bord des Query Loop/Collection.
+ *
+ * @var int
+ */
+$naturapets_banner_context_post_id = 0;
+
+/**
+ * Figer l'ID source de la bannière dès que la requête principale est prête.
+ *
+ * @return void
+ */
+function naturapets_capture_banner_context_post_id()
+{
+	global $naturapets_banner_context_post_id;
+	$naturapets_banner_context_post_id = naturapets_get_banner_context_post_id();
+}
+add_action('wp', 'naturapets_capture_banner_context_post_id', 1);
+
+/**
+ * Détecter le type de contexte d'affichage de la bannière.
+ *
+ * @return string 'page'|'archive'|'single'
+ */
+function naturapets_get_banner_context_type()
+{
+	if (function_exists('is_archive') && is_archive()) {
+		return 'archive';
+	}
+
+	if (function_exists('is_home') && is_home()) {
+		return 'archive';
+	}
+
+	if (function_exists('is_page') && is_page()) {
+		return 'page';
+	}
+
+	if (function_exists('is_single') && is_single()) {
+		return 'single';
+	}
+
+	if (function_exists('is_singular') && is_singular()) {
+		return 'single';
+	}
+
+	return 'archive';
+}
+
+/**
+ * Injecter le contexte (page/archive/single) sur le wrapper de bannière.
+ *
+ * @param string $block_content HTML rendu du bloc.
+ * @param array  $parsed_block  Bloc parsé.
+ * @return string
+ */
+function naturapets_add_featured_banner_context_to_group($block_content, $parsed_block)
+{
+	if (!is_string($block_content) || '' === $block_content) {
+		return $block_content;
+	}
+
+	$block_name = isset($parsed_block['blockName']) ? (string) $parsed_block['blockName'] : '';
+	if ('core/group' !== $block_name) {
+		return $block_content;
+	}
+
+	$class_name = isset($parsed_block['attrs']['className']) ? (string) $parsed_block['attrs']['className'] : '';
+	if (false === strpos($class_name, 'np-featured-image-banner')) {
+		return $block_content;
+	}
+
+	if (!class_exists('WP_HTML_Tag_Processor')) {
+		return $block_content;
+	}
+
+	$context = naturapets_get_banner_context_type();
+	$processor = new WP_HTML_Tag_Processor($block_content);
+	if (!$processor->next_tag(array('tag_name' => 'SECTION'))) {
+		return $block_content;
+	}
+
+	$processor->add_class('np-featured-image-banner--context-' . $context);
+	$processor->set_attribute('data-np-context', $context);
+
+	return $processor->get_updated_html();
+}
+add_filter('render_block', 'naturapets_add_featured_banner_context_to_group', 20, 2);
+
+/**
+ * Génère le markup de l'image de bannière à partir du contexte de page figé.
+ *
+ * @return string
+ */
+function naturapets_get_page_featured_image_banner_markup()
+{
+	global $naturapets_banner_context_post_id;
+	$context_type = naturapets_get_banner_context_type();
+	$post_id = (int) $naturapets_banner_context_post_id;
+	if ($post_id < 1) {
+		$post_id = naturapets_get_banner_context_post_id();
+	}
+
+	if ($post_id < 1) {
+		return '';
+	}
+
+	$thumbnail_id = (int) get_post_thumbnail_id($post_id);
+	if ($thumbnail_id < 1) {
+		return '';
+	}
+
+	$image_url = wp_get_attachment_image_url($thumbnail_id, 'full');
+	if (!is_string($image_url) || '' === trim($image_url)) {
+		return '';
+	}
+
+	return '<div class="np-featured-image-banner__media np-featured-image-banner__media--context-' . esc_attr($context_type) . '" data-np-context="' . esc_attr($context_type) . '" aria-hidden="true" style="width:100%;min-height:50vh;max-height:100%;background-image:url(' . esc_url($image_url) . ');background-color:rgb(181 126 106 / 45%);background-blend-mode:LIGHTEN;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>';
+}
 
 /**
  * Shortcode pour afficher le contenu complet de la page Boutique.
@@ -1259,15 +1481,6 @@ function naturapets_hero_banner_field_group()
 			'key' => 'group_naturapets_hero_banner',
 			'title' => 'Bloc Bannière Hero – Champs',
 			'fields' => array(
-				array(
-					'key' => 'field_hero_banner_use_page_featured_image',
-					'label' => 'Utiliser l’image mise en avant de la page',
-					'name' => 'hero_banner_use_page_featured_image',
-					'type' => 'true_false',
-					'ui' => 1,
-					'default_value' => 0,
-					'instructions' => 'Si activé, utilise la featured image de la page de contexte (ex: page Boutique). La vidéo reste prioritaire si renseignée.',
-				),
 				array(
 					'key' => 'field_hero_banner_image',
 					'label' => 'Image de fond',

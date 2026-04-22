@@ -18,7 +18,6 @@ $bouton_taille = get_field( 'hero_banner_bouton_taille' );
 $titre_taille  = get_field( 'hero_banner_titre_taille' );
 $image        = get_field( 'hero_banner_image' );
 $video        = get_field( 'hero_banner_video' );
-$use_page_featured_image = (bool) get_field( 'hero_banner_use_page_featured_image' );
 
 if ( empty( $titre ) ) {
 	$titre = 'Naturapets';
@@ -40,33 +39,7 @@ if ( ! empty( $video ) && is_array( $video ) && ! empty( $video['url'] ) ) {
 	$video_mime = get_post_mime_type( (int) $video ) ?: 'video/mp4';
 }
 
-$image_url = '';
-
-// Priorité image : featured image de la page de contexte (si activé), sinon image ACF du bloc.
-if ( $use_page_featured_image && function_exists( 'naturapets_get_page_hero_context_id' ) ) {
-	$context_post_id = (int) naturapets_get_page_hero_context_id();
-	if ( $context_post_id > 0 ) {
-		$featured_id = (int) get_post_thumbnail_id( $context_post_id );
-		if ( $featured_id > 0 ) {
-			$image_url = (string) wp_get_attachment_image_url( $featured_id, 'large' );
-		}
-	}
-}
-
-if ( '' === $image_url ) {
-	$image_url = (string) naturapets_get_acf_image_url( $image, 'large' );
-}
-
-// Description de page prioritaire dans le hero (ex: page Boutique).
-$context_post_id = function_exists( 'naturapets_get_page_hero_context_id' )
-	? (int) naturapets_get_page_hero_context_id()
-	: 0;
-if ( $context_post_id > 0 ) {
-	$page_excerpt = (string) get_the_excerpt( $context_post_id );
-	if ( '' !== trim( wp_strip_all_tags( $page_excerpt ) ) ) {
-		$slogan = $page_excerpt;
-	}
-}
+$image_url = naturapets_get_acf_image_url( $image, 'large' );
 
 if ( empty( $slogan ) ) {
 	$slogan = 'La tranquillité au bout du collier';

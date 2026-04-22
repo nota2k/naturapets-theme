@@ -9,25 +9,37 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-$post_id = 0;
+$excerpt = '';
 
 if (function_exists('is_post_type_archive') && is_post_type_archive('product') && function_exists('wc_get_page_id')) {
-	$post_id = (int) wc_get_page_id('shop');
-}
-
-if ($post_id < 1) {
+	$shop_id = (int) wc_get_page_id('shop');
+	if ($shop_id > 0) {
+		$excerpt = (string) get_the_excerpt($shop_id);
+	}
+} elseif (function_exists('is_home') && is_home() && 'page' === get_option('show_on_front')) {
+	$page_for_posts = (int) get_option('page_for_posts');
+	if ($page_for_posts > 0) {
+		$excerpt = (string) get_the_excerpt($page_for_posts);
+	}
+} elseif (function_exists('is_singular') && is_singular()) {
 	$post_id = (int) get_queried_object_id();
+	if ($post_id > 0) {
+		$excerpt = (string) get_the_excerpt($post_id);
+	}
+} elseif (function_exists('is_archive') && is_archive()) {
+	$excerpt = (string) get_the_archive_description();
 }
 
-if ($post_id < 1) {
-	$post_id = (int) get_the_ID();
+if ('' === trim(wp_strip_all_tags($excerpt))) {
+	// Fallback éditeur: tenter via le contexte bannière (page/template en cours).
+	if (function_exists('naturapets_get_banner_context_post_id')) {
+		$editor_context_id = (int) naturapets_get_banner_context_post_id();
+		if ($editor_context_id > 0) {
+			$excerpt = (string) get_the_excerpt($editor_context_id);
+		}
+	}
 }
 
-if ($post_id < 1) {
-	return;
-}
-
-$excerpt = get_the_excerpt($post_id);
 if ('' === trim(wp_strip_all_tags($excerpt))) {
 	return;
 }

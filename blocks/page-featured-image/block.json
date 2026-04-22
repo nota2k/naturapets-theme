@@ -5,18 +5,13 @@
 	"title": "Image mise en avant de la page",
 	"category": "naturapets",
 	"icon": "format-image",
-	"description": "Affiche l’image mise en avant de la page de contexte (ex: page Boutique), sans être impactée par une boucle produits.",
-	"keywords": ["featured", "image", "page", "boutique", "hero"],
+	"description": "Affiche l'image mise en avant de la page courante (ou la page Boutique sur l'archive produit).",
+	"keywords": ["featured", "image", "banniere", "archive", "boutique"],
 	"textdomain": "naturapets",
 	"editorScript": "file:./index.js",
-	"attributes": {
-		"dimRatio": {
-			"type": "number",
-			"default": 60
-		}
-	},
 	"supports": {
 		"html": false,
+		"inserter": true,
 		"anchor": true,
 		"align": ["wide", "full"],
 		"spacing": {
