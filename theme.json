@@ -767,7 +767,6 @@
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
 					"fontSize": "var(--wp--preset--font-size--liquid-small)",
-					"letterSpacing": "-3px",
 					"lineHeight": "0.99"
 				}
 			},
@@ -967,7 +966,6 @@
 					}
 				},
 				"typography": {
-					"letterSpacing": "-4%",
 					"lineHeight": "1.3",
 					"textTransform": "none"
 				}
@@ -1012,7 +1010,6 @@
 			"core/navigation-link": {
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--nunito-sans)",
-					"letterSpacing": "-3px",
 					"lineHeight": "1"
 				}
 			},
@@ -1054,7 +1051,6 @@
 			},
 			"core/post-content": {
 				"typography": {
-					"letterSpacing": "3px",
 					"lineHeight": "1.2"
 				}
 			},

@@ -2826,6 +2826,105 @@ function naturapets_register_medaillon_public_cpt()
 add_action('init', 'naturapets_register_medaillon_public_cpt');
 
 /**
+ * Nombre minimal de médaillons pré-générés à maintenir en stock.
+ */
+function naturapets_get_medaillon_public_stock_threshold()
+{
+	return 50;
+}
+
+/**
+ * Génère un code public unique pour un médaillon pré-généré.
+ */
+function naturapets_generate_medaillon_public_code()
+{
+	return 'NP-' . strtoupper(wp_generate_password(10, false, false));
+}
+
+/**
+ * Crée un médaillon public pré-généré (non lié).
+ */
+function naturapets_create_pre_generated_medaillon_public()
+{
+	for ($attempt = 0; $attempt < 10; $attempt++) {
+		$code = naturapets_generate_medaillon_public_code();
+		$slug = sanitize_title($code);
+
+		$exists = get_page_by_path($slug, OBJECT, 'medaillon_public');
+		if ($exists) {
+			continue;
+		}
+
+		$post_id = wp_insert_post(array(
+			'post_type' => 'medaillon_public',
+			'post_title' => sprintf('Médaillon %s', $code),
+			'post_name' => $slug,
+			'post_status' => 'publish',
+			'post_author' => get_current_user_id() ?: 1,
+		));
+
+		if ($post_id && !is_wp_error($post_id)) {
+			update_post_meta($post_id, '_medaillon_code', $code);
+			update_post_meta($post_id, '_medaillon_status', 'available');
+			delete_post_meta($post_id, '_animal_id');
+			return (int) $post_id;
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Récupère un médaillon public disponible (non assigné).
+ */
+function naturapets_get_available_medaillon_public_post_id()
+{
+	$posts = get_posts(array(
+		'post_type' => 'medaillon_public',
+		'posts_per_page' => 1,
+		'post_status' => 'publish',
+		'orderby' => 'ID',
+		'order' => 'ASC',
+		'meta_query' => array(
+			array(
+				'key' => '_medaillon_status',
+				'value' => 'available',
+			),
+		),
+	));
+
+	return !empty($posts) ? (int) $posts[0]->ID : null;
+}
+
+/**
+ * Maintient le stock de médaillons publics pré-générés.
+ */
+function naturapets_ensure_medaillon_public_stock($target = null)
+{
+	$target = null === $target ? naturapets_get_medaillon_public_stock_threshold() : max(0, (int) $target);
+
+	$available_count = (int) count(get_posts(array(
+		'post_type' => 'medaillon_public',
+		'posts_per_page' => $target + 200,
+		'post_status' => 'publish',
+		'fields' => 'ids',
+		'meta_query' => array(
+			array(
+				'key' => '_medaillon_status',
+				'value' => 'available',
+			),
+		),
+	)));
+
+	$to_create = max(0, $target - $available_count);
+	for ($i = 0; $i < $to_create; $i++) {
+		naturapets_create_pre_generated_medaillon_public();
+	}
+
+	return $to_create;
+}
+
+/**
  * Colonnes personnalisées pour la liste des médaillons publics.
  */
 function naturapets_medaillon_public_admin_columns($columns)
@@ -2870,21 +2969,25 @@ function naturapets_medaillon_public_admin_columns_content($column, $post_id)
 	}
 
 	if ($column === 'medaillon_qrcode') {
-		$animal_id = get_post_meta($post_id, '_animal_id', true);
-		if (!$animal_id) {
+		$public_url = get_permalink($post_id);
+		if (!$public_url) {
 			echo '<em>—</em>';
 			return;
 		}
 
-		$animal_url = naturapets_get_animal_url($animal_id);
-		$qr_url = naturapets_get_qrcode_url($animal_url, 60);
+		$status = get_post_meta($post_id, '_medaillon_status', true);
+		$status_label = 'assigned' === $status ? 'Assigné' : 'Disponible';
+		$qr_url = naturapets_get_qrcode_url($public_url, 60);
 		$download_url = admin_url('admin.php?naturapets_qr_download=1&medaillon_public_id=' . $post_id . '&nonce=' . wp_create_nonce('download_qr_mp_' . $post_id));
 
 		echo '<div style="display: flex; align-items: center; gap: 8px;">';
 		echo '<img src="' . esc_url($qr_url) . '" width="60" height="60" alt="QR Code" />';
+		echo '<div>';
 		echo '<a href="' . esc_url($download_url) . '" class="button button-small" title="' . esc_attr__('Télécharger le QR code', 'naturapets') . '">';
 		echo '↓ ' . __('Télécharger', 'naturapets');
 		echo '</a>';
+		echo '<div><small>' . esc_html($status_label) . '</small></div>';
+		echo '</div>';
 		echo '</div>';
 	}
 }
@@ -2912,8 +3015,27 @@ add_action('add_meta_boxes', 'naturapets_add_medaillon_public_info_metabox');
 function naturapets_medaillon_public_info_metabox_content($post)
 {
 	$animal_id = get_post_meta($post->ID, '_animal_id', true);
+	$public_url = get_permalink($post->ID);
+	$code = get_post_meta($post->ID, '_medaillon_code', true);
+	$status = get_post_meta($post->ID, '_medaillon_status', true);
+	$status_label = 'assigned' === $status ? __('Assigné', 'naturapets') : __('Disponible', 'naturapets');
+	$download_qr_url = admin_url('admin.php?naturapets_qr_download=1&medaillon_public_id=' . $post->ID . '&nonce=' . wp_create_nonce('download_qr_mp_' . $post->ID));
 
 	if (!$animal_id) {
+		echo '<p><strong>' . __('Statut', 'naturapets') . ' :</strong> ' . esc_html($status_label) . '</p>';
+		if ($code) {
+			echo '<p><strong>' . __('Code', 'naturapets') . ' :</strong> <code>' . esc_html($code) . '</code></p>';
+		}
+		if ($public_url) {
+			echo '<p><strong>' . __('URL publique', 'naturapets') . ' :</strong> <a href="' . esc_url($public_url) . '" target="_blank" rel="noopener">' . esc_html($public_url) . '</a></p>';
+			echo '<div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; text-align: center;">';
+			echo '<h4 style="margin-top: 0;">QR Code</h4>';
+			echo naturapets_generate_qrcode($public_url, 150, false);
+			echo '<p style="margin-top: 10px;">';
+			echo '<a href="' . esc_url($download_qr_url) . '" class="button">' . esc_html__('Télécharger le QR code', 'naturapets') . '</a>';
+			echo '</p>';
+			echo '</div>';
+		}
 		echo '<p><em>' . __('Aucun animal lié à ce médaillon public.', 'naturapets') . '</em></p>';
 		return;
 	}
@@ -3056,17 +3178,7 @@ function naturapets_flush_rewrite_rules_on_activation()
 {
 	naturapets_register_medaillon_public_cpt();
 	flush_rewrite_rules();
-
-	// Créer les posts medaillon_public pour les animaux existants
-	$animals = get_posts(array(
-		'post_type' => 'animal',
-		'posts_per_page' => -1,
-		'post_status' => 'any',
-	));
-
-	foreach ($animals as $animal) {
-		naturapets_get_or_create_medaillon_public_post($animal->ID);
-	}
+	naturapets_ensure_medaillon_public_stock();
 }
 add_action('after_switch_theme', 'naturapets_flush_rewrite_rules_on_activation');
 
@@ -3113,6 +3225,13 @@ function naturapets_get_or_create_medaillon_public_post($animal_id)
 		return $post_id;
 	}
 
+	$available_post_id = naturapets_get_available_medaillon_public_post_id();
+	if ($available_post_id) {
+		update_post_meta($available_post_id, '_animal_id', $animal_id);
+		update_post_meta($available_post_id, '_medaillon_status', 'assigned');
+		return (int) $available_post_id;
+	}
+
 	$slug = naturapets_get_medaillon_public_slug($animal_id);
 	$nom = get_field('nom', $animal_id);
 	$title = $nom ? sprintf('%s – Médaillon', $nom) : sprintf('Médaillon #%d', $animal_id);
@@ -3127,6 +3246,7 @@ function naturapets_get_or_create_medaillon_public_post($animal_id)
 
 	if ($post_id && !is_wp_error($post_id)) {
 		update_post_meta($post_id, '_animal_id', $animal_id);
+		update_post_meta($post_id, '_medaillon_status', 'assigned');
 		return $post_id;
 	}
 
@@ -3225,6 +3345,65 @@ function naturapets_animals_endpoint_content()
 {
 	$current_user_id = get_current_user_id();
 
+	if (isset($_POST['naturapets_activate_medaillon'])) {
+		if (
+			!isset($_POST['naturapets_activate_medaillon_nonce'])
+			|| !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['naturapets_activate_medaillon_nonce'])), 'naturapets_activate_medaillon_' . $current_user_id)
+		) {
+			wc_add_notice(__('La demande est invalide. Merci de réessayer.', 'naturapets'), 'error');
+		} else {
+			$raw_code = isset($_POST['naturapets_activation_code']) ? sanitize_text_field(wp_unslash($_POST['naturapets_activation_code'])) : '';
+			$activation_code = strtoupper(trim($raw_code));
+			$public_post_id = 0;
+
+			if ($activation_code !== '') {
+				$by_code = get_posts(array(
+					'post_type' => 'medaillon_public',
+					'post_status' => 'publish',
+					'posts_per_page' => 1,
+					'meta_query' => array(
+						array(
+							'key' => '_medaillon_code',
+							'value' => $activation_code,
+						),
+					),
+				));
+
+				if (!empty($by_code)) {
+					$public_post_id = (int) $by_code[0]->ID;
+				}
+
+				if (!$public_post_id && is_numeric($activation_code)) {
+					$candidate = get_post((int) $activation_code);
+					if ($candidate && 'medaillon_public' === $candidate->post_type) {
+						$public_post_id = (int) $candidate->ID;
+					}
+				}
+
+				if (!$public_post_id) {
+					$candidate = get_page_by_path(sanitize_title($activation_code), OBJECT, 'medaillon_public');
+					if ($candidate) {
+						$public_post_id = (int) $candidate->ID;
+					}
+				}
+			}
+
+			if (!$public_post_id) {
+				wc_add_notice(__('Médaillon introuvable. Vérifiez le code puis réessayez.', 'naturapets'), 'error');
+			} else {
+				$result = naturapets_claim_medaillon_public_for_user($public_post_id, $current_user_id);
+				if (is_wp_error($result)) {
+					wc_add_notice($result->get_error_message(), 'error');
+				} else {
+					wc_add_notice(__('Médaillon activé. Vous pouvez maintenant compléter sa fiche.', 'naturapets'), 'success');
+				}
+			}
+		}
+
+		wp_safe_redirect(wc_get_account_endpoint_url('mes-animaux'));
+		exit;
+	}
+
 	// Vérifie si on affiche un animal spécifique (pour édition)
 	$animal_id = get_query_var('mes-animaux');
 
@@ -3260,16 +3439,60 @@ function naturapets_display_animals_list($customer_id)
 		'orderby' => 'date',
 		'order' => 'DESC',
 	));
+	$claimable_count = (int) get_user_meta($customer_id, '_naturapets_claimable_medaillons', true);
 
 	echo '<div class="myaccount-animals">';
 	echo '<div class="myaccount-animals__header">';
 	echo '<h2 class="myaccount-animals__title">Mes médaillons</h2>';
 	echo '<p class="myaccount-animals__subtitle">Gérez vos médaillons</p>';
+	if ($claimable_count > 0) {
+		echo '<p><strong>' . esc_html(sprintf(_n('%d médaillon à activer', '%d médaillons à activer', $claimable_count, 'naturapets'), $claimable_count)) . '</strong></p>';
+	}
 	echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="myaccount-animals__add-btn">+ Ajouter un médaillon</a>';
 	echo '</div>';
 
+	if ($claimable_count > 0) {
+		echo '<div class="myaccount-animals__help" style="margin-bottom: 20px; padding: 14px 16px; border: 1px solid #d9e6dc; border-radius: 10px; background: #f6fbf7;">';
+		echo '<h3 style="margin: 0 0 8px;">J’ai scanné mon QR, que faire ?</h3>';
+		echo '<ol style="margin: 0 0 10px 18px;">';
+		echo '<li>Connectez-vous avec le même compte que celui de votre commande.</li>';
+		echo '<li>Scannez le QR code du médaillon pour ouvrir sa page.</li>';
+		echo '<li>Cliquez sur <strong>Connecter ce médaillon à mon compte</strong>.</li>';
+		echo '</ol>';
+		echo '<p style="margin: 0;">Une fois activée, la fiche apparaît automatiquement dans cette page.</p>';
+		echo '<form method="post" style="margin-top: 12px; display: grid; gap: 8px; grid-template-columns: 1fr auto;">';
+		wp_nonce_field('naturapets_activate_medaillon_' . $customer_id, 'naturapets_activate_medaillon_nonce');
+		echo '<input type="text" name="naturapets_activation_code" placeholder="Code médaillon (ex: NP-XXXXXX)" required style="height: 42px; padding: 0 10px; border: 1px solid #b8d4c2; border-radius: 8px;" />';
+		echo '<button type="submit" name="naturapets_activate_medaillon" value="1" class="button button-primary" style="height: 42px;">Activer maintenant</button>';
+		echo '</form>';
+		echo '</div>';
+
+		echo '<div class="myaccount-animals__pending" style="margin-bottom: 24px;">';
+		echo '<h3 style="margin-bottom: 8px;">Médaillons à activer</h3>';
+		echo '<p style="margin: 0 0 12px;">Scannez le QR code de votre médaillon puis cliquez sur <strong>Connecter ce médaillon à mon compte</strong>.</p>';
+		echo '<div class="myaccount-animals__grid">';
+		for ($i = 1; $i <= $claimable_count; $i++) {
+			echo '<article class="animal-card animal-card--pending">';
+			echo '<div class="animal-card__header">';
+			echo '<h3 class="animal-card__name">Médaillon à activer #' . esc_html((string) $i) . '</h3>';
+			echo '<span class="animal-card__badge">En attente</span>';
+			echo '</div>';
+			echo '<p class="animal-card__id">Statut: En attente d\'activation</p>';
+			echo '<p class="animal-card__actions">';
+			echo '<a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="button button-secondary">Commander un autre médaillon</a>';
+			echo '</p>';
+			echo '</article>';
+		}
+		echo '</div>';
+		echo '</div>';
+	}
+
 	if (empty($animals)) {
-		echo '<p class="myaccount-animals__empty">Vous n\'avez pas encore de médaillons enregistrés. Ils apparaîtront ici après votre première commande.</p>';
+		if ($claimable_count > 0) {
+			echo '<p class="myaccount-animals__empty">Vos fiches apparaîtront ici dès que vous aurez activé vos médaillons.</p>';
+		} else {
+			echo '<p class="myaccount-animals__empty">Vous n\'avez pas encore de médaillons enregistrés. Ils apparaîtront ici après votre première activation.</p>';
+		}
 		echo '</div>';
 		return;
 	}
@@ -3546,15 +3769,8 @@ function naturapets_create_animal_on_order($order_id)
 		return;
 	}
 
-	// Vérifier si des animaux ont déjà été créés pour cette commande
-	$existing = get_posts(array(
-		'post_type' => 'animal',
-		'meta_key' => '_order_id',
-		'meta_value' => $order_id,
-		'posts_per_page' => 1,
-	));
-
-	if (!empty($existing)) {
+	$already_processed = (int) $order->get_meta('_naturapets_claimable_medaillons_created', true);
+	if ($already_processed) {
 		return;
 	}
 
@@ -3564,28 +3780,27 @@ function naturapets_create_animal_on_order($order_id)
 		return;
 	}
 
+	$credits = 0;
 	foreach ($order->get_items() as $item_id => $item) {
 		$product_id = $item->get_product_id();
-		$product = wc_get_product($product_id);
 		$quantity = $item->get_quantity();
-
-		for ($i = 0; $i < $quantity; $i++) {
-			$animal_id = wp_insert_post(array(
-				'post_type' => 'animal',
-				'post_title' => sprintf('Animal - %s #%d', $product->get_name(), $i + 1),
-				'post_status' => 'publish',
-				'post_author' => $customer_id,
-			));
-
-			if ($animal_id && !is_wp_error($animal_id)) {
-				update_post_meta($animal_id, '_customer_id', $customer_id);
-				update_post_meta($animal_id, '_product_id', $product_id);
-				update_post_meta($animal_id, '_order_id', $order_id);
-				update_post_meta($animal_id, '_order_item_id', $item_id);
-				naturapets_get_or_create_medaillon_public_post($animal_id);
-			}
+		if ($product_id && naturapets_product_is_medaillon($product_id)) {
+			$credits += max(0, (int) $quantity);
 		}
 	}
+
+	if ($credits <= 0) {
+		$order->update_meta_data('_naturapets_claimable_medaillons_created', 1);
+		$order->save();
+		return;
+	}
+
+	$current = (int) get_user_meta($customer_id, '_naturapets_claimable_medaillons', true);
+	update_user_meta($customer_id, '_naturapets_claimable_medaillons', $current + $credits);
+
+	$order->update_meta_data('_naturapets_claimable_medaillons_created', 1);
+	$order->save();
+	naturapets_ensure_medaillon_public_stock();
 }
 add_action('woocommerce_order_status_processing', 'naturapets_create_animal_on_order');
 add_action('woocommerce_order_status_completed', 'naturapets_create_animal_on_order');
@@ -3627,6 +3842,8 @@ function naturapets_admin_download_qrcode()
 	}
 
 	$animal_id = null;
+	$qr_target_url = '';
+	$filename_suffix = 'medaillon';
 
 	if (isset($_GET['medaillon_public_id'])) {
 		$public_post_id = absint($_GET['medaillon_public_id']);
@@ -3634,14 +3851,21 @@ function naturapets_admin_download_qrcode()
 			wp_die(__('Lien invalide ou expiré.', 'naturapets'));
 		}
 		$animal_id = get_post_meta($public_post_id, '_animal_id', true);
+		$qr_target_url = get_permalink($public_post_id);
+		$code = get_post_meta($public_post_id, '_medaillon_code', true);
+		if ($code) {
+			$filename_suffix = sanitize_file_name($code);
+		}
 	} elseif (isset($_GET['animal_id'])) {
 		$animal_id = absint($_GET['animal_id']);
 		if (!$animal_id || !wp_verify_nonce(sanitize_text_field($_GET['nonce']), 'download_qr_' . $animal_id)) {
 			wp_die(__('Lien invalide ou expiré.', 'naturapets'));
 		}
+		$qr_target_url = naturapets_get_animal_url($animal_id);
+		$filename_suffix = 'animal-' . $animal_id;
 	}
 
-	if (!$animal_id) {
+	if (!$qr_target_url) {
 		wp_die(__('Médaillon introuvable.', 'naturapets'));
 	}
 
@@ -3649,13 +3873,14 @@ function naturapets_admin_download_qrcode()
 		wp_die(__('Accès non autorisé.', 'naturapets'));
 	}
 
-	$animal = get_post($animal_id);
-	if (!$animal || $animal->post_type !== 'animal') {
-		wp_die(__('Médaillon introuvable.', 'naturapets'));
+	if ($animal_id) {
+		$animal = get_post($animal_id);
+		if (!$animal || $animal->post_type !== 'animal') {
+			wp_die(__('Médaillon introuvable.', 'naturapets'));
+		}
 	}
 
-	$animal_url = naturapets_get_animal_url($animal_id);
-	$qr_url = naturapets_get_qrcode_download_url($animal_url, 300);
+	$qr_url = naturapets_get_qrcode_download_url($qr_target_url, 300);
 
 	$response = wp_remote_get($qr_url, array('timeout' => 15));
 	if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
@@ -3663,8 +3888,8 @@ function naturapets_admin_download_qrcode()
 	}
 
 	$body = wp_remote_retrieve_body($response);
-	$nom = get_field('nom', $animal_id);
-	$filename = 'qrcode-animal-' . $animal_id . '-' . ($nom ? sanitize_file_name($nom) : 'animal') . '.png';
+	$nom = $animal_id ? get_field('nom', $animal_id) : '';
+	$filename = 'qrcode-' . $filename_suffix . '-' . ($nom ? sanitize_file_name($nom) : 'public') . '.png';
 
 	header('Content-Type: image/png');
 	header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -3673,6 +3898,87 @@ function naturapets_admin_download_qrcode()
 	exit;
 }
 add_action('admin_init', 'naturapets_admin_download_qrcode');
+
+/**
+ * Synchronise le stock de médaillons pré-générés dans l'admin.
+ */
+function naturapets_ensure_medaillon_stock_admin()
+{
+	if (!is_admin() || !current_user_can('manage_options')) {
+		return;
+	}
+
+	naturapets_ensure_medaillon_public_stock();
+}
+add_action('admin_init', 'naturapets_ensure_medaillon_stock_admin');
+
+/**
+ * Bouton admin pour générer un lot de médaillons en 1 clic.
+ */
+function naturapets_medaillon_stock_admin_notice()
+{
+	$screen = get_current_screen();
+	if (!$screen || 'edit-medaillon_public' !== $screen->id || !current_user_can('manage_options')) {
+		return;
+	}
+
+	$url = wp_nonce_url(
+		add_query_arg(array('naturapets_generate_medaillons' => 1), admin_url('edit.php?post_type=medaillon_public')),
+		'naturapets_generate_medaillons'
+	);
+
+	echo '<div class="notice notice-info"><p>';
+	echo '<a class="button button-primary" href="' . esc_url($url) . '">Générer 20 médaillons pré-générés</a>';
+	echo '</p></div>';
+}
+add_action('admin_notices', 'naturapets_medaillon_stock_admin_notice');
+
+/**
+ * Action admin pour générer un lot de médaillons publics.
+ */
+function naturapets_generate_medaillons_batch_action()
+{
+	if (!is_admin() || !isset($_GET['naturapets_generate_medaillons'])) {
+		return;
+	}
+
+	if (!current_user_can('manage_options') || !check_admin_referer('naturapets_generate_medaillons')) {
+		return;
+	}
+
+	$created = 0;
+	for ($i = 0; $i < 20; $i++) {
+		if (naturapets_create_pre_generated_medaillon_public()) {
+			$created++;
+		}
+	}
+
+	wp_safe_redirect(add_query_arg(array(
+		'post_type' => 'medaillon_public',
+		'naturapets_generated' => $created,
+	), admin_url('edit.php')));
+	exit;
+}
+add_action('admin_init', 'naturapets_generate_medaillons_batch_action');
+
+/**
+ * Message de confirmation après génération d'un lot.
+ */
+function naturapets_medaillon_generated_notice()
+{
+	if (!is_admin() || !isset($_GET['naturapets_generated'])) {
+		return;
+	}
+
+	$screen = get_current_screen();
+	if (!$screen || 'edit-medaillon_public' !== $screen->id) {
+		return;
+	}
+
+	$count = absint($_GET['naturapets_generated']);
+	echo '<div class="notice notice-success"><p>' . esc_html(sprintf('%d médaillons ont été générés.', $count)) . '</p></div>';
+}
+add_action('admin_notices', 'naturapets_medaillon_generated_notice');
 
 /**
  * Contenu de la metabox des animaux sur une commande.
@@ -4151,6 +4457,47 @@ function naturapets_get_animal_url($animal_id)
 		'animal' => $animal_id,
 		'token' => $token,
 	), home_url('/medaillons/'));
+}
+
+/**
+ * Active un médaillon public pour un client connecté.
+ */
+function naturapets_claim_medaillon_public_for_user($public_post_id, $customer_id)
+{
+	$public_post = get_post($public_post_id);
+	if (!$public_post || 'medaillon_public' !== $public_post->post_type) {
+		return new WP_Error('invalid_medaillon', __('Médaillon introuvable.', 'naturapets'));
+	}
+
+	$existing_animal_id = (int) get_post_meta($public_post_id, '_animal_id', true);
+	if ($existing_animal_id) {
+		return new WP_Error('already_claimed', __('Ce médaillon est déjà lié à un compte.', 'naturapets'));
+	}
+
+	$credits = (int) get_user_meta($customer_id, '_naturapets_claimable_medaillons', true);
+	if ($credits <= 0) {
+		return new WP_Error('no_credit', __('Aucun médaillon disponible à activer sur votre compte.', 'naturapets'));
+	}
+
+	$animal_id = wp_insert_post(array(
+		'post_type' => 'animal',
+		'post_title' => sprintf('Médaillon de %s', wp_get_current_user()->display_name),
+		'post_status' => 'publish',
+		'post_author' => $customer_id,
+	));
+
+	if (!$animal_id || is_wp_error($animal_id)) {
+		return new WP_Error('animal_creation_failed', __('Impossible de créer le médaillon.', 'naturapets'));
+	}
+
+	update_post_meta($animal_id, '_customer_id', $customer_id);
+	update_post_meta($animal_id, '_order_id', 0);
+	update_post_meta($animal_id, '_order_item_id', 0);
+	update_post_meta($public_post_id, '_animal_id', $animal_id);
+	update_post_meta($public_post_id, '_medaillon_status', 'assigned');
+	update_user_meta($customer_id, '_naturapets_claimable_medaillons', $credits - 1);
+
+	return $animal_id;
 }
 
 /**
