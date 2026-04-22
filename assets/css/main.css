@@ -2390,6 +2390,69 @@ body {
   background-color: #2d6a6a;
 }
 
+.np-mini-cart {
+  display: inline-flex;
+}
+
+.np-mini-cart__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--wp--preset--color--secondary);
+  color: var(--wp--preset--color--base);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.np-mini-cart__btn:hover {
+  transform: scale(1.1);
+  background-color: #2d6a6a;
+  color: var(--wp--preset--color--base);
+}
+.np-mini-cart__btn:active {
+  transform: scale(0.95);
+}
+.np-mini-cart__btn .np-mini-cart__icon {
+  position: absolute;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.np-mini-cart__btn .np-mini-cart__icon--check {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.np-mini-cart__btn.is-added {
+  background-color: #2d6a6a;
+  animation: np-mini-cart-pulse 0.4s ease;
+}
+.np-mini-cart__btn.is-added .np-mini-cart__icon--plus {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+.np-mini-cart__btn.is-added .np-mini-cart__icon--check {
+  opacity: 1;
+  transform: scale(1);
+}
+.np-mini-cart__btn.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes np-mini-cart-pulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 @media (min-width: 600px) {
   .wc-block-product-template.is-flex-container.is-flex-container.columns-5 > li {
     max-height: 500px;

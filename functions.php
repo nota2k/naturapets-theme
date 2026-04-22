@@ -959,6 +959,10 @@ function naturapets_register_hero_block()
 	if (file_exists($page_featured_image_path . '/block.json')) {
 		register_block_type($page_featured_image_path);
 	}
+	$mini_add_to_cart_path = get_stylesheet_directory() . '/blocks/mini-add-to-cart';
+	if (file_exists($mini_add_to_cart_path . '/block.json')) {
+		register_block_type($mini_add_to_cart_path);
+	}
 }
 add_action('init', 'naturapets_register_hero_block');
 
@@ -4841,90 +4845,29 @@ function naturapets_product_grid_shortcode($atts)
 add_shortcode('naturapets_products', 'naturapets_product_grid_shortcode');
 
 /**
+/**
  * ==========================================================================
- * WOOCOMMERCE : Comportement du bouton "Ajouter au panier"
+ * MINI ADD-TO-CART : bouton "+" pour les boucles de requête
  * ==========================================================================
- *
- * Retire l'API d'interactivité des blocs pour forcer le comportement classique "AJAX"
- * et affiche "Ajouté" à la place.
  */
 
-// 1. Ré-activer le script classique d'ajout au panier d'AJAX
-add_action('wp_enqueue_scripts', function () {
-	wp_enqueue_script('wc-add-to-cart');
-}, 99);
-
-// 2. Nettoyer le HTML des boutons générés par le bloc WooCommerce "Product Button"
-add_filter('woocommerce_loop_add_to_cart_link', function ($html, $product, $args) {
-	if (strpos($html, 'data-wp-interactive') !== false) {
-		// Supprimer les attributs data-wp-* de l'API d'interactivité
-		$html = preg_replace('/data-wp-[a-zA-Z0-9\-]+="[^"]*"/', '', $html);
-		$html = preg_replace('/data-wp-[a-zA-Z0-9\-]+=\'(?:\\\\.|[^\'])*\'/', '', $html);
-
-		// Supprimer le span "View cart" généré par le bloc
-		$html = preg_replace('/<span\s+hidden[^>]*>.*?<\/span>/s', '', $html);
-		// Supprimer les spans de quantité (ex: "2 dans le panier")
-		$html = preg_replace('/<span[^>]*product-button__quantity[^>]*>.*?<\/span>/is', '', $html);
-
-		// S'assurer que les classes d'AJAX sont présentes
-		$html = str_replace('wc-interactive', 'ajax_add_to_cart', $html);
-
-		// Forcer un libellé stable pour éviter les textes dynamiques de quantité.
-		$button_text = esc_html__('Ajouté au panié', 'naturapets');
-		$html = preg_replace('/<span\s*>(\s*)<\/span>/', '<span>' . $button_text . '</span>', $html);
-	}
-
-	// Ajouter un label de référence utilisé par le script d'animation.
-	if (strpos($html, 'data-default-label=') === false) {
-		$html = preg_replace('/<a\s/i', '<a data-default-label="' . esc_attr__('Ajouté au panié', 'naturapets') . '" ', $html, 1);
-	}
-
-	return $html;
-}, 10, 3);
-
-// 3. Modifier le bouton pour afficher "Ajouté au panié" via script JS
+// JS d'animation : "+" → "✓" au clic, puis retour
 add_action('wp_footer', function () {
 ?>
 	<script>
 		jQuery(function($) {
-			function setButtonLabel($button, label) {
-				if (!$button || !$button.length) {
+			$(document.body).on('added_to_cart', function(event, fragments, cart_hash, $button) {
+				if (!$button || !$button.length || !$button.hasClass('np-mini-cart__btn')) {
 					return;
 				}
-				$button.find('.wc-block-components-product-button__quantity').remove();
-				if ($button.find('span').length) {
-					$button.find('span').first().text(label);
-				} else {
-					$button.text(label);
-				}
-			}
-
-			function getDefaultLabel($button) {
-				return ($button && $button.data('default-label')) ? $button.data('default-label') : 'Ajouté au panié';
-			}
-
-			$(document).on('added_to_cart', function(event, fragments, cart_hash, $button) {
-				if (!$button || !$button.length) {
-					return;
-				}
-
-				setButtonLabel($button, 'Ajouté au panié');
-			});
-
-			$(document).on('wc_fragments_loaded wc_fragments_refreshed', function() {
-				$('.add_to_cart_button.ajax_add_to_cart').each(function() {
-					var $button = $(this);
-					setButtonLabel($button, getDefaultLabel($button));
-				});
+				$button.addClass('is-added');
+				setTimeout(function() {
+					$button.removeClass('is-added');
+				}, 1200);
 			});
 		});
 	</script>
 <?php
-}, 99);
-
-// 4. Cacher définitivement le lien "Voir le panier" généré par WooCommerce
-add_action('wp_head', function () {
-	echo '<style> .added_to_cart.wc_forward { display: none !important; } </style>';
 });
 
 /**
@@ -4942,7 +4885,11 @@ add_filter('render_block', function ($block_content, $block) {
 		0 === strpos($block['blockName'], 'woocommerce/add-to-cart-with-options-variation-selector')
 	);
 
-	if (!$is_variation_selector_block) {
+	$is_quantity_selector_block = (
+		$block['blockName'] === 'woocommerce/add-to-cart-with-options-quantity-selector'
+	);
+
+	if (!$is_variation_selector_block && !$is_quantity_selector_block) {
 		return $block_content;
 	}
 
@@ -4962,7 +4909,19 @@ add_filter('render_block', function ($block_content, $block) {
 	}
 
 	if (!$product->is_type('variable')) {
-		return '';
+		if ($is_variation_selector_block) {
+			return '';
+		}
+
+		if ($is_quantity_selector_block) {
+			ob_start();
+			woocommerce_quantity_input(array(
+				'min_value'   => 1,
+				'max_value'   => $product->get_max_purchase_quantity(),
+				'input_value' => 1,
+			));
+			return ob_get_clean();
+		}
 	}
 
 	return $block_content;

@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "naturapets/mini-add-to-cart",
+	"title": "Mini Ajout Panier",
+	"description": "Bouton circulaire \"+\" d'ajout au panier pour les boucles de requête produit.",
+	"category": "woocommerce",
+	"icon": "cart",
+	"keywords": ["panier", "cart", "ajout", "add", "mini", "bouton", "woocommerce"],
+	"textdomain": "naturapets",
+	"usesContext": ["postId", "postType"],
+	"editorScript": "file:./index.js",
+	"supports": {
+		"align": ["left", "center", "right"],
+		"html": false,
+		"multiple": false
+	},
+	"render": "file:./render.php"
+}
