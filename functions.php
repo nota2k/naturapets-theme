@@ -1895,7 +1895,7 @@ add_action('acf/init', 'naturapets_carousel_texte_field_group');
 add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
 	// Ne change que dans les contextes loop/archive, pas sur la fiche produit
 	if (!is_singular('product')) {
-		return __('Ajouter', 'naturapets');
+		return __('Ajouté au panié', 'naturapets');
 	}
 	return $text;
 }, 10, 2);
@@ -4179,29 +4179,60 @@ add_filter('woocommerce_loop_add_to_cart_link', function ($html, $product, $args
 
 		// Supprimer le span "View cart" généré par le bloc
 		$html = preg_replace('/<span\s+hidden[^>]*>.*?<\/span>/s', '', $html);
+		// Supprimer les spans de quantité (ex: "2 dans le panier")
+		$html = preg_replace('/<span[^>]*product-button__quantity[^>]*>.*?<\/span>/is', '', $html);
 
 		// S'assurer que les classes d'AJAX sont présentes
 		$html = str_replace('wc-interactive', 'ajax_add_to_cart', $html);
 
-		// Injecter le texte du bouton car l'API d'interactivité laissait le span vide
-		$button_text = esc_html($product->add_to_cart_text());
+		// Forcer un libellé stable pour éviter les textes dynamiques de quantité.
+		$button_text = esc_html__('Ajouté au panié', 'naturapets');
 		$html = preg_replace('/<span\s*>(\s*)<\/span>/', '<span>' . $button_text . '</span>', $html);
 	}
+
+	// Ajouter un label de référence utilisé par le script d'animation.
+	if (strpos($html, 'data-default-label=') === false) {
+		$html = preg_replace('/<a\s/i', '<a data-default-label="' . esc_attr__('Ajouté au panié', 'naturapets') . '" ', $html, 1);
+	}
+
 	return $html;
 }, 10, 3);
 
-// 3. Modifier le bouton pour afficher "Ajouté" via script JS
+// 3. Modifier le bouton pour afficher "Ajouté au panié" via script JS
 add_action('wp_footer', function () {
 ?>
 	<script>
-		jQuery(document).on('added_to_cart', function(event, fragments, cart_hash, $button) {
-			if ($button && $button.length) {
-				// Remplace le texte du bouton (avec les span enfants s'il y en a)
-				$button.find('span').text('Ajouté');
-				if ($button.find('span').length === 0) {
-					$button.text('Ajouté');
+		jQuery(function($) {
+			function setButtonLabel($button, label) {
+				if (!$button || !$button.length) {
+					return;
+				}
+				$button.find('.wc-block-components-product-button__quantity').remove();
+				if ($button.find('span').length) {
+					$button.find('span').first().text(label);
+				} else {
+					$button.text(label);
 				}
 			}
+
+			function getDefaultLabel($button) {
+				return ($button && $button.data('default-label')) ? $button.data('default-label') : 'Ajouté au panié';
+			}
+
+			$(document).on('added_to_cart', function(event, fragments, cart_hash, $button) {
+				if (!$button || !$button.length) {
+					return;
+				}
+
+				setButtonLabel($button, 'Ajouté au panié');
+			});
+
+			$(document).on('wc_fragments_loaded wc_fragments_refreshed', function() {
+				$('.add_to_cart_button.ajax_add_to_cart').each(function() {
+					var $button = $(this);
+					setButtonLabel($button, getDefaultLabel($button));
+				});
+			});
 		});
 	</script>
 <?php

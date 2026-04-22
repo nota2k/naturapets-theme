@@ -1,150 +1,147 @@
 @use '../abstracts/variables' as *;
 
 .np-promo-code-block {
-    margin: 40px 0;
+	margin-block: var(--wp--preset--spacing--medium);
+	margin-inline: 0;
 }
 
 .np-promo-code__inner {
-    display: flex;
-    flex-direction: column;
-    background-color: #FAF8F5;
-    overflow: hidden;
-    height: auto;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;   
+	height: auto;
 
-    @media (min-width: $breakpoint-md) {
-        flex-direction: row;
-        height: 500px;
-    }
+	@media (min-width: $breakpoint-md) {
+		flex-direction: row;
+		// min-height: min(31.25rem, 20vh);
+	}
 }
 
 .np-promo-code__image {
-    flex: 1;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e5e5e5;
+	flex: 2;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	// min-height: min(15.625rem, 25vh);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    aspect-ratio: 1 / 1;
 
-    @media (min-width: $breakpoint-md) {
-        min-height: unset;
-    }
+	@media (min-width: $breakpoint-md) {
+		min-height: unset;
+	}
 }
 
 .np-promo-code__placeholder-image {
-    color: #999;
+	color: var(--wp--preset--color--olive);
 }
 
 .np-promo-code__content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 24px;
-    gap: 24px;
-    text-align: center;
+	flex: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+    padding-block: var(--wp--preset--spacing--liquid-large);
+    padding-inline: var(--wp--preset--spacing--liquid-large);
+	gap: 20px;
+	text-align: center;
 
-    @media (min-width: $breakpoint-md) {
-        padding: 48px 56px;
-    }
+	@media (min-width: $breakpoint-md) {
+        padding-block: var(--wp--preset--spacing--60);
+        padding-inline: var(--wp--preset--spacing--60);
+	}
 }
 
 .np-promo-code__badge {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #7C9082;
-    color: var(--wp--preset--color--base);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-
-    span {
-        font-family: var(--wp--preset--font-family--heading, Georgia, serif);
-        font-size: 28px;
-        font-weight: 600;
-    }
+	min-width: 100px;
+    min-height: 100px;
+    aspect-ratio: 1 / 1;
+    rotate: 5deg;
+    padding: 10px;
+	border-radius: 50%;
+    background-color: var(--wp--preset--color--neutral);
+    color: var(--wp--preset--color--secondary);
+    font-weight: 900;
+    font-size: var(--wp--preset--font-size--large);
+    font-family: var(--wp--preset--font-family--fraunces);
 }
 
 .np-promo-code__title {
-    font-family: var(--wp--preset--font-family--heading, Georgia, serif);
-    font-size: clamp(24px, 3vw, 32px) !important;
-    font-weight: normal;
-    color: #2D2D2D;
-    margin: 0;
-    letter-spacing: -0.5px;
+    font-size: var(--wp--preset--font-size--liquid-x-large);
+    font-weight: var(--wp--custom--font-weight--medium);  
+	margin: 0;
+    line-height: 1;
+	letter-spacing: -0.02em;
+    color: var(--wp--preset--color--secondary);
 }
 
 .np-promo-code__subtitle {
-    font-family: var(--wp--preset--font-family--body, system-ui, sans-serif);
-    font-size: 15px;
-    color: #5A5A5A;
-    line-height: 1.5;
-    margin: 0;
-    max-width: 420px;
+	line-height: var(--wp--custom--line-height--body);
+	margin: 0;
 }
 
 .np-promo-code__separator {
-    width: 60px;
-    height: 1px;
-    background-color: #E8E4DF;
-    border: none;
-    margin: 0;
+	width: var(--wp--preset--spacing--liquid-large);
+	max-width: 3.75rem;
+	height: 1px;
+	border: none;
+	margin: 0;
+	background-color: $np-gray-light;
 }
 
 .np-promo-code__box {
-    display: flex;
+	display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 20px;
-    border: 1px solid #E8E4DF;
-    border-radius: 4px;
+    gap: var(--wp--preset--spacing--liquid-small);
+    padding-block: var(--wp--preset--spacing--40);
+    padding-inline: var(--wp--preset--spacing--liquid-large);
+    border: 1px solid #405c4d;
     background: transparent;
+    border-radius: 5px;
 
-    &-label {
-        font-family: var(--wp--preset--font-family--body, system-ui, sans-serif);
-        font-size: 13px;
-        color: #8A8A8A;
-    }
+	&-label {
+		font-family: var(--wp--preset--font-family--nunito-sans);
+        font-size: var(--wp--preset--font-size--small);
+		color: var(--wp--preset--color--olive);
+	}
 
-    &-value {
-        font-family: var(--wp--preset--font-family--body, system-ui, sans-serif);
-        font-size: 16px;
-        font-weight: 700;
-        color: #5A6E5F;
-        letter-spacing: 2px;
-    }
+	&-value {
+		font-family: var(--wp--preset--font-family--nunito-sans);
+		font-size: var(--wp--preset--font-size--courant);
+		font-weight: var(--wp--custom--font-weight--bold);
+		color: var(--wp--preset--color--secondary);
+		letter-spacing: 0.125em;
+	}
 }
 
 .np-promo-code__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 32px;
-    background-color: #5A6E5F;
-    color: var(--wp--preset--color--base);
-    font-family: var(--wp--preset--font-family--body, system-ui, sans-serif);
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--liquid-small);
+	background-color: var(--wp--preset--color--secondary);
+	color: var(--wp--preset--color--base);
+	font-size: var(--wp--preset--font-size--courant);
+	font-weight: var(--wp--custom--font-weight--medium);
+	border: none;
+	border-radius: 30px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
 
-    svg {
-        width: 16px;
-        height: 16px;
-    }
+	svg {
+		width: 1rem;
+		height: 1rem;
+	}
 }
 
 .np-promo-code__mention {
-    font-family: var(--wp--preset--font-family--body, system-ui, sans-serif);
-    font-size: 11px;
-    color: #8A8A8A;
-    max-width: 400px;
-    margin: 0;
+	font-family: var(--wp--preset--font-family--nunito-sans);
+	font-size: var(--wp--preset--font-size--liquid-small);
+	color: var(--wp--preset--color--olive);
+	max-width: min(25rem, 100%);
+	margin: 0;
 }

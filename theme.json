@@ -233,6 +233,11 @@
 					"name": "Solid",
 					"shadow": "5px 5px 0 rgb(10, 10, 10, 1)",
 					"slug": "solid"
+				},
+				{
+					"name": "card shadow",
+					"shadow": "0px 0px 12px rgba(224, 133, 133, 0.2)",
+					"slug": "card-shadow"
 				}
 			]
 		},
@@ -628,12 +633,13 @@
 				},
 				{
 					"fluid": {
-						"max": "1.2rem",
+						"max": "1.4rem",
 						"min": "1rem"
 					},
 					"name": "Courant",
-					"size": "clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.743), 1.2rem)",
-					"slug": "courant"
+					"lineHeight": "1.15",
+					"size": "clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.743), 1.4rem)",
+					"slug": "courant"	
 				},
 				{
 					"fluid": {
@@ -664,11 +670,11 @@
 				},
 				{
 					"fluid": {
-						"max": "5.5em",
-						"min": "2.7em"
+						"max": "5em",
+						"min": "2.5em"
 					},
 					"name": "Liquid xLarge",
-					"size": "16em",
+					"size": "clamp(2.5em, 2.2rem + ((1vw - -0.9em) * 1.2), 5em)",
 					"slug": "liquid-x-large"
 				},
 				{
@@ -803,9 +809,10 @@
 							"width": "1px"
 						},
 						"color": {
-							"background": "#ffffff08",
+							"background": "transparent",
 							"text": "var(--wp--preset--color--secondary)"
 						},
+						"css": "& .wp-block-button__link, & .wp-element-button { background-color: transparent !important; background: transparent !important; } & .wp-block-button__link:hover, & .wp-block-button__link:focus-visible, & .wp-element-button:hover, & .wp-element-button:focus-visible { color: var(--wp--preset--color--primary); }",
 						"spacing": {
 							"padding": {
 								"bottom": "7%",

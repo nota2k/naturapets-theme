@@ -43,7 +43,7 @@ $unique_id = uniqid();
                 <span>-<?php echo esc_html( $percent ); ?>%</span>
             </div>
             
-            <h2 class="np-promo-code__title"><?php echo esc_html( $title ); ?></h2>
+            <h3 class="np-promo-code__title"><?php echo esc_html( $title ); ?></h3>
             <p class="np-promo-code__subtitle"><?php echo nl2br( esc_html( $subtitle ) ); ?></p>
             
             <hr class="np-promo-code__separator">
@@ -52,30 +52,39 @@ $unique_id = uniqid();
                 <span class="np-promo-code__box-label">Code :</span>
                 <span class="np-promo-code__box-value" id="promo-code-val-<?php echo esc_attr($unique_id); ?>"><?php echo esc_html( $coupon_code ); ?></span>
             </div>
-            
-            <button type="button" class="np-promo-code__cta" data-target="promo-code-val-<?php echo esc_attr($unique_id); ?>" id="btn-promo-<?php echo esc_attr($unique_id); ?>">
-                <span class="np-promo-code__cta-text">J'en profite</span> 
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </button>
+
+            <?php
+            $promo_btn_id      = 'btn-promo-' . $unique_id;
+            $promo_copied_html = '<span class="np-promo-code__cta-text">' . esc_html__( 'Code copié !', 'naturapets' ) . '</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+            ?>
+            <div class="wp-block-buttons is-content-justification-center is-layout-flex wp-block-buttons-is-layout-flex">
+                <div class="wp-block-button">
+                    <button type="button" class="wp-block-button__link wp-element-button np-promo-code__cta" data-target="promo-code-val-<?php echo esc_attr($unique_id); ?>" id="<?php echo esc_attr( $promo_btn_id ); ?>">
+                        <span class="np-promo-code__cta-text"><?php esc_html_e( "J'en profite", 'naturapets' ); ?></span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
 
             <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var btn = document.getElementById('btn-promo-<?php echo esc_attr($unique_id); ?>');
+                var btn = document.getElementById( <?php echo wp_json_encode( $promo_btn_id ); ?> );
                 if (!btn) return;
-                
+
                 btn.addEventListener('click', function() {
                     var targetId = this.getAttribute('data-target');
                     var valElem = document.getElementById(targetId);
                     if (!valElem) return;
-                    
+
                     var codeText = valElem.innerText;
                     var originalHtml = this.innerHTML;
                     var that = this;
-                    
+                    var copiedHtml = <?php echo wp_json_encode( $promo_copied_html, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?>;
+
                     navigator.clipboard.writeText(codeText).then(function() {
-                        that.innerHTML = '<span class="np-promo-code__cta-text">Code copié !</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-                        setTimeout(function() { 
-                            that.innerHTML = originalHtml; 
+                        that.innerHTML = copiedHtml;
+                        setTimeout(function() {
+                            that.innerHTML = originalHtml;
                         }, 2000);
                     }).catch(function(err) {
                         console.error('Erreur :', err);
