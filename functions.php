@@ -3183,6 +3183,20 @@ function naturapets_flush_rewrite_rules_on_activation()
 add_action('after_switch_theme', 'naturapets_flush_rewrite_rules_on_activation');
 
 /**
+ * Ajoute la meta viewport pour un rendu mobile correct.
+ * Nécessaire pour certains templates PHP qui n'injectent pas cette balise.
+ */
+function naturapets_add_viewport_meta()
+{
+	if (is_admin()) {
+		return;
+	}
+
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1">' . "\n";
+}
+add_action('wp_head', 'naturapets_add_viewport_meta', 1);
+
+/**
  * Générer le slug pour un médaillon public (ID affichage : PSI-YYYY-NNNNNN).
  */
 function naturapets_get_medaillon_public_slug($animal_id)

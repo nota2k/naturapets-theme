@@ -2152,164 +2152,76 @@ body {
   color: #6B8E7C;
 }
 
-html,
-body {
+.single-medaillon_public {
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
   min-height: 100vh;
-  display: flex;
+  background-color: var(--wp--preset--color--vert-eau);
+}
+.single-medaillon_public #page {
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: subgrid;
   flex-direction: column;
-  align-items: stretch;
   width: 100%;
-  justify-content: stretch;
 }
-
-#page {
-  min-height: 100vh;
-  background: var(--wp--preset--color--vert-eau);
-}
-
-.medaillon-public {
-  max-width: 900px;
-  width: 100%;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.medaillon-public__card {
-  background: var(--wp--preset--color--marron-rouge);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-}
-
-.medaillon-public__photo-wrap {
-  text-align: center;
-  margin: 0 auto 20px auto;
-  width: fit-content;
-}
-
-.medaillon-public__photo {
-  width: 250px;
-  height: 250px;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.medaillon-public__title {
-  margin-bottom: 30px;
-}
-
-.medaillon-public__table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.medaillon-public__th {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid var(--wp--preset--color--vert-eau);
-  width: 40%;
-  vertical-align: top;
-}
-
-.medaillon-public__td {
-  padding: 12px;
-  border-bottom: 1px solid var(--wp--preset--color--vert-eau);
-}
-
-.medaillon-public__link {
-  color: var(--wp--preset--color--vert-eau-fonce);
-  text-decoration: none;
-}
-.medaillon-public__link:hover {
-  text-decoration: underline;
-}
-
-.medaillon-public__empty {
-  text-align: center;
-  color: var(--wp--preset--color--neutral);
-  margin-top: 20px;
-}
-
-.medaillon-public__footer {
-  text-align: center;
-  margin-top: 30px;
-  color: var(--wp--preset--color--neutral);
-  font-size: 0.875rem;
-}
-
-.np-medaillon-read {
+.single-medaillon_public .np-medaillon-read {
   max-width: 900px;
   width: 100%;
   margin: 40px auto;
   padding: 0 16px;
 }
-
-.np-medaillon-read__container {
+.single-medaillon_public .np-medaillon-read__container {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) minmax(50px, 1fr);
-  grid-template-areas: "title title" "media content";
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  grid-template-areas: "head head" "title title" "media content";
   gap: 16px;
-  grid-template-rows: auto 1fr;
   background: var(--wp--preset--color--base);
   border: 1px solid var(--wp--preset--color--vert-eau);
   border-radius: 16px;
   padding: var(--wp--preset--spacing--liquid-large);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
 }
-@media (max-width: 768px) {
-  .np-medaillon-read__container {
-    grid-template-columns: 1fr;
-    grid-template-areas: "title" "media" "content";
-  }
-}
-@media (max-width: 480px) {
-  .np-medaillon-read__container {
-    grid-template-columns: 1fr;
-    grid-template-areas: "title" "media" "content";
-  }
-}
-.np-medaillon-read__container p {
-  margin: 0 0 12px;
-}
-.np-medaillon-read__container img {
+.single-medaillon_public .np-medaillon-read__container img {
   display: block;
   width: min(260px, 100%);
   aspect-ratio: 1/1;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 50% 56% 0;
   margin: 0 auto 12px;
 }
-.np-medaillon-read__container form {
+.single-medaillon_public .np-medaillon-read__container form {
   margin-top: 12px;
 }
-
-.np-medaillon-read__title {
-  grid-area: title;
-  margin: 0 0 16px;
-  text-align: center;
-  font-weight: var(--wp--custom--font-weight--bold);
-  color: var(--wp--preset--color--marron-rouge);
-}
-
-.np-medaillon-read__head {
-  grid-area: title;
+.single-medaillon_public .np-medaillon-read__head {
+  grid-area: head;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  margin: 0;
 }
-
-.np-medaillon-read__code {
+.single-medaillon_public .np-medaillon-read__title {
+  grid-area: title;
+  margin: 0;
+  text-align: center;
+  font-weight: var(--wp--custom--font-weight--bold);
+  color: var(--wp--preset--color--marron-rouge);
+}
+.single-medaillon_public .np-medaillon-read__code {
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--wp--preset--color--contrast);
   letter-spacing: 0.03em;
 }
-
-.np-medaillon-read__badge {
+.single-medaillon_public .np-medaillon-read__badge {
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -2319,40 +2231,36 @@ body {
   color: var(--wp--preset--color--base);
   background: var(--wp--preset--color--secondary);
 }
-
-.np-claim-form {
+.single-medaillon_public .np-medaillon-read__media {
+  grid-area: media;
+  margin: 0;
+  align-self: start;
+}
+.single-medaillon_public .np-claim-form {
   grid-area: content;
   border: 1px solid var(--wp--preset--color--vert-eau);
   background: linear-gradient(180deg, var(--wp--preset--color--neutral) 0%, var(--wp--preset--color--base) 100%);
   border-radius: 14px;
   padding: 16px;
 }
-
-.np-claim-form__intro,
-.np-claim-form__count {
+.single-medaillon_public .np-claim-form__intro,
+.single-medaillon_public .np-claim-form__count {
   font-weight: 600;
   color: var(--wp--preset--color--contrast);
 }
-
-.np-claim-form__alert {
+.single-medaillon_public .np-claim-form__alert {
   color: var(--wp--preset--color--marron-rouge);
   background: color-mix(in srgb, var(--wp--preset--color--rouge-moyen) 12%, var(--wp--preset--color--base));
   border: 1px solid color-mix(in srgb, var(--wp--preset--color--rouge-moyen) 36%, var(--wp--preset--color--base));
   border-radius: 10px;
   padding: 10px 12px;
 }
-
-.np-claim-form__form {
-  display: grid;
-  gap: 12px;
-}
-
-.np-claim-form__field {
+.single-medaillon_public .np-claim-form__field {
   gap: 6px;
   font-size: 0.875rem;
   color: var(--wp--preset--color--contrast);
 }
-.np-claim-form__field input {
+.single-medaillon_public .np-claim-form__field input {
   width: 100%;
   height: 44px;
   padding: 0 12px;
@@ -2362,8 +2270,7 @@ body {
   color: var(--wp--preset--color--contrast);
   font-weight: 600;
 }
-
-.np-claim-form__button {
+.single-medaillon_public .np-claim-form__button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -2375,63 +2282,62 @@ body {
   border: 1px solid transparent;
   transition: all 0.2s ease;
 }
-
-.np-claim-form__button--primary {
+.single-medaillon_public .np-claim-form__button--primary {
   color: var(--wp--preset--color--base);
   background: var(--wp--preset--color--secondary);
 }
-.np-claim-form__button--primary:hover {
+.single-medaillon_public .np-claim-form__button--primary:hover {
   filter: brightness(0.95);
 }
-
-.np-claim-form__button--secondary {
+.single-medaillon_public .np-claim-form__button--secondary {
   color: var(--wp--preset--color--secondary);
   background: var(--wp--preset--color--base);
   border-color: var(--wp--preset--color--secondary);
 }
-.np-claim-form__button--secondary:hover {
+.single-medaillon_public .np-claim-form__button--secondary:hover {
   background: color-mix(in srgb, var(--wp--preset--color--secondary) 10%, var(--wp--preset--color--base));
 }
-
-.np-medaillon-read__details {
+.single-medaillon_public .np-medaillon-read__details {
   grid-area: content;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   margin-top: 8px;
 }
-.np-medaillon-read__details p {
+.single-medaillon_public .np-medaillon-read__details p {
   margin: 0;
   border-radius: 10px;
-  font-size: 1.2em;
+  font-size: 1.05rem;
 }
-.np-medaillon-read__details strong {
+.single-medaillon_public .np-medaillon-read__details strong {
   color: var(--wp--preset--color--marron-rouge);
   font-weight: var(--wp--custom--font-weight--bold);
-  font-size: 1.2em;
 }
-.np-medaillon-read__details a {
+.single-medaillon_public .np-medaillon-read__details a {
   color: var(--wp--preset--color--secondary);
   text-decoration: underline;
 }
-
-.np-medaillon-read__media {
-  grid-area: media;
-  margin: 0;
-  align-self: start;
-  grid-area: media;
+@media (max-width: 768px) {
+  .single-medaillon_public .np-medaillon-read__container {
+    grid-template-columns: 1fr;
+    grid-template-areas: "title" "media" "content";
+  }
+  .single-medaillon_public .np-medaillon-read__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .single-medaillon_public .np-medaillon-read__details {
+    grid-template-columns: 1fr;
+  }
 }
-
 @media (max-width: 640px) {
-  .np-medaillon-read {
+  .single-medaillon_public .np-medaillon-read {
     margin: 0;
     padding: 0;
     max-width: 100%;
     min-height: 100dvh;
   }
-  .np-medaillon-read__container {
-    grid-template-columns: 1fr;
-    grid-template-areas: "head" "title" "media" "content";
+  .single-medaillon_public .np-medaillon-read__container {
     min-height: 100dvh;
     padding: 20px 16px 28px;
     border-radius: 0;
@@ -2439,20 +2345,20 @@ body {
     border-right: 0;
     box-shadow: none;
   }
-  .np-medaillon-read__head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .np-claim-form {
+  .single-medaillon_public .np-claim-form {
     padding: 14px;
   }
-  .np-claim-form__button {
+  .single-medaillon_public .np-claim-form__button {
     width: 100%;
   }
-  .np-medaillon-read__details p {
-    font-size: 1rem;
-  }
 }
+
+.np-product-grid {
+  display: grid;
+  gap: var(--wp--preset--spacing--small);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
 .single-product .wp-block-column:nth-child(2) {
   position: sticky;
   top: 100px;

@@ -5,6 +5,12 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
+.np-product-grid {
+    display: grid;
+    gap: var(--wp--preset--spacing--small);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
 
 .single-product {
     .wp-block-column:nth-child(2) {
