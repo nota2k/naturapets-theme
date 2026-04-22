@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
 	"name": "naturapets/hero-banner",
 	"title": "Bannière Hero NaturaPets",
 	"description": "Bannière avec titre, slogan et bouton (design Figma – contenu à droite).",

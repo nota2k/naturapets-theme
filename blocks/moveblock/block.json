@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
   "name": "naturapets/moveblock",
   "title": "Moveblock – Animation GSAP",
   "description": "Bibliothèque d'effets GSAP : choisir un effet, régler durée/délai/ease et cibler un élément de la page.",

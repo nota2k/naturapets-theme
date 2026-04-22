@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
 	"name": "naturapets/points-numerotes",
 	"title": "Points numérotés",
 	"description": "Bloc de points numérotés avec animation au scroll : titre, description et liste d'étapes.",

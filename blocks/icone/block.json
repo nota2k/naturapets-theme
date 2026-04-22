@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
 	"name": "naturapets/icone",
 	"title": "Icône",
 	"description": "Bloc rond avec une image au centre et un fond personnalisable. Taille max 60×60 px.",

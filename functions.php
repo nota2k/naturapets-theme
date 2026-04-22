@@ -2834,7 +2834,15 @@ add_action('init', 'naturapets_register_medaillon_public_cpt');
  */
 function naturapets_get_medaillon_public_stock_threshold()
 {
-	return 50;
+	return 300;
+}
+
+/**
+ * Taille d'un lot de génération de médaillons publics.
+ */
+function naturapets_get_medaillon_public_batch_size()
+{
+	return 300;
 }
 
 /**
@@ -3081,6 +3089,123 @@ function naturapets_medaillon_public_status_filter_query($query)
 	$query->set('meta_query', $meta_query);
 }
 add_action('pre_get_posts', 'naturapets_medaillon_public_status_filter_query');
+
+/**
+ * Normaliser un chemin d'URL (ou une URL complète) pour les redirections legacy.
+ */
+function naturapets_normalize_legacy_redirect_path($value)
+{
+	if (!is_string($value)) {
+		return '';
+	}
+
+	$value = trim($value);
+	if ('' === $value) {
+		return '';
+	}
+
+	$parsed = wp_parse_url($value);
+	$path = is_array($parsed) && isset($parsed['path']) ? (string) $parsed['path'] : $value;
+	if ('' === $path) {
+		$path = '/';
+	}
+
+	$path = '/' . ltrim($path, '/');
+	return '/' === $path ? $path : untrailingslashit($path);
+}
+
+/**
+ * Retourner la table de redirection des QR legacy (normalisée).
+ *
+ * Le fichier includes/legacy-qr-redirects.php retourne un tableau associatif.
+ *
+ * @return array<string,string>
+ */
+function naturapets_get_legacy_qr_redirect_map()
+{
+	$map_file = get_stylesheet_directory() . '/includes/legacy-qr-redirects.php';
+	if (!is_readable($map_file)) {
+		return array();
+	}
+
+	$raw_map = include $map_file;
+	if (!is_array($raw_map)) {
+		return array();
+	}
+
+	$normalized_map = array();
+	foreach ($raw_map as $legacy_source => $redirect_target) {
+		if (!is_string($legacy_source) || !is_string($redirect_target)) {
+			continue;
+		}
+
+		$source_path = naturapets_normalize_legacy_redirect_path($legacy_source);
+		$redirect_target = trim($redirect_target);
+		if ('' === $source_path || '' === $redirect_target) {
+			continue;
+		}
+
+		$normalized_map[$source_path] = $redirect_target;
+	}
+
+	return $normalized_map;
+}
+
+/**
+ * Rediriger les anciennes URL de QR codes vers la nouvelle structure.
+ *
+ * Par défaut, le statut HTTP est en 302.
+ * Pour passer en 301, définir la constante NATURAPETS_LEGACY_QR_REDIRECT_STATUS à 301.
+ */
+function naturapets_handle_legacy_qr_redirects()
+{
+	if (is_admin() || wp_doing_ajax() || wp_doing_cron() || (defined('REST_REQUEST') && REST_REQUEST)) {
+		return;
+	}
+
+	$request_uri = isset($_SERVER['REQUEST_URI']) ? (string) wp_unslash($_SERVER['REQUEST_URI']) : '';
+	if ('' === $request_uri) {
+		return;
+	}
+
+	$request_path = naturapets_normalize_legacy_redirect_path($request_uri);
+	if ('' === $request_path) {
+		return;
+	}
+
+	$redirect_map = naturapets_get_legacy_qr_redirect_map();
+	if (empty($redirect_map) || !isset($redirect_map[$request_path])) {
+		return;
+	}
+
+	$redirect_target = (string) $redirect_map[$request_path];
+	$redirect_url = wp_http_validate_url($redirect_target) ? $redirect_target : home_url('/' . ltrim($redirect_target, '/'));
+	if (!is_string($redirect_url) || '' === $redirect_url) {
+		return;
+	}
+
+	$query_string = isset($_SERVER['QUERY_STRING']) ? (string) wp_unslash($_SERVER['QUERY_STRING']) : '';
+	if ('' !== $query_string) {
+		parse_str($query_string, $query_args);
+		if (is_array($query_args) && !empty($query_args)) {
+			$redirect_url = add_query_arg($query_args, $redirect_url);
+		}
+	}
+
+	$target_path = naturapets_normalize_legacy_redirect_path($redirect_url);
+	if ($target_path === $request_path) {
+		return;
+	}
+
+	$redirect_status = defined('NATURAPETS_LEGACY_QR_REDIRECT_STATUS') ? (int) NATURAPETS_LEGACY_QR_REDIRECT_STATUS : 302;
+	if (!in_array($redirect_status, array(301, 302), true)) {
+		$redirect_status = 302;
+	}
+
+	wp_safe_redirect($redirect_url, $redirect_status, 'NaturaPets Legacy QR');
+	exit;
+}
+add_action('template_redirect', 'naturapets_handle_legacy_qr_redirects', 1);
 
 /**
  * Metabox : toutes les infos du médaillon sur la fiche medaillon_public.
@@ -4025,13 +4150,19 @@ function naturapets_medaillon_stock_admin_notice()
 		return;
 	}
 
-	$url = wp_nonce_url(
+	$generate_url = wp_nonce_url(
 		add_query_arg(array('naturapets_generate_medaillons' => 1), admin_url('edit.php?post_type=medaillon_public')),
 		'naturapets_generate_medaillons'
 	);
+	$export_url = wp_nonce_url(
+		add_query_arg(array('naturapets_export_medaillons' => 'available'), admin_url('edit.php?post_type=medaillon_public')),
+		'naturapets_export_medaillons'
+	);
+	$batch_size = naturapets_get_medaillon_public_batch_size();
 
 	echo '<div class="notice notice-info"><p>';
-	echo '<a class="button button-primary" href="' . esc_url($url) . '">Générer 20 médaillons pré-générés</a>';
+	echo '<a class="button button-primary" href="' . esc_url($generate_url) . '">' . esc_html(sprintf('Générer %d médaillons pré-générés', $batch_size)) . '</a> ';
+	echo '<a class="button button-secondary" href="' . esc_url($export_url) . '">' . esc_html__('Exporter les médaillons disponibles (CSV)', 'naturapets') . '</a>';
 	echo '</p></div>';
 }
 add_action('admin_notices', 'naturapets_medaillon_stock_admin_notice');
@@ -4049,8 +4180,9 @@ function naturapets_generate_medaillons_batch_action()
 		return;
 	}
 
+	$batch_size = naturapets_get_medaillon_public_batch_size();
 	$created = 0;
-	for ($i = 0; $i < 20; $i++) {
+	for ($i = 0; $i < $batch_size; $i++) {
 		if (naturapets_create_pre_generated_medaillon_public()) {
 			$created++;
 		}
@@ -4063,6 +4195,71 @@ function naturapets_generate_medaillons_batch_action()
 	exit;
 }
 add_action('admin_init', 'naturapets_generate_medaillons_batch_action');
+
+/**
+ * Export CSV des médaillons publics (disponibles).
+ */
+function naturapets_export_medaillons_csv_action()
+{
+	if (!is_admin() || !isset($_GET['naturapets_export_medaillons'])) {
+		return;
+	}
+
+	if (!current_user_can('manage_options') || !check_admin_referer('naturapets_export_medaillons')) {
+		return;
+	}
+
+	$export_scope = sanitize_key(wp_unslash($_GET['naturapets_export_medaillons']));
+	if ('available' !== $export_scope) {
+		return;
+	}
+
+	$posts = get_posts(array(
+		'post_type' => 'medaillon_public',
+		'posts_per_page' => -1,
+		'post_status' => 'publish',
+		'orderby' => 'ID',
+		'order' => 'ASC',
+		'fields' => 'ids',
+		'meta_query' => array(
+			array(
+				'key' => '_medaillon_status',
+				'value' => 'available',
+			),
+		),
+	));
+
+	$filename = 'medaillons-disponibles-' . gmdate('Y-m-d-His') . '.csv';
+	nocache_headers();
+	header('Content-Type: text/csv; charset=utf-8');
+	header('Content-Disposition: attachment; filename=' . $filename);
+
+	$output = fopen('php://output', 'w');
+	if (false === $output) {
+		wp_die(__('Impossible de générer le fichier CSV.', 'naturapets'));
+	}
+
+	fputcsv($output, array('id', 'code', 'status', 'public_url', 'qr_url'));
+
+	foreach ($posts as $post_id) {
+		$post_id = (int) $post_id;
+		$public_url = get_permalink($post_id);
+		$status = (string) get_post_meta($post_id, '_medaillon_status', true);
+		$code = (string) get_post_meta($post_id, '_medaillon_code', true);
+
+		fputcsv($output, array(
+			$post_id,
+			$code,
+			$status ?: 'available',
+			$public_url ?: '',
+			$public_url ? naturapets_get_qrcode_url($public_url, 300) : '',
+		));
+	}
+
+	fclose($output);
+	exit;
+}
+add_action('admin_init', 'naturapets_export_medaillons_csv_action');
 
 /**
  * Message de confirmation après génération d'un lot.

@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
 	"name": "naturapets/presentation-animee",
 	"title": "Présentation animée",
 	"description": "Bloc de présentation avec image en parallax qui se déplace du haut-droit vers le bas-gauche au scroll.",

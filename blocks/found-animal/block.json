@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
 	"name": "naturapets/found-animal",
 	"title": "J'ai trouvé un animal (Figma 3-29)",
 	"description": "Section fond vert menthe : titre « J'ai trouvé un animal », champ numéro de médaillon, bouton Chercher.",
