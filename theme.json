@@ -628,11 +628,11 @@
 				},
 				{
 					"fluid": {
-						"max": "5.2em",
-						"min": "4.4em"
+						"max": "2.7em",
+						"min": "1.2em"
 					},
 					"name": "Liquid medium",
-					"size": "16em",
+					"size": "clamp(1.2em, 1.4rem + ((1vw - 0.2em) * 0.743), 2.7em)",
 					"slug": "liquid-medium"
 				},
 				{

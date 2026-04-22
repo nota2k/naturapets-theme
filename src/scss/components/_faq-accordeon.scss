@@ -32,7 +32,7 @@
 
 		span {
 			font-family: 'Inter', sans-serif;
-			font-size: 11px;
+			// font-size: 11px;
 			font-weight: 500;
 			letter-spacing: 0.5px;
 			color: #7c9082;
@@ -52,7 +52,7 @@
 
 	&__title {
 		font-family: "Fraunces", serif;
-		font-size: 2.7em;
+		font-size: var(--wp--preset--font-size--liquid-x-large);
 		font-weight: 400;
 		color: var(--wp--preset--color--bleu-noir);
 		letter-spacing: -0.5px;
@@ -61,12 +61,9 @@
 	}
 
 	&__subtitle {
-		font-family: 'Nunito Sans', sans-serif;
-		font-size: 18px;
+		font-size: var(--wp--preset--font-size--liquid-medium);
 		font-weight: 400;
-		color: #8a8a8a;
 		margin: 0;
-		line-height: 1.5;
 	}
 
 	// Liste des items
@@ -106,8 +103,7 @@
 	}
 
 	&__question-text {
-		font-family: "Fraunces", serif;
-		font-size: 30px;
+		font-size: var(--wp--preset--font-size--liquid-large);
 		font-weight: 500;
 		color: var(--wp--preset--color--bleu-noir);
 		flex: 1;
